@@ -86,6 +86,8 @@
 				Session does not exist. Inform the user that they are not logged in.
 	
 /user/activate/:username
+		
+	Not yet implemented
 
 	Not yet implemented.
 	
