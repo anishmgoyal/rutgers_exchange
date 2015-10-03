@@ -88,8 +88,6 @@
 /user/activate/:username
 		
 	Not yet implemented
-
-	Not yet implemented.
 	
 /user/deactivate
 
