@@ -1,5 +1,7 @@
 class UserController < ApplicationController
 
+	# PUT /users
+	# Please see /outlines/user_api.txt
 	def create
 		user = User.new(params)
 		if user.save()
@@ -21,23 +23,31 @@ class UserController < ApplicationController
 		end
 	end
 	
-/*	def read
+	# GET /users/:username
+	# Please see /outlines/user_api.txt
+	def read
 		user = User.where(username: params[:username]).first
 		if user
 			
 		else
 			render status: 404
 		end
-	end*/
+	end
 	
+	# POST /users/:id
+	# Please see /outlines/user_api.txt
 	def update
 	
 	end
 	
+	# PUT /users/:username
+	# Please see /outlines/user_api.txt
 	def authenticate
 	
 	end
 	
+	# DELETE /users/:id
+	# Please see /outlines/user_api.txt
 	def logout
 	
 	end
