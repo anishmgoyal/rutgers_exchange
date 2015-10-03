@@ -1,0 +1,34 @@
+Users :: reputation (meter? stars? like/dislike?), email, username, password, 
+Products - field represents media type (e.g. textbook, furniture, ticket, etc), field representing condition
+Pictures
+Messages & Conversations
+Search
+Tags
+Transaction -> Offers (Accept/Decline) once accepted, product is no longer public
+
+Central permission system
+	Roles & Functions & Banning
+
+Pages
+	Users
+		Register
+		Login
+		Forgot password
+		Profile
+		My Activity
+		Logout
+	Products -> Landing Page
+		Post
+		Edit
+		View : Buy
+		View a list of products you've bought / sold
+	CP for Adm
+		Add sections to store
+		Pricing constraints
+		Remove listings - general admin controls
+		Role editting / Permissions
+	Messaging Pages
+		Once transaction is done, conversation dissappears
+	Search
+		Products ()
+		for admins: users

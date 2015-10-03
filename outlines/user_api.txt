@@ -1,0 +1,90 @@
+/user
+
+	PUT
+		Creates a new user.
+		
+		PARAMS:
+			String username, String emailAddress, String password, String confirmPassword, String phoneNumber, int gender
+		
+		RET:
+			STATUS 200
+				Success: {error: false <boolean>, userId: userId <int>}
+				Failure: {error: true <boolean>, errors: [{fieldname: value <string>}, ...]}
+	
+	GET
+		Authenticates a user, and if successful, returns the information about the user.
+	
+		PARAMS:
+			String username, String password
+		
+		RET:
+			STATUS 200
+				Success: {userId: userId <int>, sessionToken: sessionToken <string>, csrfToken: csrfToken <string>} // The app will store all of this information
+			
+			STATUS 403
+				Failure: Display "Invalid username or password"
+				
+/user/:id				//id is the userId
+
+	POST
+		Updates the information / credentials for an account.
+		
+		PARAMS:
+			String sessionToken, String csrfToken, [String username], [String emailAddress], [String password], [String confirmPassword], [String phoneNumber] 
+			
+			//If the user did not modify a certain field, don't send that field to the server.
+			//Make sure that the user did modify at least one field before sending this to the server
+		
+		RET:
+			STATUS 200
+				Success: {error: false, userId: userId}
+				Failure: {error: true, errors: [{fieldname: value}, ...]}
+			
+			STATUS 403
+				Invalid session information. Inform the user that they are not logged in.
+			
+			STATUS 404
+				Cannot find user by userID
+
+	
+	DELETE
+		Logs out a user
+		
+		PARAMS:
+			String sessionToken, String csrfToken
+			
+		RET:
+			STATUS 200
+				Session removed successfully. Go back to login page, or main products page (if there is one for users that aren't logged in).
+				
+			STATUS 403
+				Invalid session information. Inform the user that they are not logged in.
+			
+			STATUS 404
+				Session does not exist. Inform the user that they are not logged in.
+	
+/user/activate
+
+	POST
+		Activates a user account. We're probably going to implement this so that you can just click a link in your email.
+		
+		PARAMS:
+			String username, String activationKey
+			
+		RET:
+			STATUS 200
+				User activated successfully.
+				
+			STATUS 403
+				Incorrect activationKey
+			
+			STATUS 404
+				User does not exist.
+	
+/user/deactivate
+
+	Not yet implemented.
+	
+/user/forgotpassword
+
+	Not yet implemented.
