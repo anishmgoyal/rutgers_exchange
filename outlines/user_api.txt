@@ -9,7 +9,11 @@
 		RET:
 			STATUS 200
 				Success: {error: false <boolean>, userId: userId <int>}
-				Failure: {error: true <boolean>, errors: [{fieldname: value <string>}, ...]}
+				Failure: {error: true <boolean>, errors: [{field: fieldname <string>, message: value <string>}, ...]}
+															"field" is username, emailAddress, password, etc (the field you should display
+																the message next to)
+															"message" is the error that occurred (e.g. invalid email address). print this
+																next to the field.
 	
 /user/:username
 
