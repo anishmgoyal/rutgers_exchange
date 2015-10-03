@@ -11,11 +11,13 @@
 				Success: {error: false <boolean>, userId: userId <int>}
 				Failure: {error: true <boolean>, errors: [{fieldname: value <string>}, ...]}
 	
-	GET
-		Authenticates a user, and if successful, returns the information about the user.
+/user/:username
+	
+	PUT
+		Authenticates a user AND creates a session, and if successful, returns the information about the user.
 	
 		PARAMS:
-			String username, String password
+			String password
 		
 		RET:
 			STATUS 200
@@ -63,13 +65,13 @@
 			STATUS 404
 				Session does not exist. Inform the user that they are not logged in.
 	
-/user/activate
+/user/activate/:username
 
 	POST
 		Activates a user account. We're probably going to implement this so that you can just click a link in your email.
 		
 		PARAMS:
-			String username, String activationKey
+			String activationKey
 			
 		RET:
 			STATUS 200
