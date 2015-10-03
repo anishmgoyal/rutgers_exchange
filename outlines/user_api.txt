@@ -86,6 +86,8 @@
 				Session does not exist. Inform the user that they are not logged in.
 	
 /user/activate/:username
+		
+	Not yet implemented
 
 	POST
 		Activates a user account. We're probably going to implement this so that you can just click a link in your email.
