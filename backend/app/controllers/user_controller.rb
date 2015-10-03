@@ -21,9 +21,14 @@ class UserController < ApplicationController
 		end
 	end
 	
-	def read
-	
-	end
+/*	def read
+		user = User.where(username: params[:username]).first
+		if user
+			
+		else
+			render status: 404
+		end
+	end*/
 	
 	def update
 	

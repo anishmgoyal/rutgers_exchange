@@ -28,5 +28,7 @@ module RutgersExchange
 		require file
 	end
 	
+	ApplicationService.set :SessionService, SessionService
+	
   end
 end
