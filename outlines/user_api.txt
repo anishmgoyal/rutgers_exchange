@@ -12,9 +12,25 @@
 				Failure: {error: true <boolean>, errors: [{fieldname: value <string>}, ...]}
 	
 /user/:username
+
+	GET
+		Gets all information associated with a user. Can be used to get information about another user, or to get information about the current user.
+			FOR EXAMPLE: If you're requesting information about the user who posted a product.
+			FOR EXAMPLE: If you're in the edit profile page, you'd use this to set the current values of the user's model
+		
+		PARAMS:
+			String username, [String sessionToken], [String csrfToken]
+			
+		RET:
+			Status 200
+				Success: {username: username <string>, emailAddress: emailAddress<string> or null, phoneNumber: phoneNumber <string> or null, gender: gender <int> or null}
+				NOTE: null will be set on fields that a user is not allowed to view. This just means you shouldn't display these fields.
+		
+			STATUS 403
+				Failure: Unauthorized to view details about user.
 	
 	PUT
-		Authenticates a user AND creates a session, and if successful, returns the information about the user.
+		Authenticates a user AND creates a session, and if successful, returns the information about the user's session.
 	
 		PARAMS:
 			String password
