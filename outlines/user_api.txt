@@ -4,7 +4,7 @@
 		Creates a new user.
 		
 		PARAMS:
-			String username, String email_address, String password, String confirm_password, String phone_number, int gender
+			String username, String first_name, String last_name, String email_address, String password, String confirm_password, String phone_number
 		
 		RET:
 			STATUS 200
@@ -27,7 +27,7 @@
 			
 		RET:
 			Status 200
-				Success: {username: username <string>, email_address: email_address <string> or null, phone_number: phone_number <string> or null, gender: gender <int> or null}
+				Success: {username: username <string>, first_name: first_name <string> or null, last_name: last_name <string> or null, email_address: email_address <string> or null, phone_number: phone_number <string> or null}
 				NOTE: null will be set on fields that a user is not allowed to view. This just means you shouldn't display these fields.
 		
 			STATUS 403
@@ -52,7 +52,7 @@
 		Updates the information / credentials for an account.
 		
 		PARAMS:
-			String session_token, String csrf_token, [String username], [String email_address], [String password], [String confirm_password], [String phone_number] 
+			String session_token, String csrf_token, [String username], [String first_name], [String last_name], [String email_address], [String password], [String confirm_password], [String phone_number] 
 			
 			//If the user did not modify a certain field, don't send that field to the server.
 			//Make sure that the user did modify at least one field before sending this to the server
@@ -73,7 +73,7 @@
 		Logs out a user
 		
 		PARAMS:
-			String session_token, String csrf_token
+			String user_id, String session_token, String csrf_token
 			
 		RET:
 			STATUS 200
