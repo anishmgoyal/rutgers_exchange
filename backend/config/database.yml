@@ -5,7 +5,11 @@
 #   gem 'sqlite3'
 #
 default: &default
-  adapter: sqlite3
+  adapter: mysql2
+  host: localhost
+  database: rutgers_exchange
+  username: exchangeuser
+  password: exchangepassword
   pool: 5
   timeout: 5000
 
