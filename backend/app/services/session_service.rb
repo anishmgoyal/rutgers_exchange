@@ -1,8 +1,8 @@
 # Stores a list of sessions, with metadata about them
 class SessionService
 
-	import Time
-	import SecureRandom
+	require 'time'
+	require 'securerandom'
 	
 	# This is not the constructor. This is the service initializer.
 	# Initializes an empty sessions hash
