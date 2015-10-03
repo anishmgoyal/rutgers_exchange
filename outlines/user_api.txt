@@ -4,11 +4,11 @@
 		Creates a new user.
 		
 		PARAMS:
-			String username, String emailAddress, String password, String confirmPassword, String phoneNumber, int gender
+			String username, String email_address, String password, String confirm_password, String phone_number, int gender
 		
 		RET:
 			STATUS 200
-				Success: {error: false <boolean>, userId: userId <int>}
+				Success: {error: false <boolean>, user_id: user_id <int>}
 				Failure: {error: true <boolean>, errors: [{field: fieldname <string>, message: value <string>}, ...]}
 															"field" is username, emailAddress, password, etc (the field you should display
 																the message next to)
@@ -23,11 +23,11 @@
 			FOR EXAMPLE: If you're in the edit profile page, you'd use this to set the current values of the user's model
 		
 		PARAMS:
-			String username, [String sessionToken], [String csrfToken]
+			String username, [String session_token], [String csrf_token]
 			
 		RET:
 			Status 200
-				Success: {username: username <string>, emailAddress: emailAddress<string> or null, phoneNumber: phoneNumber <string> or null, gender: gender <int> or null}
+				Success: {username: username <string>, email_address: email_address <string> or null, phone_number: phone_number <string> or null, gender: gender <int> or null}
 				NOTE: null will be set on fields that a user is not allowed to view. This just means you shouldn't display these fields.
 		
 			STATUS 403
@@ -41,7 +41,7 @@
 		
 		RET:
 			STATUS 200
-				Success: {userId: userId <int>, sessionToken: sessionToken <string>, csrfToken: csrfToken <string>} // The app will store all of this information
+				Success: {user_id: user_id <int>, session_token: session_token <string>, csrf_token: csrf_token <string>} // The app will store all of this information
 			
 			STATUS 403
 				Failure: Display "Invalid username or password"
@@ -52,14 +52,14 @@
 		Updates the information / credentials for an account.
 		
 		PARAMS:
-			String sessionToken, String csrfToken, [String username], [String emailAddress], [String password], [String confirmPassword], [String phoneNumber] 
+			String session_token, String csrf_token, [String username], [String email_address], [String password], [String confirm_password], [String phone_number] 
 			
 			//If the user did not modify a certain field, don't send that field to the server.
 			//Make sure that the user did modify at least one field before sending this to the server
 		
 		RET:
 			STATUS 200
-				Success: {error: false, userId: userId}
+				Success: {error: false, user_id: user_id}
 				Failure: {error: true, errors: [{fieldname: value}, ...]}
 			
 			STATUS 403
@@ -73,7 +73,7 @@
 		Logs out a user
 		
 		PARAMS:
-			String sessionToken, String csrfToken
+			String session_token, String csrf_token
 			
 		RET:
 			STATUS 200
@@ -87,21 +87,7 @@
 	
 /user/activate/:username
 
-	POST
-		Activates a user account. We're probably going to implement this so that you can just click a link in your email.
-		
-		PARAMS:
-			String activationKey
-			
-		RET:
-			STATUS 200
-				User activated successfully.
-				
-			STATUS 403
-				Incorrect activationKey
-			
-			STATUS 404
-				User does not exist.
+	Not yet implemented.
 	
 /user/deactivate
 
