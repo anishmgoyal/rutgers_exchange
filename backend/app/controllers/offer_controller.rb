@@ -1,11 +1,15 @@
 class OfferController < ApplicationController
 
+    include SessionsHelper
+    
+    before_filter :require_auth
+
     # PUT /offers
     # See outlines/offer_api.txt
     def create
         offer = Offer.where(user_id: @current_user.id, product_id: params[:product_id]).first
         if offer
-            render status: 401, json: {error: true}
+            render status: 471, json: {error: true}
         end
         product = Product.find(params[:product_id])
         if product
@@ -33,7 +37,7 @@ class OfferController < ApplicationController
                     render status: 200, json: payload
                 end
             else
-                render status: 402, json: {error: true}
+                render status: 472, json: {error: true}
             end
         else
             render status: 404, json: {error: true}
@@ -128,7 +132,7 @@ class OfferController < ApplicationController
                     price: offer.price
                 }
             else
-                render status: 402, json: {error: true}
+                render status: 472, json: {error: true}
             end
         else
             render status: 404, json: {error: true}
@@ -142,19 +146,25 @@ class OfferController < ApplicationController
         if offer
             if offer.product.user.id == @current_user.id
                 if offer.status == "OFFER_OFFERED"
-                    offer.status = "OFFER_ACCEPTED"
-                    offer.product.status = "SOLD_IN_TRANSACTION"
-                    conversation = Conversation.new(@current_user.id, offer.user.id, offer.product.id)
-                    offer.conversation = conversation
+                    conversation = Conversation.new
+                    conversation.seller = @current_user
+                    conversation.buyer = offer.user
+                    conversation.offer = offer
                     conversation.save()
+                    
+                    offer.status = "OFFER_ACCEPTED"
+                    offer.conversation = conversation
                     offer.save()
+                    
+                    offer.product.status = "SOLD_IN_TRANSACTION"
                     offer.product.save()
+                    
                     render status: 200, json: {conversation_id: conversation.id}
                 else
-                    render status: 401, json: {error: true}
+                    render status: 471, json: {error: true}
                 end
             else
-                render status: 402, json: {error: true}
+                render status: 472, json: {error: true}
             end
         else
             render status: 404, json: {error: true}
@@ -170,7 +180,7 @@ class OfferController < ApplicationController
                 offer.destroy
                 render status: 200, json: {error: false}
             else
-                render status: 402, json: {error: true}
+                render status: 472, json: {error: true}
             end
         else
             render status: 404, json: {error: true}
