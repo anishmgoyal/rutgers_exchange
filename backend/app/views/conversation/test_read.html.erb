@@ -1,0 +1,7 @@
+<%= form_tag('/conversations/list', method: :get) do %>
+    <label>User Id<br /><%= text_field_tag(:user_id) %></label>
+    <label>Session Token<br /><%= text_field_tag(:session_token) %></label>
+    <label>Csrf Token<br /><%= text_field_tag(:csrf_token) %></label>
+    <label>Conversation Id<br /><%= text_field_tag(:id) %></label>
+    <%= submit_tag("List") %>
+<% end %>

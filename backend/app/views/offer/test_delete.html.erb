@@ -1,0 +1,6 @@
+<%= form_tag('/offers/delete', method: :delete) do %>
+    <label>User Id<br /><%= text_field_tag(:user_id) %></label>
+    <label>Session Token<br /><%= text_field_tag(:session_token) %></label>
+    <label>Csrf Token<br /><%= text_field_tag(:csrf_token) %></label>
+    <label>Offer Id<br /><%= text_field_tag(:id) %></label>
+<% end %>

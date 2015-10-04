@@ -1,0 +1,8 @@
+<%= form_tag("/offers/list") do %>
+    <label>User Id<br /><%= text_field_tag(:user_id) %></label>
+    <label>Session Token<br /><%= text_field_tag(:session_token) %></label>
+    <label>Csrf Token<br /><%= text_field_tag(:csrf_token) %></label>
+    <label>Include by others<br /><%= checkbox(:include_offers_made_by_other_users) %></label>
+    <label>Include my own<br /><%= checkbox(:include_offers_made_by_current_user) %></label>
+    <label>Product Id<br /><%= text_field_tag(:product_id) %></label>
+<% end %>

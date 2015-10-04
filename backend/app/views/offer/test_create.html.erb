@@ -1,0 +1,8 @@
+<%= form_tag('/offers/create', method: :put) do %>
+    <label>User Id<br /><%= text_field_tag(:user_id) %></label>
+    <label>Session Token<br /><%= text_field_tag(:session_token) %></label>
+    <label>Csrf Token<br /><%= text_field_tag(:csrf_token) %></label>
+    <label>Product Id<br /><%= text_field_tag(:product_id) %></label>
+    <label>Price<br /><%= text_field_tag(:price) %></label>
+    <%= submit_tag("Place offer") %>
+<% end %>

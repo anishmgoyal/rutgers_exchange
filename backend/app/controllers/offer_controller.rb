@@ -3,6 +3,30 @@ class OfferController < ApplicationController
     include SessionsHelper
     
     before_filter :require_auth
+    
+    def test_create
+    
+    end
+    
+    def test_list
+    
+    end
+    
+    def test_read
+    
+    end
+    
+    def test_update
+    
+    end
+    
+    def test_delete
+    
+    end
+    
+    def test_commit
+    
+    end
 
     # PUT /offers
     # See outlines/offer_api.txt
