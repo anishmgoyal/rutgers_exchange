@@ -2,12 +2,16 @@
 
   PUT
     Creates new product.
+    
     PARAMS:
-      String productname, String user_id, String sold_status, String type, int price
+      String product_name, String user_id, String type, int price
+    
     RET:
+    
       STATUS 200
-        Success: new product created and a product id assigned to it.
-        Failure: Fields not filled out, or fields filled out incorrectly.
+        Success: {error: false <boolean>, id: product_id <int>}
+        Failure: {error: true <boolean>, errors: [{field: fieldname <string>, message: validation_message <string>}]}
+        
       STATUS 403 
         Failure: Unauthorized to add product since user not logged in.
   
@@ -22,37 +26,49 @@
 
 /product/:id
   GET
+  
     Gets all the information about the product. Can be used when "searching" for a product.
-    PARAMS:
+    
     RET:
+    
       STATUS 200
-        Success: Displays information about product.
+        Success: {product_name: product_name <string>, user: {id: user_id <int>, username: username <string>, first_name: first_name <string>, last_name: last_name <string>}, type: type <string>, price: price <int>, sold_status: status <string>}
+        
       STATUS 404
         Failure: Product not found.
 
   POST
     Make updates to product information provided online
+    
     PARAMS: 
-      String session_token, String csrf_token, String user_id, [String prodectname], [String sold_status], [String type], [int price]
-      //If the user did not modify a certain field, don't send that field to the server.
-      //Make sure that the user did modify at least one field before sending this to the server.
+      String session_token, String csrf_token, String user_id, [String product_name], [String sold_status], [String type], [int price]
+      // If the user did not modify a certain field, don't send that field to the server.
+      // Make sure that the user did modify at least one field before sending this to the server.
+      
     RET:
+    
       STATUS 200
-        Success: Modify info for product
-        Failure: Modifications are syntactically incorrect.
+        Success: {error: false <boolean>, id: product_id <int>}
+        Failure: {error: true <boolean>, errors: [{field: fieldname <string>, message: validation_message <string>}]}
+        
       STATUS 403
         Failure: Product could not be modified, since the user_id was not associated with product or user not logged in.
+        
       STATUS 404
         Failure: Product could not be modified as it does not exist.
 
   DELETE
-    Deletes the product entirly
+    Deletes the product entirely
+    
     PARAMS:
-      String User_id, String session_token, String csrf_token
+      String user_id, String session_token, String csrf_token
+      
     RET:
       STATUS 200
         Success: Product is deleted.
+        
       STATUS 403
         Failure: User is not logged in, thus cannot delete product. 
+        
       STATUS 404
         Failure: Product could not be identified, or product is not associated with the user.

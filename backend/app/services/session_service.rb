@@ -12,46 +12,46 @@ class SessionService
 
 	# Creates a new session
 	# user_id: the user_id of the user to create a session for
-	# Returns an object with the sessionToken and csrfToken for the created session
+	# Returns an object with the session_token and csrf_token for the created session
 	def create(user_id)
-		sessionToken = SecureRandom.uuid
-		csrfToken = SecureRandom.uuid
+		session_token = SecureRandom.uuid
+		csrf_token = SecureRandom.uuid
 		
 		# Make sure we have a unique session token. Statistically, this loop will *almost* never run.
-		while @sessions[sessionToken]
-			sessionToken = SecureRandom.uuid
+		while @sessions[session_token]
+			session_token = SecureRandom.uuid
 		end
 		
-		session_meta = SessionMeta.new(user_id, csrfToken)
-		@sessions[sessionToken] = session_meta
+		session_meta = SessionMeta.new(user_id, csrf_token)
+		@sessions[session_token] = session_meta
 		
 		return {
             user_id: user_id,
-			sessionToken: sessionToken,
-			csrfToken: csrfToken
+			session_token: session_token,
+			csrf_token: csrf_token
 		}
 	end
 	
-	# Verifies that a session is valid for a userId, sessionToken, and csrfToken
-	# userId: the userId of the user
-	# sessionToken: the session token received when the session was created
-	# csrfToken: the csrf token received when the session was created
+	# Verifies that a session is valid for a user_id, session_token, and csrf_token
+	# user_id: the user_id of the user
+	# session_token: the session token received when the session was created
+	# csrf_token: the csrf token received when the session was created
 	# Returns:
 	#		:SESSION_VALID if the session is valid
-	#		:SESSION_AUTH_ERR if the csrfToken is incorrect
+	#		:SESSION_AUTH_ERR if the csrf_token is incorrect
 	#		:SESSION_EXPIRED if the session has expired
 	#		:SESSION_NOEXIST if the session does not exist
-	def verify(userId, sessionToken, csrfToken)
-		session_meta = @sessions[sessionToken]
+	def verify(user_id, session_token, csrf_token)
+		session_meta = @sessions[session_token]
 		if session_meta
 			if session_meta.verify_active()
-				if session_meta.csrfToken == csrfToken && session_meta.userId == userId
+				if session_meta.csrf_token.to_s == csrf_token.to_s && session_meta.user_id.to_s == user_id.to_s
 					return :SESSION_VALID
 				else
 					return :SESSION_AUTH_ERR
 				end
 			else
-				delete(userId, sessionToken, csrfToken)
+				delete(user_id, session_token, csrf_token)
 				return :SESSION_EXPIRED
 			end
 		else
@@ -60,18 +60,18 @@ class SessionService
 	end
 	
 	# Deletes a session (logs out a user)
-	# userId: the userId to log out
-	# sessionToken: the session token received when the session was created
-	# csrfToken: the csrf token received when the session was created
+	# user_id: the user_id to log out
+	# session_token: the session token received when the session was created
+	# csrf_token: the csrf token received when the session was created
 	# Returns:
 	#		:SESSION_DELETED if the session was deleted successfully
-	#		:SESSION_AUTH_ERR if the csrfToken is incorrect
-	#		:SESSION_NOEXIST if the sessionToken is incorrect
-	def delete(userId, sessionToken, csrfToken)
-		session_meta = @sessions[sessionToken]
+	#		:SESSION_AUTH_ERR if the csrf_token is incorrect
+	#		:SESSION_NOEXIST if the session_token is incorrect
+	def delete(user_id, session_token, csrf_token)
+		session_meta = @sessions[session_token]
 		if session_meta
-			if session_meta.csrfToken == csrfToken && session_meta.userId == userId
-				@sessions.delete(sessionToken)
+			if session_meta.csrf_token.to_s == csrf_token.to_s && session_meta.user_id.to_s == user_id.to_s
+				@sessions.delete(session_token)
 				return :SESSION_DELETED
 			else
 				return :SESSION_AUTH_ERR
@@ -86,12 +86,15 @@ end
 # Should not be used outside of this service.
 class SessionMeta
 
+    attr_accessor :user_id
+    attr_accessor :csrf_token
+
 	@@EVICT_TIMER = 60 * 60 # Seconds in a minute times minutes in an hour = 1 hour timeout
 	
 	# Constructor
-	def initialize(userId, csrfToken)
-		@userId = userId
-		@csrfToken = csrfToken
+	def initialize(user_id, csrf_token)
+		@user_id = user_id
+		@csrf_token = csrf_token
 		@time = Time.now
 	end
 	
@@ -106,5 +109,9 @@ class SessionMeta
 			return false
 		end
 	end
+    
+    def to_s
+        "#{@user_id} :: #{@csrf_token} :: #{@time}"
+    end
 	
 end
