@@ -2,13 +2,17 @@ class User < ActiveRecord::Base
 
 	# Accessor directives
     attr_accessor :password
-	attr_accessible :username, :password, :confirm_password, :email_address, :phone_number
+	attr_accessible :username, :password, :confirm_password, :email_address, :phone_number, :first_name, :last_name
     
     # Validation
     EMAIL_REGEX = /\A[A-Z0-9._%+-]+@rutgers.edu\z/i
+    PHONE_REGEX = /\A[0-9]{10}\z/
 	validates :username, :presence => true, :uniqueness => true, :length => { :in => 5..20 }
 	validates :email_address, :presence => true, :uniqueness => true, :format => EMAIL_REGEX
 	validates :password, :length => { :in => 7..20 }, :confirmation => true, :unless => :encrypted_password?
+    validates :first_name, presence: true
+    validates :last_name, presence: true
+    validates :phone_number, presence: true, format: PHONE_REGEX
 	validates_format_of :username, without: EMAIL_REGEX
 	
 	# Saving protocols

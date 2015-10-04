@@ -12,11 +12,22 @@ class UserController < ApplicationController
     
     end
     
-    def logout
-    
+    def lo
+        payload = delete_session(params[:user_id], params[:session_token], params[:csrf_token])
+        if payload == :SESSION_DELETED
+            render status: 200, json: {error: false}
+        elsif payload == :SESSION_NO_AUTH
+            render status: 403, json: {error: true}
+        else
+            render status: 404, json: {error: true}
+        end
     end
     
     def viewinfo
+       
+    end
+    
+    def modify_account
     
     end
     
@@ -27,7 +38,7 @@ class UserController < ApplicationController
 		if user.save()
 			payload = {
 				error: false,
-				userId: user.id
+				id: user.id
 			}
 			render status: 200, json: payload
 		else
@@ -46,7 +57,7 @@ class UserController < ApplicationController
 	# GET /users/:username
 	# Please see /outlines/user_api.txt
 	def read
-		user = User.where(username: params[:username]).first
+		user = User.find_by_username(params[:username])
 		if user
             payload = {
                 username: user.username,
@@ -59,7 +70,7 @@ class UserController < ApplicationController
             end
             render status: 200, json: payload
 		else
-			render status: 404
+			render status: 404, json: {error: true}
 		end
 	end
 	
@@ -72,7 +83,23 @@ class UserController < ApplicationController
                 if params[:password]
                     params[:encrypted_password] = nil
                 end
-                User.update(@current_user.id, params)
+                if @current_user.update(params)
+                    payload = {
+                        error: false,
+                        id: @current_user.id
+                    }
+                    render status: 200, json: payload
+                else
+                    errors = []
+                    user.errors.keys.each do |key|
+                        errors << {field: key, message: user.errors.full_messages_for(key).first}
+                    end
+                    payload = {
+                        error: true,
+                        errors: errors
+                    }
+                    render status: 200, json: payload
+                end
             else
                 render status: 403
             end
@@ -93,10 +120,10 @@ class UserController < ApplicationController
         end
 	end
 	
-	# DELETE /users/:id
+	# DELETE /users/:username
 	# Please see /outlines/user_api.txt
 	def logout
-        delete_session(params[:id], params[:session_token], params[:csrf_token])
+        delete_session(params[:user_id], params[:session_token], params[:csrf_token])
 	end
 	
 end
