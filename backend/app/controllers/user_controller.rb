@@ -4,6 +4,22 @@ class UserController < ApplicationController
     
     before_filter :require_auth, only: [:read, :update, :logout]
 
+    def register
+    
+    end
+    
+    def login
+    
+    end
+    
+    def logout
+    
+    end
+    
+    def viewinfo
+    
+    end
+    
 	# PUT /users
 	# Please see /outlines/user_api.txt
 	def create
@@ -73,7 +89,7 @@ class UserController < ApplicationController
             session = create_session(user.id)
             render status: 200, json: session
         else
-            render status: 403
+            render status: 403, json: {error: true, message: "Invalid username or password."}
         end
 	end
 	

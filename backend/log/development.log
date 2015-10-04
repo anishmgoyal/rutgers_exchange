@@ -4,3 +4,535 @@ Started GET "/" for ::1 at 2015-10-03 13:27:53 -0400
 Processing by Rails::WelcomeController#index as HTML
   Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/railties-4.2.4/lib/rails/templates/rails/welcome/index.html.erb (62.5ms)
 Completed 200 OK in 344ms (Views: 265.7ms | ActiveRecord: 0.0ms)
+  [1m[36m (125.1ms)[0m  [1mCREATE TABLE `schema_migrations` (`version` varchar(255) NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (134.1ms)[0m  CREATE UNIQUE INDEX `unique_schema_migrations`  ON `schema_migrations` (`version`) 
+  [1m[36mActiveRecord::SchemaMigration Load (7.0ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to CreateUsers (20151003184931)
+  [1m[35m (83.1ms)[0m  CREATE TABLE `users` (`id` int(11) auto_increment PRIMARY KEY, `username` varchar(255), `encrypted_password` varchar(255), `salt` varchar(255), `first_name` varchar(255), `last_name` varchar(255), `email_address` varchar(255), `phone_number` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (20.0ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20151003184931')
+  [1m[36m (22.0ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.0ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
+  [1m[36m (1.0ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'rutgers_exchange'
+  AND fk.table_name = 'users'
+[0m
+  [1m[35m (0.0ms)[0m  SHOW CREATE TABLE `users`
+
+
+Started GET "/users/register" for ::1 at 2015-10-03 20:17:17 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Processing by UserController#register as HTML
+  Rendered user/register.html.erb within layouts/application (8.0ms)
+Completed 500 Internal Server Error in 11232ms (ActiveRecord: 0.0ms)
+
+ActionView::Template::Error (TypeError: Object doesn't support this property or method):
+    3: <head>
+    4:   <title>RutgersExchange</title>
+    5:   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    6:   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    7:   <%= csrf_meta_tags %>
+    8: </head>
+    9: <body>
+  app/views/layouts/application.html.erb:6:in `_app_views_layouts_application_html_erb__200311162_56373936'
+
+
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (2.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (14.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (3.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (239.2ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_markup.html.erb (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/style.css.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/console.js.erb within layouts/javascript (124.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/main.js.erb within layouts/javascript (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/error_page.js.erb within layouts/javascript (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/index.html.erb (322.2ms)
+
+
+Started GET "/users/register" for ::1 at 2015-10-03 20:18:04 -0400
+Processing by UserController#register as HTML
+  Rendered user/register.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 12ms (Views: 12.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/register" for ::1 at 2015-10-03 20:18:26 -0400
+Processing by UserController#register as HTML
+  Rendered user/register.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 16ms (Views: 15.0ms | ActiveRecord: 0.0ms)
+
+
+Started PUT "/users/create" for ::1 at 2015-10-03 20:18:41 -0400
+Processing by UserController#authenticate as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"8kyCuwLrw80ANm1YGGGlqbZpISWkU08dWXH0MaC6dGli+3NAsvUdCq8DT5ADqWEGevxV4GgZrKYaDrcRPbvwQw==", "username"=>"create", "password"=>"[FILTERED]", "confirm_password"=>"[FILTERED]", "first_name"=>"Anish", "last_name"=>"Goyal", "email_address"=>"anish.goyal@rutgers.edu", "phone_number"=>"7329797205", "commit"=>"Register"}
+  [1m[35mUser Load (1.0ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`username` = 'create' LIMIT 1
+Completed 500 Internal Server Error in 198ms (ActiveRecord: 85.1ms)
+
+ActionView::MissingTemplate (Missing template user/authenticate, application/authenticate with {:locale=>[:en], :formats=>[:html], :variants=>[], :handlers=>[:erb, :builder, :raw, :ruby, :coffee, :jbuilder]}. Searched in:
+  * "C:/code/hackru/rutgers_exchange/backend/app/views"
+):
+  app/controllers/user_controller.rb:92:in `authenticate'
+
+
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (2.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (8.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (3.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/missing_template.html.erb within rescues/layout (87.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_markup.html.erb (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/style.css.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/console.js.erb within layouts/javascript (92.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/main.js.erb within layouts/javascript (0.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/error_page.js.erb within layouts/javascript (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/index.html.erb (193.1ms)
+
+
+Started PUT "/users/create" for ::1 at 2015-10-03 20:19:32 -0400
+Processing by UserController#authenticate as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"8kyCuwLrw80ANm1YGGGlqbZpISWkU08dWXH0MaC6dGli+3NAsvUdCq8DT5ADqWEGevxV4GgZrKYaDrcRPbvwQw==", "username"=>"create", "password"=>"[FILTERED]", "confirm_password"=>"[FILTERED]", "first_name"=>"Anish", "last_name"=>"Goyal", "email_address"=>"anish.goyal@rutgers.edu", "phone_number"=>"7329797205", "commit"=>"Register"}
+  [1m[36mUser Load (1.0ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`username` = 'create' LIMIT 1[0m
+Completed 500 Internal Server Error in 11ms (ActiveRecord: 1.0ms)
+
+ActionView::MissingTemplate (Missing template user/authenticate, application/authenticate with {:locale=>[:en], :formats=>[:html], :variants=>[], :handlers=>[:erb, :builder, :raw, :ruby, :coffee, :jbuilder]}. Searched in:
+  * "C:/code/hackru/rutgers_exchange/backend/app/views"
+):
+  app/controllers/user_controller.rb:92:in `authenticate'
+
+
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (2.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (10.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (2.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/missing_template.html.erb within rescues/layout (90.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_markup.html.erb (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/style.css.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/console.js.erb within layouts/javascript (83.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/main.js.erb within layouts/javascript (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/error_page.js.erb within layouts/javascript (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/index.html.erb (180.1ms)
+
+
+Started GET "/users/register" for ::1 at 2015-10-03 20:19:34 -0400
+Processing by UserController#register as HTML
+  Rendered user/register.html.erb within layouts/application (3.0ms)
+Completed 200 OK in 12ms (Views: 11.0ms | ActiveRecord: 0.0ms)
+
+
+Started PUT "/users" for ::1 at 2015-10-03 20:19:51 -0400
+Processing by UserController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"V1QEuvDK+bUl002vlNVugiaNansc7606vYrIYIVYlTHH4/VBQNQncormb2ePHaot6hgevtClToH+9YtAGFkRGw==", "username"=>"amg380", "password"=>"[FILTERED]", "confirm_password"=>"[FILTERED]", "first_name"=>"Anish", "last_name"=>"Goyal", "email_address"=>"anish.goyal@rutgers.edu", "phone_number"=>"7329797205", "commit"=>"Register"}
+WARNING: Can't mass-assign protected attributes for User: utf8, _method, authenticity_token, first_name, last_name, commit, controller, action
+	app/controllers/user_controller.rb:26:in `create'
+Completed 500 Internal Server Error in 26ms (ActiveRecord: 1.0ms)
+
+ActiveRecord::UnknownAttributeError (unknown attribute 'password' for User.):
+  app/controllers/user_controller.rb:26:in `create'
+
+
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (2.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (8.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (2.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (103.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_markup.html.erb (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/style.css.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/console.js.erb within layouts/javascript (83.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/main.js.erb within layouts/javascript (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/error_page.js.erb within layouts/javascript (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/index.html.erb (185.1ms)
+
+
+Started GET "/users/register" for ::1 at 2015-10-03 20:28:18 -0400
+Processing by UserController#register as HTML
+  Rendered user/register.html.erb within layouts/application (3.0ms)
+Completed 200 OK in 13ms (Views: 12.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/register" for ::1 at 2015-10-03 20:28:20 -0400
+Processing by UserController#register as HTML
+  Rendered user/register.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 13ms (Views: 11.0ms | ActiveRecord: 0.0ms)
+
+
+Started PUT "/users" for ::1 at 2015-10-03 20:28:32 -0400
+Processing by UserController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"tbZEGmmAa27FJKrpBY2P/w0QQR4coKtqmi+T44uIEE0lAbXh2Z61qWoRiCEeRUtQwYU129DqSNHZUNDDFomUZw==", "username"=>"amg380", "password"=>"[FILTERED]", "confirm_password"=>"[FILTERED]", "first_name"=>"Anish", "last_name"=>"Goyal", "email_address"=>"anish.goyal@rutgers.edu", "phone_number"=>"7329797205", "commit"=>"Register"}
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mUser Exists (1.0ms)[0m  [1mSELECT  1 AS one FROM `users` WHERE `users`.`username` IS NULL LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  ROLLBACK
+Completed 500 Internal Server Error in 344ms (ActiveRecord: 113.1ms)
+
+NoMethodError (undefined method `email' for #<User:0x8310d80>):
+  app/controllers/user_controller.rb:27:in `create'
+
+
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (3.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (12.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (3.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (107.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_markup.html.erb (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/console.js.erb within layouts/javascript (87.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/main.js.erb within layouts/javascript (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/index.html.erb (202.1ms)
+
+
+Started PUT "/users" for ::1 at 2015-10-03 20:28:55 -0400
+Processing by UserController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"tbZEGmmAa27FJKrpBY2P/w0QQR4coKtqmi+T44uIEE0lAbXh2Z61qWoRiCEeRUtQwYU129DqSNHZUNDDFomUZw==", "username"=>"amg380", "password"=>"[FILTERED]", "confirm_password"=>"[FILTERED]", "first_name"=>"Anish", "last_name"=>"Goyal", "email_address"=>"anish.goyal@rutgers.edu", "phone_number"=>"7329797205", "commit"=>"Register"}
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (1.0ms)[0m  SELECT  1 AS one FROM `users` WHERE `users`.`username` IS NULL LIMIT 1
+  [1m[36mUser Exists (0.0ms)[0m  [1mSELECT  1 AS one FROM `users` WHERE `users`.`email_address` IS NULL LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  ROLLBACK
+Completed 500 Internal Server Error in 144ms (ActiveRecord: 94.1ms)
+
+NoMethodError (undefined method `password' for #<User:0x7a57e38>):
+  app/controllers/user_controller.rb:27:in `create'
+
+
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (9.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (2.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (92.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_markup.html.erb (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/style.css.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/console.js.erb within layouts/javascript (80.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/main.js.erb within layouts/javascript (0.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/error_page.js.erb within layouts/javascript (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/index.html.erb (180.1ms)
+
+
+Started PUT "/users" for ::1 at 2015-10-03 20:29:13 -0400
+Processing by UserController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"tbZEGmmAa27FJKrpBY2P/w0QQR4coKtqmi+T44uIEE0lAbXh2Z61qWoRiCEeRUtQwYU129DqSNHZUNDDFomUZw==", "username"=>"amg380", "password"=>"[FILTERED]", "confirm_password"=>"[FILTERED]", "first_name"=>"Anish", "last_name"=>"Goyal", "email_address"=>"anish.goyal@rutgers.edu", "phone_number"=>"7329797205", "commit"=>"Register"}
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (1.0ms)[0m  SELECT  1 AS one FROM `users` WHERE `users`.`username` IS NULL LIMIT 1
+  [1m[36mUser Exists (0.0ms)[0m  [1mSELECT  1 AS one FROM `users` WHERE `users`.`email_address` IS NULL LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  ROLLBACK
+Completed 200 OK in 147ms (Views: 2.0ms | ActiveRecord: 96.1ms)
+
+
+Started GET "/users/register" for ::1 at 2015-10-03 20:29:24 -0400
+Processing by UserController#register as HTML
+  Rendered user/register.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 13ms (Views: 12.0ms | ActiveRecord: 0.0ms)
+
+
+Started PUT "/users" for ::1 at 2015-10-03 20:29:37 -0400
+Processing by UserController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"ki2RJhe7FkAFF4okM8N0oOUT4XoUfsHsMCrqcAr3cC8CmmDdp6XIh6oiqOwoC7APKYaVv9g0IldzValQl/b0BQ==", "username"=>"amg380", "password"=>"[FILTERED]", "confirm_password"=>"[FILTERED]", "first_name"=>"Anish", "last_name"=>"Goyal", "email_address"=>"anish.goyal@rutgers.edu", "phone_number"=>"7329797205", "commit"=>"Register"}
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (1.0ms)[0m  SELECT  1 AS one FROM `users` WHERE `users`.`username` IS NULL LIMIT 1
+  [1m[36mUser Exists (1.0ms)[0m  [1mSELECT  1 AS one FROM `users` WHERE `users`.`email_address` IS NULL LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  ROLLBACK
+Completed 200 OK in 26ms (Views: 1.0ms | ActiveRecord: 3.0ms)
+
+
+Started GET "/users/register" for ::1 at 2015-10-03 20:29:40 -0400
+Processing by UserController#register as HTML
+  Rendered user/register.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 11ms (Views: 10.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/register" for ::1 at 2015-10-03 20:30:56 -0400
+Processing by UserController#register as HTML
+  Rendered user/register.html.erb within layouts/application (121.1ms)
+Completed 200 OK in 131ms (Views: 129.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/register" for ::1 at 2015-10-03 20:30:58 -0400
+Processing by UserController#register as HTML
+  Rendered user/register.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 13ms (Views: 12.0ms | ActiveRecord: 0.0ms)
+
+
+Started PUT "/users" for ::1 at 2015-10-03 20:31:13 -0400
+Processing by UserController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"YU4P7C5VrLgEUymyWp9Y0870LihyDuceWzMtwB7l2f3x+f4Xnktyf6tmC3pBV5x8AmFa7b5EBKUYTG7gg+Rd1w==", "user"=>{"username"=>"amg380", "password"=>"[FILTERED]", "confirm_password"=>"[FILTERED]", "first_name"=>"Anish", "last_name"=>"Goyal", "email_address"=>"anish.goyal@rutgers.edu", "phone_number"=>"7329797205"}, "commit"=>"Register"}
+WARNING: Can't mass-assign protected attributes for User: first_name, last_name
+	app/controllers/user_controller.rb:26:in `create'
+Completed 500 Internal Server Error in 9ms (ActiveRecord: 0.0ms)
+
+ActiveRecord::UnknownAttributeError (unknown attribute 'confirm_password' for User.):
+  app/controllers/user_controller.rb:26:in `create'
+
+
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (2.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (8.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (2.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (92.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_markup.html.erb (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/style.css.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/console.js.erb within layouts/javascript (83.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/main.js.erb within layouts/javascript (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/error_page.js.erb within layouts/javascript (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/index.html.erb (195.1ms)
+
+
+Started GET "/users/register" for ::1 at 2015-10-03 20:31:33 -0400
+Processing by UserController#register as HTML
+  Rendered user/register.html.erb within layouts/application (5.0ms)
+Completed 200 OK in 17ms (Views: 15.0ms | ActiveRecord: 0.0ms)
+
+
+Started PUT "/users" for ::1 at 2015-10-03 20:31:49 -0400
+Processing by UserController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"WOEvvgsC5M2AQ+BZWDOabhygt0gNbnPepnZYeV62w7vIVt5Fuxw6Ci92wpFD+17B0DXDjcEkkGXlCRtZw7dHkQ==", "user"=>{"username"=>"amg380", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]", "first_name"=>"Anish", "last_name"=>"Goyal", "email_address"=>"anish.goyal@rutgers.edu", "phone_number"=>"7329797205"}, "commit"=>"Register"}
+WARNING: Can't mass-assign protected attributes for User: password_confirmation, first_name, last_name
+	app/controllers/user_controller.rb:26:in `create'
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (8.0ms)[0m  SELECT  1 AS one FROM `users` WHERE `users`.`username` = BINARY 'amg380' LIMIT 1
+  [1m[36mUser Exists (1.0ms)[0m  [1mSELECT  1 AS one FROM `users` WHERE `users`.`email_address` = BINARY 'anish.goyal@rutgers.edu' LIMIT 1[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO `users` (`username`, `email_address`, `phone_number`, `salt`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('amg380', 'anish.goyal@rutgers.edu', '7329797205', '$2a$10$qag//zyb7iLqnX40HSLC0u', '$2a$10$qag//zyb7iLqnX40HSLC0urYFhFUXVSCkADg5aPVxU.q37IPDtnEK', '2015-10-04 00:31:49', '2015-10-04 00:31:49')
+  [1m[36m (39.0ms)[0m  [1mCOMMIT[0m
+Completed 200 OK in 286ms (Views: 0.0ms | ActiveRecord: 49.0ms)
+
+
+Started GET "/users/register" for ::1 at 2015-10-03 20:33:30 -0400
+Processing by UserController#register as HTML
+  Rendered user/register.html.erb within layouts/application (3.0ms)
+Completed 200 OK in 14ms (Views: 12.0ms | ActiveRecord: 0.0ms)
+
+
+Started PUT "/users" for ::1 at 2015-10-03 20:33:44 -0400
+Processing by UserController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"jZZjb5O44WKjuQ7PafA567Awtac1Or1nFT2OQfPCvCYdIZKUI6Y/pQyMLAdyOP1EfKXBYvlwXtxWQs1hbsM4DA==", "username"=>"amg380", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]", "first_name"=>"Anish", "last_name"=>"Goyal", "email_address"=>"anish.goyal@rutgers.edu", "phone_number"=>"7329797205", "commit"=>"Register"}
+WARNING: Can't mass-assign protected attributes for User: utf8, _method, authenticity_token, password_confirmation, first_name, last_name, commit, controller, action
+	app/controllers/user_controller.rb:26:in `create'
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mUser Exists (1.0ms)[0m  [1mSELECT  1 AS one FROM `users` WHERE `users`.`username` = BINARY 'amg380' LIMIT 1[0m
+  [1m[35mUser Exists (1.0ms)[0m  SELECT  1 AS one FROM `users` WHERE `users`.`email_address` = BINARY 'anish.goyal@rutgers.edu' LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mROLLBACK[0m
+Completed 200 OK in 146ms (Views: 0.0ms | ActiveRecord: 91.1ms)
+
+
+Started GET "/users/register" for ::1 at 2015-10-03 20:33:48 -0400
+Processing by UserController#register as HTML
+  Rendered user/register.html.erb within layouts/application (1.0ms)
+Completed 200 OK in 12ms (Views: 11.0ms | ActiveRecord: 0.0ms)
+
+
+Started PUT "/users" for ::1 at 2015-10-03 20:34:01 -0400
+Processing by UserController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"ZEXqyY8r/G8TvyiWY0/Yz957YmQwVZ9vsmOSmU4w23X08hsyPzUiqLyKCl54hxxgEu4WofwffNTxHNG50zFfXw==", "username"=>"amg381", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]", "first_name"=>"Anish", "last_name"=>"Goyal", "email_address"=>"anish.goyal2@rutgers.edu", "phone_number"=>"7329797205", "commit"=>"Register"}
+WARNING: Can't mass-assign protected attributes for User: utf8, _method, authenticity_token, password_confirmation, first_name, last_name, commit, controller, action
+	app/controllers/user_controller.rb:26:in `create'
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mUser Exists (1.0ms)[0m  [1mSELECT  1 AS one FROM `users` WHERE `users`.`username` = BINARY 'amg381' LIMIT 1[0m
+  [1m[35mUser Exists (0.0ms)[0m  SELECT  1 AS one FROM `users` WHERE `users`.`email_address` = BINARY 'anish.goyal2@rutgers.edu' LIMIT 1
+  [1m[36mSQL (0.0ms)[0m  [1mINSERT INTO `users` (`username`, `email_address`, `phone_number`, `salt`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('amg381', 'anish.goyal2@rutgers.edu', '7329797205', '$2a$10$GpDNVb/KJpYvt8PJKsU9VO', '$2a$10$GpDNVb/KJpYvt8PJKsU9VOUCs4eLi.T.zI1h/dLvCllmApwgtH2KC', '2015-10-04 00:34:01', '2015-10-04 00:34:01')[0m
+  [1m[35m (70.1ms)[0m  COMMIT
+Completed 200 OK in 296ms (Views: 1.0ms | ActiveRecord: 71.1ms)
+
+
+Started GET "/users/login" for ::1 at 2015-10-03 20:41:56 -0400
+Processing by UserController#login as HTML
+  Rendered user/login.html.erb within layouts/application (3.0ms)
+Completed 200 OK in 18ms (Views: 16.0ms | ActiveRecord: 0.0ms)
+
+
+Started PUT "/users/auth" for ::1 at 2015-10-03 20:42:00 -0400
+Processing by UserController#authenticate as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"VQNa2SCsdnVBWqlvsFt05veBJRUBg/RReVeLyT/rsdPFtKsikLKosu5vi6erk7BJOxRR0M3JF+o6KMjpouo1+Q==", "username"=>"amg380", "password"=>"[FILTERED]", "commit"=>"Login"}
+  [1m[36mUser Load (1.0ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`username` = 'amg380' LIMIT 1[0m
+Completed 500 Internal Server Error in 326ms (ActiveRecord: 97.1ms)
+
+ActionView::MissingTemplate (Missing template user/authenticate, application/authenticate with {:locale=>[:en], :formats=>[:html], :variants=>[], :handlers=>[:erb, :builder, :raw, :ruby, :coffee, :jbuilder]}. Searched in:
+  * "C:/code/hackru/rutgers_exchange/backend/app/views"
+):
+  app/controllers/user_controller.rb:92:in `authenticate'
+
+
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (2.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (9.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (3.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/missing_template.html.erb within rescues/layout (90.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_markup.html.erb (2.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/console.js.erb within layouts/javascript (83.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/main.js.erb within layouts/javascript (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/error_page.js.erb within layouts/javascript (2.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/index.html.erb (192.1ms)
+
+
+Started PUT "/users/auth" for ::1 at 2015-10-03 20:45:39 -0400
+Processing by UserController#authenticate as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"VQNa2SCsdnVBWqlvsFt05veBJRUBg/RReVeLyT/rsdPFtKsikLKosu5vi6erk7BJOxRR0M3JF+o6KMjpouo1+Q==", "username"=>"amg380", "password"=>"[FILTERED]", "commit"=>"Login"}
+  [1m[35mUser Load (1.0ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`username` = 'amg380' LIMIT 1
+Completed 500 Internal Server Error in 337ms (ActiveRecord: 109.1ms)
+
+ActionView::MissingTemplate (Missing template user/authenticate, application/authenticate with {:locale=>[:en], :formats=>[:html], :variants=>[], :handlers=>[:erb, :builder, :raw, :ruby, :coffee, :jbuilder]}. Searched in:
+  * "C:/code/hackru/rutgers_exchange/backend/app/views"
+):
+  app/controllers/user_controller.rb:92:in `authenticate'
+
+
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (2.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (10.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (2.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/missing_template.html.erb within rescues/layout (88.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_markup.html.erb (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/style.css.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/console.js.erb within layouts/javascript (95.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/main.js.erb within layouts/javascript (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/error_page.js.erb within layouts/javascript (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/index.html.erb (203.1ms)
+
+
+Started PUT "/users/auth" for ::1 at 2015-10-03 20:45:42 -0400
+Processing by UserController#authenticate as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"VQNa2SCsdnVBWqlvsFt05veBJRUBg/RReVeLyT/rsdPFtKsikLKosu5vi6erk7BJOxRR0M3JF+o6KMjpouo1+Q==", "username"=>"amg380", "password"=>"[FILTERED]", "commit"=>"Login"}
+  [1m[36mUser Load (1.0ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`username` = 'amg380' LIMIT 1[0m
+Completed 500 Internal Server Error in 207ms (ActiveRecord: 1.0ms)
+
+ActionView::MissingTemplate (Missing template user/authenticate, application/authenticate with {:locale=>[:en], :formats=>[:html], :variants=>[], :handlers=>[:erb, :builder, :raw, :ruby, :coffee, :jbuilder]}. Searched in:
+  * "C:/code/hackru/rutgers_exchange/backend/app/views"
+):
+  app/controllers/user_controller.rb:92:in `authenticate'
+
+
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (2.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (9.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (3.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/missing_template.html.erb within rescues/layout (87.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_markup.html.erb (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/style.css.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/console.js.erb within layouts/javascript (92.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/main.js.erb within layouts/javascript (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/error_page.js.erb within layouts/javascript (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/index.html.erb (190.1ms)
+
+
+Started PUT "/users/auth" for ::1 at 2015-10-03 20:46:09 -0400
+Processing by UserController#authenticate as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"VQNa2SCsdnVBWqlvsFt05veBJRUBg/RReVeLyT/rsdPFtKsikLKosu5vi6erk7BJOxRR0M3JF+o6KMjpouo1+Q==", "username"=>"amg380", "password"=>"[FILTERED]", "commit"=>"Login"}
+  [1m[35mUser Load (0.0ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`username` = 'amg380' LIMIT 1
+Completed 403 Forbidden in 346ms (Views: 1.0ms | ActiveRecord: 108.1ms)
+
+
+Started PUT "/users/auth" for ::1 at 2015-10-03 20:46:14 -0400
+Processing by UserController#authenticate as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"VQNa2SCsdnVBWqlvsFt05veBJRUBg/RReVeLyT/rsdPFtKsikLKosu5vi6erk7BJOxRR0M3JF+o6KMjpouo1+Q==", "username"=>"amg380", "password"=>"[FILTERED]", "commit"=>"Login"}
+  [1m[36mUser Load (1.0ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`username` = 'amg380' LIMIT 1[0m
+Completed 403 Forbidden in 202ms (Views: 1.0ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/users/login" for ::1 at 2015-10-03 20:46:22 -0400
+Processing by UserController#login as HTML
+  Rendered user/login.html.erb within layouts/application (1.0ms)
+Completed 200 OK in 14ms (Views: 12.0ms | ActiveRecord: 0.0ms)
+
+
+Started PUT "/users/auth" for ::1 at 2015-10-03 20:46:42 -0400
+Processing by UserController#authenticate as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"pCRq2JMqUCPoFzzO2bRUnnMsNFgv5VWLmFMqRur5CBY0k5sjIzSO5EciHgbCfJAxv7lAneOvtjDbLGlmd/iMPA==", "username"=>"amg380", "password"=>"[FILTERED]", "commit"=>"Login"}
+  [1m[35mUser Load (1.0ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`username` = 'amg380' LIMIT 1
+Completed 500 Internal Server Error in 208ms (ActiveRecord: 1.0ms)
+
+NameError (undefined local variable or method `userId' for #<SessionService:0x50df5a0 @sessions={}>):
+  app/services/session_service.rb:25:in `create'
+  app/helpers/sessions_helper.rb:28:in `create_session'
+  app/controllers/user_controller.rb:89:in `authenticate'
+
+
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (2.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (7.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (2.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (84.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_markup.html.erb (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/style.css.erb within layouts/inlined_string (2.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/console.js.erb within layouts/javascript (99.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/main.js.erb within layouts/javascript (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/error_page.js.erb within layouts/javascript (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/index.html.erb (203.1ms)
+
+
+Started PUT "/users/auth" for ::1 at 2015-10-03 20:47:27 -0400
+Processing by UserController#authenticate as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"pCRq2JMqUCPoFzzO2bRUnnMsNFgv5VWLmFMqRur5CBY0k5sjIzSO5EciHgbCfJAxv7lAneOvtjDbLGlmd/iMPA==", "username"=>"amg380", "password"=>"[FILTERED]", "commit"=>"Login"}
+  [1m[36mUser Load (1.0ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`username` = 'amg380' LIMIT 1[0m
+Completed 500 Internal Server Error in 335ms (ActiveRecord: 113.1ms)
+
+NameError (undefined local variable or method `userId' for #<SessionService:0x50df5a0 @sessions={}>):
+  app/services/session_service.rb:25:in `create'
+  app/helpers/sessions_helper.rb:28:in `create_session'
+  app/controllers/user_controller.rb:89:in `authenticate'
+
+
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (7.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (3.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (88.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_markup.html.erb (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/style.css.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/console.js.erb within layouts/javascript (83.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/main.js.erb within layouts/javascript (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/error_page.js.erb within layouts/javascript (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/index.html.erb (211.1ms)
+
+
+Started PUT "/users/auth" for ::1 at 2015-10-03 20:47:35 -0400
+Processing by UserController#authenticate as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"pCRq2JMqUCPoFzzO2bRUnnMsNFgv5VWLmFMqRur5CBY0k5sjIzSO5EciHgbCfJAxv7lAneOvtjDbLGlmd/iMPA==", "username"=>"amg380", "password"=>"[FILTERED]", "commit"=>"Login"}
+  [1m[35mUser Load (0.0ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`username` = 'amg380' LIMIT 1
+Completed 500 Internal Server Error in 199ms (ActiveRecord: 0.0ms)
+
+NameError (undefined local variable or method `userId' for #<SessionService:0x50df5a0 @sessions={}>):
+  app/services/session_service.rb:25:in `create'
+  app/helpers/sessions_helper.rb:28:in `create_session'
+  app/controllers/user_controller.rb:89:in `authenticate'
+
+
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (2.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (8.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (2.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (86.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_markup.html.erb (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/console.js.erb within layouts/javascript (87.1ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/main.js.erb within layouts/javascript (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/error_page.js.erb within layouts/javascript (1.0ms)
+  Rendered C:/compilers/ruby21/lib/ruby/gems/2.1.0/gems/web-console-2.2.1/lib/web_console/templates/index.html.erb (204.1ms)
+
+
+Started PUT "/users/auth" for ::1 at 2015-10-03 20:49:38 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Processing by UserController#authenticate as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"pCRq2JMqUCPoFzzO2bRUnnMsNFgv5VWLmFMqRur5CBY0k5sjIzSO5EciHgbCfJAxv7lAneOvtjDbLGlmd/iMPA==", "username"=>"amg380", "password"=>"[FILTERED]", "commit"=>"Login"}
+  [1m[35mUser Load (0.0ms)[0m  SELECT  `users`.* FROM `users` WHERE `users`.`username` = 'amg380' LIMIT 1
+Completed 200 OK in 399ms (Views: 0.0ms | ActiveRecord: 104.1ms)
+
+
+Started PUT "/users/auth" for ::1 at 2015-10-03 20:50:11 -0400
+Processing by UserController#authenticate as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"pCRq2JMqUCPoFzzO2bRUnnMsNFgv5VWLmFMqRur5CBY0k5sjIzSO5EciHgbCfJAxv7lAneOvtjDbLGlmd/iMPA==", "username"=>"amg380", "password"=>"[FILTERED]", "commit"=>"Login"}
+  [1m[36mUser Load (0.0ms)[0m  [1mSELECT  `users`.* FROM `users` WHERE `users`.`username` = 'amg380' LIMIT 1[0m
+Completed 200 OK in 332ms (Views: 1.0ms | ActiveRecord: 99.1ms)

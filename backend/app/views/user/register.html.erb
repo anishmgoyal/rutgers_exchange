@@ -1,0 +1,10 @@
+<%= form_tag('/users', method: :put) do %>
+    <label>Username<br /><%= text_field_tag (:username) %></label>
+    <label>Password<br /><%= password_field_tag (:password) %></label>
+    <label>Confirm Password<br /><%= password_field_tag (:password_confirmation) %></label>
+    <label>First Name<br /><%= text_field_tag (:first_name) %></label>
+    <label>Last Name<br /><%= text_field_tag (:last_name) %></label>
+    <label>Email Address<br /><%= text_field_tag (:email_address) %></label>
+    <label>Phone Number<br /><%= text_field_tag (:phone_number) %></label>
+    <%= submit_tag("Register") %>
+<% end %>

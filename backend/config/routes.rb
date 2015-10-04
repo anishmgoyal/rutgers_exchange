@@ -1,4 +1,18 @@
 Rails.application.routes.draw do
+
+  # User accounts
+  
+  get '/users/register' => 'user#register'
+  get '/users/login' => 'user#login'
+  put '/users/auth' => 'user#authenticate'
+  
+  put '/users' => 'user#create'
+  get '/users' => 'user#read'
+  put '/users/:username' => 'user#authenticate'
+  post '/users/:id' => 'user#update'
+  delete '/users/:id' => 'user#logout'
+  
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

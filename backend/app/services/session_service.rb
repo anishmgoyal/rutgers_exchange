@@ -22,10 +22,11 @@ class SessionService
 			sessionToken = SecureRandom.uuid
 		end
 		
-		session_meta = SessionMeta.new(userId, csrfToken)
+		session_meta = SessionMeta.new(user_id, csrfToken)
 		@sessions[sessionToken] = session_meta
 		
 		return {
+            user_id: user_id,
 			sessionToken: sessionToken,
 			csrfToken: csrfToken
 		}

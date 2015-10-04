@@ -1,12 +1,13 @@
 class User < ActiveRecord::Base
 
 	# Accessor directives
+    attr_accessor :password
 	attr_accessible :username, :password, :confirm_password, :email_address, :phone_number
     
     # Validation
     EMAIL_REGEX = /\A[A-Z0-9._%+-]+@rutgers.edu\z/i
 	validates :username, :presence => true, :uniqueness => true, :length => { :in => 5..20 }
-	validates :email, :presence => true, :uniqueness => true, :format => EMAIL_REGEX
+	validates :email_address, :presence => true, :uniqueness => true, :format => EMAIL_REGEX
 	validates :password, :length => { :in => 7..20 }, :confirmation => true, :unless => :encrypted_password?
 	validates_format_of :username, without: EMAIL_REGEX
 	

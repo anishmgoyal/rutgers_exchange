@@ -1,0 +1,5 @@
+<%= form_tag('/users/auth', method: :put) do %>
+    <label>Username<br /><%= text_field_tag(:username) %></label>
+    <label>Password<br /><%= password_field_tag(:password) %></label>
+    <%= submit_tag("Login") %>
+<% end %>
