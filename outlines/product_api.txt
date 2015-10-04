@@ -10,19 +10,26 @@
         Failure: Fields not filled out, or fields filled out incorrectly.
       STATUS 403 
         Failure: Unauthorized to add product since user not logged in.
+  
+  GET
+    Outputs a list of products based on filters
+    PARAMS: 
+      String Filters
+    RET:
+      STATUS 200
+        Success: list of products
+        Failure: invalid filter
 
-/product/:productname
+/product/:id
   GET
     Gets all the information about the product. Can be used when "searching" for a product.
     PARAMS:
-      String product_id
     RET:
       STATUS 200
         Success: Displays information about product.
       STATUS 404
         Failure: Product not found.
 
-/product/:id
   POST
     Make updates to product information provided online
     PARAMS: 
