@@ -4,6 +4,9 @@ class User < ActiveRecord::Base
     attr_accessor :password
 	attr_accessible :username, :password, :confirm_password, :email_address, :phone_number, :first_name, :last_name
     
+    # Relations
+    has_many :products
+    
     # Validation
     EMAIL_REGEX = /\A[A-Z0-9._%+-]+@rutgers.edu\z/i
     PHONE_REGEX = /\A[0-9]{10}\z/

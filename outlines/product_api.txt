@@ -1,74 +1,84 @@
 /product
 
-  PUT
-    Creates new product.
-    
-    PARAMS:
-      String product_name, String user_id, String type, int price
-    
-    RET:
-    
-      STATUS 200
-        Success: {error: false <boolean>, id: product_id <int>}
-        Failure: {error: true <boolean>, errors: [{field: fieldname <string>, message: validation_message <string>}]}
-        
-      STATUS 403 
-        Failure: Unauthorized to add product since user not logged in.
-  
-  GET
-    Outputs a list of products based on filters up to :products_per_page products, starting on page :page
-    PARAMS: 
-      String Filters
-    RET:
-      STATUS 200
-        Success: list of products
-        Failure: invalid filter
+    PUT
+        Creates new product.
+
+        PARAMS:
+            String product_name, String user_id, String product_type, int price, String description
+
+            NOTE: price is the price without a decimal point. MUST HAVE BOTH DECIMAL DIGITS (E.G. $4.00 must be 400, $3.50 must be 350, $5.97 must be 597)
+
+        RET:
+
+            STATUS 200
+                Success: {error: false <boolean>, id: product_id <int>}
+                Failure: {error: true <boolean>, errors: [{field: fieldname <string>, message: validation_message <string>}]}
+
+            STATUS 403 
+                Failure: Unauthorized to add product since user not logged in.
+
+    GET
+        Outputs a list of products based on filters up to :products_per_page products, starting on page :page.
+        If the app receives a list less than "products_per_page" long, it has reached the last page.
+
+        PARAMS: 
+            int products_per_page, int page
+            
+        RET:
+            STATUS 200
+                Success: {products: [{product_id: product_id <int>, product_name: product_name <string>, product_price: product_price <int>, user: {first_name: first_name <string>, last_name: last_name <string>}}]}
+                Failure: {products: []}
 
 /product/:id
-  GET
-  
-    Gets all the information about the product. Can be used when "searching" for a product.
-    
-    RET:
-    
-      STATUS 200
-        Success: {product_name: product_name <string>, user: {id: user_id <int>, username: username <string>, first_name: first_name <string>, last_name: last_name <string>}, type: type <string>, price: price <int>, sold_status: status <string>}
-        
-      STATUS 404
-        Failure: Product not found.
 
-  POST
-    Make updates to product information provided online
-    
-    PARAMS: 
-      String session_token, String csrf_token, String user_id, [String product_name], [String sold_status], [String type], [int price]
-      // If the user did not modify a certain field, don't send that field to the server.
-      // Make sure that the user did modify at least one field before sending this to the server.
-      
-    RET:
-    
-      STATUS 200
-        Success: {error: false <boolean>, id: product_id <int>}
-        Failure: {error: true <boolean>, errors: [{field: fieldname <string>, message: validation_message <string>}]}
-        
-      STATUS 403
-        Failure: Product could not be modified, since the user_id was not associated with product or user not logged in.
-        
-      STATUS 404
-        Failure: Product could not be modified as it does not exist.
+    GET
 
-  DELETE
-    Deletes the product entirely
-    
-    PARAMS:
-      String user_id, String session_token, String csrf_token
-      
-    RET:
-      STATUS 200
-        Success: Product is deleted.
+        Gets all the information about the product.
         
-      STATUS 403
-        Failure: User is not logged in, thus cannot delete product. 
-        
-      STATUS 404
-        Failure: Product could not be identified, or product is not associated with the user.
+        PARAMS:
+            None (except the id, which was passed in before).
+            YOU can do the permission check on the app side to see if the user id of the app user matches the user id of the person who created the product
+
+        RET:
+
+        STATUS 200
+            Success: {product_name: product_name <string>, user: {id: user_id <int>, username: username <string>, first_name: first_name <string>, last_name: last_name <string>}, product_type: product_type <string>, price: price <int>, sold_status: status <string>, description: description <String>}
+
+        STATUS 404
+            Failure: Product not found.
+
+    POST
+        Make updates to product information provided online
+
+        PARAMS: 
+            String session_token, String csrf_token, String user_id, [String product_name], [String sold_status], [String product_type], [int price], [String description]
+            // If the user did not modify a certain field, don't send that field to the server, OR SET IT TO NULL.
+            // Make sure that the user did modify at least one field before sending this to the server.
+
+        RET:
+
+            STATUS 200
+                Success: {error: false <boolean>, id: product_id <int>}
+                Failure: {error: true <boolean>, errors: [{field: fieldname <string>, message: validation_message <string>}]}
+
+            STATUS 403
+                Failure: Product could not be modified, since the user_id was not associated with product or user not logged in.
+
+            STATUS 404
+                Failure: Product could not be modified as it does not exist.
+
+    DELETE
+        Deletes the product entirely
+
+        PARAMS:
+            String user_id, String session_token, String csrf_token
+
+        RET:
+            STATUS 200
+                Success: Product is deleted.
+
+            STATUS 403
+                Failure: User is not logged in, thus cannot delete product. 
+
+            STATUS 404
+                Failure: Product could not be identified, or product is not associated with the user.

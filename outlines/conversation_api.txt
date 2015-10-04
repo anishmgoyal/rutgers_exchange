@@ -1,0 +1,63 @@
+/conversations
+
+    GET
+        Gets a list of conversations that a user is part of
+        
+        PARAMS:
+            String user_id, String session_token, String csrf_token
+            
+        RET:
+            STATUS 200
+                Success: {conversations: [{user_id: user_id <int>, username: username <string>, first_name: first_name <string>, last_name: last_name <string>, prev_message: prev_message <string>}] }
+                
+            STATUS 403
+                The user is not authenticated. Kill their session on the app.
+                
+    PUT
+        Creates a conversation with a user
+        
+        PARAMS:
+            String user_id, String session_token, String csrf_token, String other_user_id
+            
+        RET:
+            STATUS 200
+                Success: {error: false <boolean>, id: conversation_id <int>}
+                
+            STATUS 403
+                The user is not authenticated. Kill their session on the app.
+                
+            STATUS 404
+                The other user was not found.
+            
+            STATUS 402
+                The current user cannot send a message to the specified user.
+                
+/conversations/:id
+
+    GET
+        Gets a list of up to :messages_per_page messages, starting with the most recent, starting with page :page
+        
+        PARAMS:
+            String user_id, String session_token, String csrf_token, int messages_per_page, int page
+            
+        RET:
+            STATUS 200
+                Success: {messages: [{user_id: user_id <int>, username: username <string>, message: message <string>}, sent_on: sent_on <string>]}
+                
+            STATUS 403
+                The user is not authenticated. Kill their session on the app.
+                
+            STATUS 404
+                Either the conversation doesn't exist, or the user isn't part of it. Just say it doesn't exist.
+                
+    PUT
+        Sends a message in the current conversation
+        
+        PARAMS:
+            String user_id, String session_token, String csrf_token, String message
+            
+        RET:
+            STATUS 200
+                Success: {
+    
+            

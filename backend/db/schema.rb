@@ -11,7 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151003184931) do
+ActiveRecord::Schema.define(version: 20151004090838) do
+
+  create_table "products", force: :cascade do |t|
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "product_name", limit: 255
+    t.integer  "price",        limit: 4
+    t.string   "product_type", limit: 255
+    t.string   "description",  limit: 255
+    t.string   "sold_status",  limit: 255
+    t.integer  "user_id",      limit: 4
+  end
+
+  add_index "products", ["user_id"], name: "index_products_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "username",           limit: 255

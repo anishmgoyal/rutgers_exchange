@@ -1,11 +1,21 @@
 Rails.application.routes.draw do
 
   # User accounts
+  get '/users/login' => 'user#login'
+  put '/users/lgn' => 'user#authenticate'
+  
   put '/users' => 'user#create'
   put '/users/:username' => 'user#authenticate'
   get '/users/:username' => 'user#read'
   post '/users/:id' => 'user#update'
   delete '/users/:username' => 'user#logout'
+  
+  # Products
+  get '/products' => 'product#list'
+  put '/products' => 'product#create'
+  get '/products/:id' => 'product#read'
+  post '/products/:id' => 'product#update'
+  delete '/products:id' => 'product#delete'
   
 
   # The priority is based upon order of creation: first created -> highest priority.
