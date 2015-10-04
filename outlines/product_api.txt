@@ -16,7 +16,7 @@
         Failure: Unauthorized to add product since user not logged in.
   
   GET
-    Outputs a list of products based on filters
+    Outputs a list of products based on filters up to :products_per_page products, starting on page :page
     PARAMS: 
       String Filters
     RET:
