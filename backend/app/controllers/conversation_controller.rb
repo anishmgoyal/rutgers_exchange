@@ -4,6 +4,18 @@ class ConversationController < ApplicationController
     
     before_filter :require_auth
 
+    def test_list
+    
+    end
+    
+    def test_read
+    
+    end
+    
+    def test_update
+    
+    end
+    
     # GET /conversation
     # Gets a list of conversations the current user is a part of
     # See outlines/conversation_api.txt
