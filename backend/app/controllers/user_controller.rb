@@ -34,7 +34,16 @@ class UserController < ApplicationController
 	# PUT /users
 	# Please see /outlines/user_api.txt
 	def create
-		user = User.new(params)
+		user = User.new()
+        
+        user.username = params[:username]
+        user.password = params[:password]
+        user.password_confirmation = params[:password_confirmation]
+        user.email_address = params[:email_address]
+        user.phone_number = params[:phone_number]
+        user.first_name = params[:first_name]
+        user.last_name = params[:last_name]
+        
 		if user.save()
 			payload = {
 				error: false,
