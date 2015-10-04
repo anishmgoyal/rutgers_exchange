@@ -1,0 +1,105 @@
+/offers
+
+    PUT
+        Creates an offer. Once this is accepted, the server automatically generates a conversation between the two users.
+        
+        PARAMS:
+            String user_id, String session_token, String csrf_token, String product_id, int price
+            //Again, price is price multiplied by 100, so it shouldn't have a decimal.
+            
+        RET:
+            STATUS 200
+                Success: {error: false <boolean>, id: offer_id <int>}
+                Failure: {error: true <boolean>, errors: [{field: fieldname <string>, message: validation_message <string>}]}
+                
+            STATUS 403
+                The user is not logged in.
+            
+    GET
+        Gets information about the pending offers for a user, or offers a user has made
+        
+        PARAMS:
+            String user_id, String session_token, String csrf_token, boolean includeOffersMadeByCurrentUser, boolean includeOffersMadeByOtherUsers, [String product_id]
+            // if product id is specified, this method will return only offers for a specific product
+            // a user can see: all offers made on products they are selling, any offers they have made towards other products.
+            
+        RET:
+            STATUS 200
+                Success: {offers: [{offer_id: offer_id <int>, product_name: product_name <string>, user: {first_name: first_name <string>, last_name: last_name <string>}, price: price <int>}]}
+            
+            STATUS 403
+                The user is not logged in.
+                
+            STATUS 404
+                If product id is specified, but does not exist.
+            
+/offers/:id
+
+    GET
+        Gets information about an offer. Should be viewable by the creator of the product the offer is for.
+        
+        PARAMS:
+            String user_id, String session_token, String csrf_token
+            
+        RET:
+            STATUS 200
+                Success: {offer_id: offer_id <int>, product: {product_id: product_id <int>, product_name: product_name <string>, product_type: product_type <string>, product_sold_status: product_sold_status <string>, price: price <int>, description: description <string>}, price: price <int>}
+            
+            STATUS 402
+                The user is neither the buyer or seller.
+            
+            STATUS 403
+                The user is not logged in.
+                
+            STATUS 404
+                The offer could not be found.
+
+    POST
+        Accepts an offer. Marks the product status as "SOLD_IN_TRANSACTION"
+        
+        PARAMS:
+            String user_id, String session_token, String csrf_token
+            
+        RET:
+            STATUS 200
+                Success: { conversationId: conversationId <string> }
+                
+            STATUS 402
+                The user is not authorized to make this request. (Doesn't own the product being sold)
+                
+            STATUS 403
+                The user is not logged in.
+            
+    DELETE
+        Revokes, rejects, or backs out of an offer for any reason. Deletes the corresponding conversation, sets product status as "SOLD_NOT_SOLD"
+        
+        PARAMS:
+            String user_id, String session_token, String csrf_token
+            
+        RET:
+            STATUS 200
+                Success
+                
+            STATUS 402
+                The user is neither the buyer or seller.
+                
+            STATUS 403
+                The user is not logged in.
+                
+/offers/complete/:id
+
+    POST
+        Completes a transaction. Marks the product status as "SOLD_SOLD"
+        
+        PARAMS:
+            String user_id, String session_token, String csrf_token.
+    
+        RET:
+            STATUS 200
+                Success
+                
+            STATUS 402
+                The user is not authorized to make this request. (Doesn't own the product being sold)
+            
+            STATUS 403
+                The user is not logged in.
