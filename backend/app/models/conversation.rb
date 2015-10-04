@@ -5,5 +5,13 @@ class Conversation < ActiveRecord::Base
     belongs_to :seller, class_name: "User", foreign_key: "seller_id"
     belongs_to :offer
     has_many :messages
+    
+    before_destroy :delete_messages
+    
+    def delete_messages
+        self.messages.each do |message|
+            message.destroy
+        end
+    end
 
 end

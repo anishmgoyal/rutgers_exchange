@@ -8,47 +8,61 @@
             
         RET:
             STATUS 200
-                Success: {conversations: [{user_id: user_id <int>, username: username <string>, first_name: first_name <string>, last_name: last_name <string>, prev_message: prev_message <string>}] }
+                Success: {conversations: [{user_id_of_other: user_id_of_other <int>, username: username_of_other <string>, first_name_of_other: first_name_of_other <string>, last_name_of_other: last_name_of_other <string>, is_seller: is_seller <boolean>, prev_message: {message: message <string>, date_sent: date_sent <string>}] }
                 
             STATUS 403
                 The user is not authenticated. Kill their session on the app.
-                
-    PUT
-        Creates a conversation with a user
-        
-        PARAMS:
-            String user_id, String session_token, String csrf_token, String other_user_id
-            
-        RET:
-            STATUS 200
-                Success: {error: false <boolean>, id: conversation_id <int>}
-                
-            STATUS 403
-                The user is not authenticated. Kill their session on the app.
-                
-            STATUS 404
-                The other user was not found.
-            
-            STATUS 402
-                The current user cannot send a message to the specified user.
+
                 
 /conversations/:id
 
     GET
-        Gets a list of up to :messages_per_page messages, starting with the most recent, starting with page :page
+        Gets a list of up to :messages_per_page messages, starting with the most recent, starting with page :page, as well as some info about the
+        associated product and offer
         
         PARAMS:
             String user_id, String session_token, String csrf_token, int messages_per_page, int page
             
         RET:
             STATUS 200
-                Success: {messages: [{user_id: user_id <int>, username: username <string>, message: message <string>}, sent_on: sent_on <string>]}
+                Success: {
+                             seller: {
+                                 user_id: user_id,
+                                 username: username,
+                                 first_name: first_name,
+                                 last_name: last_name
+                             },
+                             buyer: {
+                                 user_id: user_id,
+                                 username: username,
+                                 first_name: first_name,
+                                 last_name: last_name
+                             },
+                             product: {
+                                 product_id: product_id,
+                                 product_name: product_name,
+                                 price: price,
+                                 product_type: product_type
+                             },
+                             offer: {
+                                 offer_id: offer_id,
+                                 price: price
+                             },
+                             messages: {
+                                 user_id: user_id_of_sender,
+                                 message: message,
+                                 date_sent: date_sent
+                             }
+                         }
+                
+            STATUS 472
+                The user is not part of the conversation.
                 
             STATUS 403
                 The user is not authenticated. Kill their session on the app.
                 
             STATUS 404
-                Either the conversation doesn't exist, or the user isn't part of it. Just say it doesn't exist.
+                The conversation doesn't exist.
                 
     PUT
         Sends a message in the current conversation
@@ -58,6 +72,15 @@
             
         RET:
             STATUS 200
-                Success: {
+                Success: {error: false <boolean>, id: message_id <int>}
+                Failure: {error: true <boolean>, messages: [{field: fieldname <string>, message: validation_message <string>}]}
     
+            STATUS 472
+                The user is not associated with the conversation
+                
+            STATUS 403
+                The user is not logged in
+                
+            STATUS 404
+                The conversation does not exist.
             

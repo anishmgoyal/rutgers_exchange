@@ -12,10 +12,10 @@
                 Success: {error: false <boolean>, id: offer_id <int>}
                 Failure: {error: true <boolean>, errors: [{field: fieldname <string>, message: validation_message <string>}]}
                 
-            STATUS 401
+            STATUS 471
                 The user has already created an offer for this product, and must delete it before creating another one.
                 
-            STATUS 402
+            STATUS 472
                 The user owns this product, and cannot make an offer to him/herself.
                 
             STATUS 403
@@ -54,7 +54,7 @@
             STATUS 200
                 Success: {offer_id: offer_id <int>, product: {product_id: product_id <int>, product_name: product_name <string>, product_type: product_type <string>, product_sold_status: product_sold_status <string>, price: price <int>, description: description <string>}, price: price <int>}
             
-            STATUS 402
+            STATUS 472
                 The user is neither the buyer or seller.
             
             STATUS 403
@@ -73,10 +73,10 @@
             STATUS 200
                 Success: { conversation_id: conversation_id <string> }
                 
-            STATUS 401
+            STATUS 471
                 This offer has already been accepted.
                 
-            STATUS 402
+            STATUS 472
                 The user is not authorized to make this request. (Doesn't own the product being sold)
                 
             STATUS 403
@@ -92,7 +92,7 @@
             STATUS 200
                 Success
                 
-            STATUS 402
+            STATUS 472
                 The user is neither the buyer or seller.
                 
             STATUS 403
@@ -110,7 +110,7 @@
             STATUS 200
                 Success
                 
-            STATUS 402
+            STATUS 472
                 The user is not authorized to make this request. (Doesn't own the product being sold)
             
             STATUS 403
