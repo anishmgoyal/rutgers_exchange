@@ -12,14 +12,23 @@
                 Success: {error: false <boolean>, id: offer_id <int>}
                 Failure: {error: true <boolean>, errors: [{field: fieldname <string>, message: validation_message <string>}]}
                 
+            STATUS 401
+                The user has already created an offer for this product, and must delete it before creating another one.
+                
+            STATUS 402
+                The user owns this product, and cannot make an offer to him/herself.
+                
             STATUS 403
                 The user is not logged in.
+                
+            STATUS 404
+                The product does not exist.
             
     GET
         Gets information about the pending offers for a user, or offers a user has made
         
         PARAMS:
-            String user_id, String session_token, String csrf_token, boolean includeOffersMadeByCurrentUser, boolean includeOffersMadeByOtherUsers, [String product_id]
+            String user_id, String session_token, String csrf_token, boolean include_offers_made_by_current_user, boolean include_offers_made_by_other_users, [String product_id]
             // if product id is specified, this method will return only offers for a specific product
             // a user can see: all offers made on products they are selling, any offers they have made towards other products.
             
@@ -55,14 +64,17 @@
                 The offer could not be found.
 
     POST
-        Accepts an offer. Marks the product status as "SOLD_IN_TRANSACTION"
+        Accepts an offer. Marks the product status as "SOLD_IN_TRANSACTION", creates a conversation between buyer and seller
         
         PARAMS:
             String user_id, String session_token, String csrf_token
             
         RET:
             STATUS 200
-                Success: { conversationId: conversationId <string> }
+                Success: { conversation_id: conversation_id <string> }
+                
+            STATUS 401
+                This offer has already been accepted.
                 
             STATUS 402
                 The user is not authorized to make this request. (Doesn't own the product being sold)

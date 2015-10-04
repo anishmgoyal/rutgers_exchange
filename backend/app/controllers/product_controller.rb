@@ -44,19 +44,21 @@ class ProductController < ApplicationController
         params[:page] ||= 1
         offset = (params[:page].to_i - 1) * params[:products_per_page].to_i
     
-        products = Product.limit(params[:products_per_page].to_i).offset(offset).all
+        products = Product.where(sold_status: "SOLD_NOT_SOLD").limit(params[:products_per_page].to_i).offset(offset).all
         products_for_json = []
         products.each do |product|
-            product_for_json = {
-                product_id: product.id,
-                product_name: product.product_name,
-                product_price: product.price,
-                user: {
-                    first_name: product.user.first_name,
-                    last_name: product.user.last_name
+            if product.user_id != @current_user.id
+                product_for_json = {
+                    product_id: product.id,
+                    product_name: product.product_name,
+                    product_price: product.price,
+                    user: {
+                        first_name: product.user.first_name,
+                        last_name: product.user.last_name
+                    }
                 }
-            }
-            products_for_json << product_for_json
+                products_for_json << product_for_json
+            end
         end
         payload = {products: products_for_json}
         render status: 200, json: payload
@@ -77,7 +79,7 @@ class ProductController < ApplicationController
                 },
                 product_type: product.product_type,
                 price: product.price,
-                status: product.sold_status,
+                sold_status: product.sold_status,
                 description: product.description
             }
             render status: 200, json: payload
