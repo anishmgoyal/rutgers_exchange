@@ -2,7 +2,7 @@ class ConversationController < ApplicationController
 
     include SessionsHelper
     
-    before_filter :require_auth
+    before_filter :require_auth, except: [:test_list, :test_read, :test_update]
 
     def test_list
     
@@ -21,7 +21,7 @@ class ConversationController < ApplicationController
     # See outlines/conversation_api.txt
     def list
         convos_for_json = []
-        conversations = @current_user.conversations
+        conversations = (Conversation.where(buyer_id: @current_user.id).all + Conversation.where(seller_id: @current_user.id).all).sort_by(&:created_at)
         conversations.each do |conversation|
             other_user = conversation.seller
             is_seller = false
@@ -30,8 +30,8 @@ class ConversationController < ApplicationController
                 is_seller = true
             end
             prev_message = conversation.messages.last
-            prev_message_message = prev_message?.message
-            prev_message_sent_on = prev_message?.created_on
+            prev_message_message = prev_message.message if prev_message
+            prev_message_sent_on = prev_message.created_on if prev_message
             convo_for_json = {
                 user_id_of_other: other_user.id,
                 username_of_other: other_user.username,
@@ -60,20 +60,20 @@ class ConversationController < ApplicationController
                 params[:page] ||= 1
                 offset = (params[:page] - 1) * params[:messages_per_page]
             
-                message_ids = conversation.messages_singular_ids
+                message_ids = conversation.message_ids
                 
-                messages.where(id: message_ids)
+                messages = Message.where(id: message_ids)
                         .limit(params[:messages_per_page])
                         .offset(offset)
                         .order(created_at: :desc)
                         .all
                 
                 messages_for_json = []
-                messages.each do |message|
+                messages.reverse_each do |message|
                     messages_for_json << {
                         user_id: message.user_id,
                         message: message.message,
-                        date_sent: message.created_on
+                        date_sent: message.created_at
                     }
                 end
                 payload = {

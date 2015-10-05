@@ -2,7 +2,7 @@ class OfferController < ApplicationController
 
     include SessionsHelper
     
-    before_filter :require_auth
+    before_filter :require_auth, except: [:test_create, :test_list, :test_read, :test_update, :test_delete, :test_commit]
     
     def test_create
     
@@ -38,27 +38,31 @@ class OfferController < ApplicationController
         product = Product.find(params[:product_id])
         if product
             if product.user.id != @current_user.id
-                offer = Offer.new
-                offer.user = @current_user
-                offer.price = params[:price]
-                offer.status = "OFFER_OFFERED"
-                offer.product = product
-                if offer.save()
-                    payload = {
-                        error: false,
-                        id: offer.id
-                    }
-                    render status: 200, json: payload
-                else
-                    errors = []
-                    offer.errors.keys.each do |key|
-                        errors << {field: key, message: offer.errors.full_messages_for(key).first}
+                if product.sold_status != Product.SOLD_SOLD
+                    offer = Offer.new
+                    offer.user = @current_user
+                    offer.price = params[:price]
+                    offer.offer_status = Offer.OFFER_OFFERED
+                    offer.product = product
+                    if offer.save()
+                        payload = {
+                            error: false,
+                            id: offer.id
+                        }
+                        render status: 200, json: payload
+                    else
+                        errors = []
+                        offer.errors.keys.each do |key|
+                            errors << {field: key, message: offer.errors.full_messages_for(key).first}
+                        end
+                        payload = {
+                            error: true,
+                            errors: errors
+                        }
+                        render status: 200, json: payload
                     end
-                    payload = {
-                        error: true,
-                        errors: errors
-                    }
-                    render status: 200, json: payload
+                else
+                    render status: 473, json: {error: true}
                 end
             else
                 render status: 472, json: {error: true}
@@ -166,21 +170,21 @@ class OfferController < ApplicationController
     # POST /offers/:id
     # See outlines/offer_api.txt
     def update
-        offer = offer.find(params[:id])
-        if offer
+        offer = Offer.find(params[:id])
+        if offer    
             if offer.product.user.id == @current_user.id
-                if offer.status == "OFFER_OFFERED"
+                if offer.offer_status == Offer.OFFER_OFFERED
                     conversation = Conversation.new
                     conversation.seller = @current_user
                     conversation.buyer = offer.user
                     conversation.offer = offer
                     conversation.save()
                     
-                    offer.status = "OFFER_ACCEPTED"
-                    offer.conversation = conversation
+                    offer.offer_status = Offer.OFFER_ACCEPTED
+                    offer.conversation_id = conversation.id
                     offer.save()
                     
-                    offer.product.status = "SOLD_IN_TRANSACTION"
+                    offer.product.sold_status = Product.SOLD_IN_TRANSACTION
                     offer.product.save()
                     
                     render status: 200, json: {conversation_id: conversation.id}
@@ -214,15 +218,28 @@ class OfferController < ApplicationController
     # POST /offers/complete/:id
     # See outlines/offer_api.txt
     def commit
-        conversation = offer.conversation
-        conversation.destroy
-        
-        product = offer.product
-        product.sold_status = "SOLD_SOLD"
-        product.save
-        
-        offer.status = "OFFER_COMPLETED"
-        offer.save
+        offer = Offer.find(params[:id])
+        if offer
+            if offer.product.user_id == @current_user.id
+                if offer.offer_status != Offer.OFFER_COMPLETED
+                    conversation = offer.conversation
+                    conversation.destroy
+                    
+                    product = offer.product
+                    product.sold_status = Product.SOLD_SOLD
+                    product.save
+                    
+                    offer.offer_status = Offer.OFFER_COMPLETED
+                    offer.save
+                    render status: 200, json: {error: false, id: offer.id}
+                else
+                    render status: 471, json: {error: true}
+            else
+                render status: 472, json: {error: true}
+            end
+        else
+            render status: 404, json: {error: true}
+        end
     end
 
 end

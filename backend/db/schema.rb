@@ -11,7 +11,41 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151004090838) do
+ActiveRecord::Schema.define(version: 20151004152810) do
+
+  create_table "conversations", force: :cascade do |t|
+    t.integer  "seller_id",  limit: 4
+    t.integer  "buyer_id",   limit: 4
+    t.integer  "offer_id",   limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "conversations", ["buyer_id"], name: "index_conversations_on_buyer_id", using: :btree
+  add_index "conversations", ["seller_id"], name: "index_conversations_on_seller_id", using: :btree
+
+  create_table "messages", force: :cascade do |t|
+    t.integer  "user_id",         limit: 4
+    t.integer  "conversation_id", limit: 4
+    t.string   "message",         limit: 255
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  add_index "messages", ["conversation_id"], name: "index_messages_on_conversation_id", using: :btree
+
+  create_table "offers", force: :cascade do |t|
+    t.integer  "user_id",         limit: 4
+    t.integer  "product_id",      limit: 4
+    t.integer  "conversation_id", limit: 4
+    t.integer  "price",           limit: 4
+    t.string   "offer_status",    limit: 255
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  add_index "offers", ["product_id"], name: "index_offers_on_product_id", using: :btree
+  add_index "offers", ["user_id"], name: "index_offers_on_user_id", using: :btree
 
   create_table "products", force: :cascade do |t|
     t.datetime "created_at",               null: false

@@ -38,7 +38,7 @@ Rails.application.routes.draw do
   get '/conversations/testupdate' => 'conversation#test_update'
   get '/conversations/testread' => 'conversation#test_read'
   post '/conversations/send' => 'conversation#update'
-  get '/conversations/list' => 'conversation#list'
+  get '/conversations/list' => 'conversation#read'
   
 
   # The priority is based upon order of creation: first created -> highest priority.

@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
     # Relations
     has_many :products
     has_many :offers
+    has_many :conversations
     
     # Validation
     EMAIL_REGEX = /\A[A-Z0-9._%+-]+@rutgers.edu\z/i
