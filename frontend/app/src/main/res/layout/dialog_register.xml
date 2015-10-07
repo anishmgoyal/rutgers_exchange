@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_centerInParent="true"
+              android:orientation="vertical"
+              android:paddingLeft="10dp"
+              android:paddingRight="10dp">
+
+    <EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:id="@+id/register_dialog_username"
+        style="@style/register_dialog_item_theme"
+        android:layout_marginTop="8dp"
+        android:hint="@string/username_hint"/>
+    <EditText
+        android:id="@+id/register_dialog_firstname"
+        style="@style/register_dialog_item_theme"
+        android:hint="@string/firstname_hint"
+        android:inputType="textPersonName"/>
+    <EditText
+        android:id="@+id/register_dialog_lastname"
+        style="@style/register_dialog_item_theme"
+        android:hint="@string/lastname_hint"
+        android:inputType="textPersonName"/>
+    <EditText
+        android:id="@+id/register_dialog_email_text"
+        style="@style/register_dialog_item_theme"
+        android:hint="@string/login_hint"
+        android:inputType="textEmailAddress"/>
+    <EditText
+        android:id="@+id/register_dialog_passwd_text"
+        style="@style/register_dialog_item_theme"
+        android:hint="@string/passwd_hint"
+        android:inputType="textPassword"
+        />
+    <EditText
+        android:id="@+id/register_dialog_passwd_confirm_text"
+        style="@style/register_dialog_item_theme"
+        android:hint="@string/confirm_passwd_hint"
+        android:inputType="textPassword"/>
+    <EditText
+        android:id="@+id/register_dialog_numbr_text"
+        style="@style/register_dialog_item_theme"
+        android:hint="@string/phone_numbr_hint"
+        android:inputType="phone"/>
+
+</LinearLayout>
