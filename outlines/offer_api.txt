@@ -18,6 +18,9 @@
             STATUS 472
                 The user owns this product, and cannot make an offer to him/herself.
                 
+            STATUS 473
+                The product has already been sold
+                
             STATUS 403
                 The user is not logged in.
                 
