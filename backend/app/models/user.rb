@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
     validates :last_name, presence: true
     validates :phone_number, presence: true, format: PHONE_REGEX
 	validates_format_of :username, without: EMAIL_REGEX
-	validates_presence_of :password_confirmation, :if => :password_changed?
+	validates_presence_of :password_confirmation, :unless => lambda { |user| user.password.blank? }
 	
 	# Saving protocols
 	before_save :encrypt_password
