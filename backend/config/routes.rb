@@ -17,14 +17,7 @@ Rails.application.routes.draw do
   post '/products/:id' => 'product#update'
   delete '/products:id' => 'product#delete'
   
-  # Test offers
-  get '/offers/testlist' => 'offer#test_list'
-  get '/offers/testread' => 'offer#test_read'
-  get '/offers/testcreate' => 'offer#test_create'
-  get '/offers/testupdate' => 'offer#test_update'
-  get '/offers/testdelete' => 'offer#test_delete'
-  get '/offers/testcommit' => 'offer#test_commit'
-  
+  # Offers
   delete '/offers/delete' => 'offer#delete'
   post '/offers/complete' => 'offer#commit'
   get '/offers/list' => 'offer#list'
@@ -32,13 +25,10 @@ Rails.application.routes.draw do
   get '/offers/get' => 'offer#read'
   post '/offers/update' => 'offer#update'
   
-  # Test conversations
+  # Conversations
   get '/conversations' => 'conversation#list'
-  get '/conversations/testlist' => 'conversation#test_list'
-  get '/conversations/testupdate' => 'conversation#test_update'
-  get '/conversations/testread' => 'conversation#test_read'
-  post '/conversations/send' => 'conversation#update'
-  get '/conversations/list' => 'conversation#read'
+  post '/conversations/:id' => 'conversation#update'
+  get '/conversations/:id' => 'conversation#read'
   
 
   # The priority is based upon order of creation: first created -> highest priority.

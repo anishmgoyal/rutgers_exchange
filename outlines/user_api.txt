@@ -63,7 +63,7 @@
 		RET:
 			STATUS 200
 				Success: {error: false, user_id: user_id}
-				Failure: {error: true, errors: [{fieldname: value}, ...]}
+				Failure: {error: true, errors: [{fieldname: fieldname <string>, message: errormessage <string>}, ...]}
 			
 			STATUS 403
 				Invalid session information. Inform the user that they are not logged in.
