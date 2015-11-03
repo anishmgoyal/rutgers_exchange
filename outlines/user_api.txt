@@ -1,4 +1,4 @@
-/user
+/users
 
 	PUT
 		Creates a new user.
@@ -15,7 +15,7 @@
                                                   "message" is the error that occurred (e.g. invalid email address). print this
                                                     next to the field.
 	
-/user/:username
+/users/:username
 
 	PUT
 		Authenticates a user AND creates a session, and if successful, returns the information about the user's session.
@@ -30,7 +30,7 @@
 			STATUS 403
 				Failure: Display "Invalid username or password"
 				
-/user/:id				//id is the userId
+/users/:id				//id is the userId
 
 	GET
 		Gets all information associated with a user. Can be used to get information about another user, or to get information about the current user.
@@ -88,14 +88,14 @@
 			STATUS 404
 				Session does not exist. Inform the user that they are not logged in.
 	
-/user/activate/:username
+/users/activate/:username
 		
 	Not yet implemented
 	
-/user/deactivate
+/users/deactivate
 
 	Not yet implemented.
 	
-/user/forgotpassword
+/users/forgotpassword
 
 	Not yet implemented.

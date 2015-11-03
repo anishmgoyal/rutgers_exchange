@@ -1,14 +1,14 @@
 /conversations
 
     GET
-        Gets a list of conversations that a user is part of
+        Gets a list of conversations that a user is part of with unread counts
         
         PARAMS:
             String user_id, String session_token, String csrf_token
             
         RET:
             STATUS 200
-                Success: {conversations: [{user_id_of_other: user_id_of_other <int>, username: username_of_other <string>, first_name_of_other: first_name_of_other <string>, last_name_of_other: last_name_of_other <string>, is_seller: is_seller <boolean>, prev_message: {message: message <string>, date_sent: date_sent <string>}] }
+                Success: {conversations: [{user_id_of_other: user_id_of_other <int>, username: username_of_other <string>, first_name_of_other: first_name_of_other <string>, last_name_of_other: last_name_of_other <string>, is_seller: is_seller <boolean>, prev_message: {message: message <string>, date_sent: date_sent <string>}, unread_count: unread_count <int>] }
                 
             STATUS 403
                 The user is not authenticated. Kill their session on the app.
@@ -18,7 +18,7 @@
 
     GET
         Gets a list of up to :messages_per_page messages, starting with the most recent, starting with page :page, as well as some info about the
-        associated product and offer
+        associated product and offer. Also marks all of the retrieved messages read.
         
         PARAMS:
             String user_id, String session_token, String csrf_token, int messages_per_page, int page
@@ -51,6 +51,7 @@
                              messages: {
                                  user_id: user_id_of_sender,
                                  message: message,
+								 read: true_if_read_false_if_not,
                                  date_sent: date_sent
                              }
                          }
