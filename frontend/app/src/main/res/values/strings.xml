@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">RutgersExchange</string>
+    <string name="title_activity_login">LoginActivity</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!--Login Activity Strings-->
+    <string name="login_hint">Rutgers E-mail</string>
+    <string name="passwd_hint">Password</string>
+    <string name="username_hint">Username</string>
+    <string name="register">register</string>
+    <string name="or">or</string>
+
+    <!--Register Dialog Strings-->
+    <string name="phone_numbr_hint">(732)-xxx-xxx</string>
+    <string name="firstname_hint">First Name</string>
+    <string name="lastname_hint">Last Name</string>
+    <string name="confirm_passwd_hint">Confirm Password</string>
+    <string name="register_dialog_title">Rutgers Exchange Registration</string>
+    <!-- Drawer menu strings -->
+    <string name="drawer_menu_username">Username Placeholder</string>
+    <string name="drawer_menu_1_title">Drawer title 1</string>
+    <string name="drawer_menu_2_title">Drawer title 2</string>
+    <string name="drawer_menu_3_title">Drawer title 3</string>
+    <string name="drawer_menu_4_title">Drawer title 4</string>
+    <string name="title_activity_main">MainActivity</string>
+</resources>
