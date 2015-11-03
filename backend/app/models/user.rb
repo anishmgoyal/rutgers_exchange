@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
 
 	# Accessor directives
     attr_accessor :password
-	attr_accessible :username, :password, :confirm_password, :email_address, :phone_number, :first_name, :last_name
+	attr_accessible :username, :password, :password_confirmation, :email_address, :phone_number, :first_name, :last_name
     
     # Relations
     has_many :products
@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
     validates :last_name, presence: true
     validates :phone_number, presence: true, format: PHONE_REGEX
 	validates_format_of :username, without: EMAIL_REGEX
+	validates_presence_of :password_confirmation, :if => :password_changed?
 	
 	# Saving protocols
 	before_save :encrypt_password
