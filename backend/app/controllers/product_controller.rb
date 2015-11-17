@@ -67,7 +67,7 @@ class ProductController < ApplicationController
     # GET /product:id
     # Please see /outlines/product_api.txt
     def read
-        product = Product.find(params[:id])
+        product = Product.find_by_id(params[:id])
         if product
             payload = {
                 product_name: product.product_name,
@@ -91,7 +91,7 @@ class ProductController < ApplicationController
     # POST /product/:id
     # Please see /outlines/product_api.txt
     def update
-        product = Product.find(params[:id])
+        product = Product.find_by_id(params[:id])
         if product
             if @current_user.id == product.user.id
             
@@ -129,7 +129,7 @@ class ProductController < ApplicationController
     # DELETE /product/:id
     # Please see /outlines/product_api.txt
     def delete
-        product = Product.find(params[:id])
+        product = Product.find_by_id(params[:id])
         if product
             if @current_user.id == product.user.id
                 product.destroy
