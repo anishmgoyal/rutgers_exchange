@@ -19,7 +19,7 @@ class Product < ActiveRecord::Base
     validates :product_name, presence: true
     validates :product_type, presence: true
     validates :price, presence: true, format: PRICE_REGEX
-    validates :sold_status, presence: true, in: @@SOLD_STATUS
+    validates :sold_status, presence: true, inclusion: { in: @@SOLD_STATUS }
     
     before_destroy :delete_offers
     
