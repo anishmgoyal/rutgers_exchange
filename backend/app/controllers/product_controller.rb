@@ -44,7 +44,7 @@ class ProductController < ApplicationController
         params[:page] ||= 1
         offset = (params[:page].to_i - 1) * params[:products_per_page].to_i
 		
-		criteria = {sold_status: PRODUCT.SOLD_NOT_SOLD}
+		criteria = {sold_status: Product.SOLD_NOT_SOLD}
 		criteria[:username] = params[:username] if params[:username]
     
         products = Product.where(criteria).limit(params[:products_per_page].to_i).offset(offset).all
