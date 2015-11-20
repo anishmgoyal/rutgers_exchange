@@ -55,7 +55,8 @@ class ProductController < ApplicationController
                     user: {
                         first_name: product.user.first_name,
                         last_name: product.user.last_name
-                    }
+                    },
+					created_at: product.created_at
                 }
                 products_for_json << product_for_json
             end
@@ -80,7 +81,8 @@ class ProductController < ApplicationController
                 product_type: product.product_type,
                 price: product.price,
                 sold_status: product.sold_status,
-                description: product.description
+                description: product.description,
+				created_at: product.created_at
             }
             render status: 200, json: payload
         else
