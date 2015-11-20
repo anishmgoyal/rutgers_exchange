@@ -23,10 +23,10 @@ class Product < ActiveRecord::Base
     
     before_destroy :delete_offers
     
-    def delete_offers
-        offers.each do |offer|
-            offer.destroy
-        end
-    end
+    # Static Getters
+	class << self
+		attr_accessor :SOLD_NOT_SOLD
+		attr_accessor :SOLD_IN_TRANSACTION
+		attr_accessor :SOLD_SOLD
 
 end
