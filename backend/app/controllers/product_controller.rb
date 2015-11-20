@@ -47,13 +47,14 @@ class ProductController < ApplicationController
 		criteria = {sold_status: Product.SOLD_NOT_SOLD}
 		if params[:username]
 			criteria_user = User.find_by_username params[:username]
-			criteria[:user_id] = criteria_user.id
+			criteria[:user_id] = criteria_user.id if criteria_user
+			criteria[:user_id] ||= 0
 		end
     
         products = Product.where(criteria).limit(params[:products_per_page].to_i).offset(offset).all
         products_for_json = []
         products.each do |product|
-            if product.user_id != @current_user.id
+            if !@current_user || product.user_id != @current_user.id
                 product_for_json = {
                     product_id: product.id,
                     product_name: product.product_name,
