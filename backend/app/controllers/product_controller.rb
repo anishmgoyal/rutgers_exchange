@@ -56,7 +56,7 @@ class ProductController < ApplicationController
                         first_name: product.user.first_name,
                         last_name: product.user.last_name
                     },
-					created_at: product.created_at
+					created_at: product.created_at.strftime("%-m/%-d/%Y")
                 }
                 products_for_json << product_for_json
             end
@@ -82,7 +82,7 @@ class ProductController < ApplicationController
                 price: product.price,
                 sold_status: product.sold_status,
                 description: product.description,
-				created_at: product.created_at
+				created_at: product.created_at.strftime("%-m/%-d/%Y")
             }
             render status: 200, json: payload
         else
