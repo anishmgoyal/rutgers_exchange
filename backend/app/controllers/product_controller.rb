@@ -43,8 +43,11 @@ class ProductController < ApplicationController
         params[:products_per_page] ||= 10
         params[:page] ||= 1
         offset = (params[:page].to_i - 1) * params[:products_per_page].to_i
+		
+		criteria = {sold_status: PRODUCT.SOLD_NOT_SOLD}
+		criteria[:username] = params[:username] if params[:username]
     
-        products = Product.where(sold_status: PRODUCT.SOLD_NOT_SOLD).limit(params[:products_per_page].to_i).offset(offset).all
+        products = Product.where(criteria).limit(params[:products_per_page].to_i).offset(offset).all
         products_for_json = []
         products.each do |product|
             if product.user_id != @current_user.id
