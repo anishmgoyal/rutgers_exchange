@@ -48,7 +48,7 @@ class ProductController < ApplicationController
 		if params[:username]
 			criteria_user = User.find_by_username params[:username]
 			criteria[:user_id] = criteria_user.id if criteria_user
-			criteria[:user_id] ||= 0
+			# criteria[:user_id] ||= 0
 		end
     
         products = Product.where(criteria).limit(params[:products_per_page].to_i).offset(offset).all
