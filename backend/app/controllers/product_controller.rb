@@ -128,7 +128,7 @@ class ProductController < ApplicationController
                     render status: 200, json: payload
                 end
             else
-                render status: 403, json: {error: true}
+                render status: 473, json: {error: true}
             end
         else
             render status: 404, json: {error: true}
@@ -144,7 +144,7 @@ class ProductController < ApplicationController
                 product.destroy
                 render status: 200, json: {error: false}
             else
-                render status: 403, json: {error: true}
+                render status: 473, json: {error: true}
             end
         else
             render status: 404, json: {error: true}

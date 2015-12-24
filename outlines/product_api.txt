@@ -67,6 +67,9 @@
             STATUS 404
                 Failure: Product could not be modified as it does not exist.
 
+            STATUS 473
+                Failure: The user does not own the specified product / doesn't have permission to modify the specified product
+
     DELETE
         Deletes the product entirely
 
@@ -81,4 +84,7 @@
                 Failure: User is not logged in, thus cannot delete product. 
 
             STATUS 404
-                Failure: Product could not be identified, or product is not associated with the user.
+                Failure: Product could not be identified.
+
+            STATUS 473
+                Failure: User does not own the product / doesn't have permission to delete the specified product
