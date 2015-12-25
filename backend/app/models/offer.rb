@@ -17,7 +17,7 @@ class Offer < ActiveRecord::Base
     # Validation
     PRICE_REGEX = /\A[0-9]{3,}\z/
     validates :price, presence: true, format: PRICE_REGEX
-    validates :offer_status, presence: true, in: @@OFFER_STATUS
+    validates :offer_status, presence: true, inclusion: { in: @@OFFER_STATUS }
     
     before_destroy :reset_product_status
     before_destroy :delete_conversation

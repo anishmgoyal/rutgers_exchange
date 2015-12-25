@@ -15,7 +15,7 @@ class Product < ActiveRecord::Base
     @@SOLD_STATUS = [@@SOLD_NOT_SOLD, @@SOLD_IN_TRANSACTION, @@SOLD_SOLD]
     
     # Validation
-    PRICE_REGEX = /\A[0-9]{3,}\z/
+    PRICE_REGEX = /\A[0-9]+\z/
     validates :product_name, presence: true
     validates :product_type, presence: true
     validates :price, presence: true, format: PRICE_REGEX

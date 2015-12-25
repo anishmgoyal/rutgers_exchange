@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   put '/products' => 'product#create'
   get '/products/:id' => 'product#read'
   post '/products/:id' => 'product#update'
-  delete '/products:id' => 'product#delete'
+  delete '/products/:id' => 'product#delete'
   
   # Offers
   delete '/offers/delete' => 'offer#delete'
