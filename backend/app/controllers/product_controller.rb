@@ -51,7 +51,7 @@ class ProductController < ApplicationController
             criteria[:user_id] ||= 0
 		end
     
-        products = Product.where(criteria).limit(params[:products_per_page].to_i).offset(offset).all
+        products = Product.where(criteria).order(created_at: :desc).limit(params[:products_per_page].to_i).offset(offset).all
         products_for_json = []
         products.each do |product|
             if !@current_user || product.user_id != @current_user.id

@@ -2,31 +2,7 @@ class OfferController < ApplicationController
 
     include SessionsHelper
     
-    before_filter :require_auth, except: [:test_create, :test_list, :test_read, :test_update, :test_delete, :test_commit]
-    
-    def test_create
-    
-    end
-    
-    def test_list
-    
-    end
-    
-    def test_read
-    
-    end
-    
-    def test_update
-    
-    end
-    
-    def test_delete
-    
-    end
-    
-    def test_commit
-    
-    end
+    before_filter :require_auth
 
     # PUT /offers
     # See outlines/offer_api.txt
@@ -83,8 +59,14 @@ class OfferController < ApplicationController
                     product.offers.each do |offer|
                         offers << {
                             offer_id: offer.id,
+                            product: {
+                                product_id: product.id,
+                                product_name: product.product_name,
+                                product_price: product.price
+                            },
                             product_name: product.product_name,
                             user: {
+                                user_id: offer.user.user_id,
                                 first_name: offer.user.first_name,
                                 last_name: offer.user.last_name
                             },
@@ -96,6 +78,11 @@ class OfferController < ApplicationController
                     if offer
                         offers << {
                             offer_id: offer.id,
+                            product: {
+                                product_id: product.id,
+                                product_name: product.product_name,
+                                product_price: product.price
+                            },
                             product_name: product.product_name,
                             user: {
                                 first_name: offer.user.first_name,
@@ -110,9 +97,14 @@ class OfferController < ApplicationController
             end
         else
             if params[:include_offers_made_by_current_user]
-                user.offers.each do |offer|
+                @current_user.offers.each do |offer|
                     offers << {
                         offer_id: offer.id,
+                        product: {
+                            product_id: offer.product.id,
+                            product_name: offer.product.product_name,
+                            product_price: offer.product.price
+                        },
                         product_name: offer.product.product_name,
                         user: {
                             first_name: offer.user.first_name,
@@ -123,11 +115,16 @@ class OfferController < ApplicationController
                 end
             end
             if params[:include_offers_made_by_other_users]
-                user.products.each do |product|
+                @current_user.products.each do |product|
                     product.offers.each do |offer|
                         offers << {
                             offer_id: offer.id,
-                            product_name: product.name,
+                            product: {
+                                product_id: product.id,
+                                product_name: product.product_name,
+                                product_price: product.price
+                            },
+                            product_name: product.product_name,
                             user: {
                                 first_name: offer.user.first_name,
                                 last_name: offer.user.last_name
@@ -166,10 +163,44 @@ class OfferController < ApplicationController
             render status: 404, json: {error: true}
         end
     end
-    
+
     # POST /offers/:id
     # See outlines/offer_api.txt
     def update
+        offer = Offer.find(params[:id])
+        if offer
+            if @current_user.id == offer.user.id
+                if offer.offer_status == Offer.OFFER_OFFERED
+                    offer.price = params[:price] if params[:price]
+                    if offer.save()
+                        payload = {
+                            error: false,
+                            id: offer.id
+                        }
+                        render status: 200, json: payload
+                    else
+                        errors = []
+                        offer.errors.keys.each do |key|
+                            errors << {field: key, message: offer.errors.full_messages_for(key).first}
+                        end
+                        payload = {
+                            error: true,
+                            errors: errors
+                        }
+                        render status: 200, json: payload
+                    end
+                else
+                    render status: 473, json: {error: true}
+            else
+                render status: 472, json: {error: true}
+        else
+            render status: 404, json: {error: true}
+        end
+    end
+    
+    # POST /offers/accept/:id
+    # See outlines/offer_api.txt
+    def accept
         offer = Offer.find(params[:id])
         if offer    
             if offer.product.user.id == @current_user.id
@@ -205,8 +236,12 @@ class OfferController < ApplicationController
         offer = offer.find(params[:id])
         if offer
             if offer.user.id == @current_user.id || offer.product.user.id == @current_user.id
-                offer.destroy
-                render status: 200, json: {error: false}
+                if offer.offer_status != Offer.OFFER_COMPLETED
+                    offer.destroy
+                    render status: 200, json: {error: false}
+                else
+                    render status: 473, json: {error: true}
+                end
             else
                 render status: 472, json: {error: true}
             end
@@ -234,6 +269,7 @@ class OfferController < ApplicationController
                     render status: 200, json: {error: false, id: offer.id}
                 else
                     render status: 471, json: {error: true}
+                end
             else
                 render status: 472, json: {error: true}
             end

@@ -51,7 +51,7 @@
         Gets information about an offer. Should be viewable by the creator of the product the offer is for.
         
         PARAMS:
-            String user_id, String session_token, String csrf_token
+            String user_id, String session_token, String csrf_token, int price
             
         RET:
             STATUS 200
@@ -65,6 +65,54 @@
                 
             STATUS 404
                 The offer could not be found.
+
+    POST
+        Updates an offer (notably the price being offered).
+
+        PARAMS:
+            String user_id, String session_token, String csrf_token
+
+        RET:
+            STATUS 200
+                Success: {error: false <boolean>, id: offer_id <int>}
+                Failure: {error: true <boolean>, errors: [{field: fieldname <string>, message: validation_message <string>}]}
+
+            STATUS 472
+                The user is not the creator of the offer.
+
+            STATUS 473
+                The offer has already been accepted, or the transaction is complete
+
+            STATUS 403
+                The user is not logged in.
+
+            STATUS 404
+                The offer was not found.
+            
+    DELETE
+        Revokes, rejects, or backs out of an offer for any reason. Deletes the corresponding conversation, sets product status as "SOLD_NOT_SOLD"
+        
+        PARAMS:
+            String user_id, String session_token, String csrf_token
+            
+        RET:
+            STATUS 200
+                Success
+                
+            STATUS 472
+                The user is neither the buyer or seller.
+
+            STATUS 473
+                The transaction regarding this offer has already been completed. In order for this offer to be deleted,
+                the related product must be deleted.
+                
+            STATUS 403
+                The user is not logged in.
+
+            STATUS 404
+                The offer was not found.
+             
+/offers/accept/:id
 
     POST
         Accepts an offer. Marks the product status as "SOLD_IN_TRANSACTION", creates a conversation between buyer and seller
@@ -84,23 +132,10 @@
                 
             STATUS 403
                 The user is not logged in.
-            
-    DELETE
-        Revokes, rejects, or backs out of an offer for any reason. Deletes the corresponding conversation, sets product status as "SOLD_NOT_SOLD"
-        
-        PARAMS:
-            String user_id, String session_token, String csrf_token
-            
-        RET:
-            STATUS 200
-                Success
-                
-            STATUS 472
-                The user is neither the buyer or seller.
-                
-            STATUS 403
-                The user is not logged in.
-                
+
+            STATUS 404
+                The offer was not found.
+
 /offers/complete/:id
 
     POST
@@ -118,3 +153,6 @@
             
             STATUS 403
                 The user is not logged in.
+
+            STATUS 404
+                The offer was not found.

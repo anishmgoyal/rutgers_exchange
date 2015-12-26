@@ -18,12 +18,13 @@ Rails.application.routes.draw do
   delete '/products/:id' => 'product#delete'
   
   # Offers
-  delete '/offers/delete' => 'offer#delete'
-  post '/offers/complete' => 'offer#commit'
-  get '/offers/list' => 'offer#list'
-  put '/offers/create' => 'offer#create'
-  get '/offers/get' => 'offer#read'
-  post '/offers/update' => 'offer#update'
+  get '/offers' => 'offer#list'
+  put '/offers' => 'offer#create'
+  get '/offers/:id' => 'offer#read'
+  post '/offers/complete/:id' => 'offer#commit'
+  post '/offers/accept/:id' => 'offer#accept'
+  post '/offers/:id' => 'offer#update'
+  delete '/offers/:id' => 'offer#delete'
   
   # Conversations
   get '/conversations' => 'conversation#list'
