@@ -21,7 +21,8 @@ module SessionsHelper
 		else
 			payload = {}
 			payload[:error] = session_status.to_s
-			render status: 403, json: payload
+            redirect_to "#{params[:redirect]}?status=403&#{payload.to_query}" if params[:redirect]
+			render status: 403, json: payload unless params[:redirect]
 			return false
 		end
 	end
@@ -40,9 +41,9 @@ module SessionsHelper
         end 
     end
     
-    def create_session(user_id)
+    def create_session(user_id, device_type=:INCOMPAT_FOR_NOTIFS)
         session_service = ApplicationService.get :SessionService
-        session_service.create(user_id) # Returned
+        session_service.create(user_id, device_type) # Returned
     end
     
     def delete_session(user_id, session_token, csrf_token)

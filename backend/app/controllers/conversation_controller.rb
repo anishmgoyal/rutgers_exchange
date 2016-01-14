@@ -1,6 +1,7 @@
 class ConversationController < ApplicationController
 
     include SessionsHelper
+    include NotificationHelper
     
     before_filter :require_auth, except: [:test_list, :test_read, :test_update]
 
@@ -9,7 +10,7 @@ class ConversationController < ApplicationController
     # See outlines/conversation_api.txt
     def list
         convos_for_json = []
-        conversations = (Conversation.where(buyer_id: @current_user.id).all + Conversation.where(seller_id: @current_user.id).all).sort_by(&:created_at)
+        conversations = (Conversation.where(buyer_id: @current_user.id).all + Conversation.where(seller_id: @current_user.id).all).sort_by(&:updated_at).reverse!
         conversations.each do |conversation|
             other_user = conversation.seller
             is_seller = false
@@ -18,22 +19,37 @@ class ConversationController < ApplicationController
                 is_seller = true
             end
             prev_message = conversation.messages.last
-            prev_message_message = prev_message.message if prev_message
-            prev_message_sent_on = prev_message.created_on if prev_message
             convo_for_json = {
+                id: conversation.id,
                 user_id_of_other: other_user.id,
                 username_of_other: other_user.username,
                 first_name_of_other: other_user.first_name,
                 last_name_of_other: other_user.last_name,
                 is_seller: is_seller,
-                prev_message: {
-                    message: prev_message_message,
-                    date_sent: prev_message_sent_on
-                }
+                other_user: {
+                    id: other_user.id,
+                    username: other_user.username,
+                    first_name: other_user.first_name,
+                    last_name: other_user.last_name
+                },
+                offer: {
+                    id: conversation.offer.id,
+                    price: conversation.offer.price
+                },
+                product: {
+                    id: conversation.offer.product.id,
+                    product_name: conversation.offer.product.product_name,
+                    price: conversation.offer.product.price
+                },
+                prev_message: prev_message ? {
+                    user_id: prev_message.user_id,
+                    message: prev_message.message,
+                    created_at: prev_message.created_at
+                } : nil
             }
             convos_for_json << convo_for_json
         end
-        render status: 200, json: {conversations: conversations}
+        render status: 200, json: {conversations: convos_for_json}
     end
     
     # GET /conversation/:id
@@ -46,7 +62,11 @@ class ConversationController < ApplicationController
             
                 params[:messages_per_page] ||= 10
                 params[:page] ||= 1
-                offset = (params[:page] - 1) * params[:messages_per_page]
+
+                messages_per_page = params[:messages_per_page].to_i
+                page = params[:page].to_i
+
+                offset = (page - 1) * messages_per_page
             
                 message_ids = conversation.message_ids
                 
@@ -61,10 +81,11 @@ class ConversationController < ApplicationController
                     messages_for_json << {
                         user_id: message.user_id,
                         message: message.message,
-                        date_sent: message.created_at
+                        created_at: message.created_at.strftime('on %-m/%-d/%Y at %-l:%M%P')
                     }
                 end
                 payload = {
+                    id: conversation.id,
                     seller: {
                         user_id: conversation.seller.id,
                         username: conversation.seller.username,
@@ -77,6 +98,7 @@ class ConversationController < ApplicationController
                         first_name: conversation.buyer.first_name,
                         last_name: conversation.buyer.last_name
                     },
+                    is_seller: conversation.seller_id == @current_user.id,
                     product: {
                         product_id: conversation.offer.product.id,
                         product_name: conversation.offer.product.product_name,
@@ -84,6 +106,7 @@ class ConversationController < ApplicationController
                         product_type: conversation.offer.product.product_type
                     },
                     offer: {
+                        id: conversation.offer.id,
                         offer_id: conversation.offer.id,
                         price: conversation.offer.price
                     },
@@ -110,6 +133,17 @@ class ConversationController < ApplicationController
                 message.conversation = conversation
                 message.user = @current_user
                 if message.save()
+
+                    # Notify the other user if they are online
+                    notify("NOTIF_NEW_MESSAGE", {
+                        conversation: conversation.id,
+                        message: { 
+                            user_id: message.user_id,
+                            message: message.message,
+                            created_at: message.created_at.strftime('on %-m/%-d/%Y at %-l:%M%P')
+                        }
+                    }, conversation.buyer_id, conversation.seller_id)
+                    
                     payload = {
                         error: false,
                         id: message.id

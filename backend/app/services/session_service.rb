@@ -13,17 +13,18 @@ class SessionService
 	# Creates a new session
 	# user_id: the user_id of the user to create a session for
 	# Returns an object with the session_token and csrf_token for the created session
-	def create(user_id)
+	def create(user_id, device_type=:INCOMPAT_FOR_NOTIFS)
 		session_token = SecureRandom.uuid
 		csrf_token = SecureRandom.uuid
 		
-		# Make sure we have a unique session token. Statistically, this loop will *almost* never run.
+		# Make sure we have a unique session token. Statistically, this loop will likely never run.
 		while @sessions[session_token]
 			session_token = SecureRandom.uuid
 		end
 		
 		session_meta = SessionMeta.new(user_id, csrf_token)
 		@sessions[session_token] = session_meta
+		ApplicationService.get(:NotificationService).create_session(user_id, session_token, device_type)
 		
 		return {
             user_id: user_id,
@@ -52,6 +53,7 @@ class SessionService
 				end
 			else
 				delete(user_id, session_token, csrf_token)
+				ApplicationService.get(:NotificationService).delete_session(user_id, session_token)
 				return :SESSION_EXPIRED
 			end
 		else
@@ -72,12 +74,30 @@ class SessionService
 		if session_meta
 			if session_meta.csrf_token.to_s == csrf_token.to_s && session_meta.user_id.to_s == user_id.to_s
 				@sessions.delete(session_token)
+				ApplicationService.get(:NotificationService).delete_session(user_id, session_token)
+				ProductImage.delete_dangling(session_token)
 				return :SESSION_DELETED
 			else
 				return :SESSION_AUTH_ERR
 			end
 		else
 			return :SESSION_NOEXIST
+		end
+	end
+
+	# Gets the number of active sessions
+	# Returns the size of the sessions map
+	def num_sessions
+		@sessions.size
+	end
+
+	# Delete all inactive sessions
+	def run_maintenance
+		@sessions.each do |session_token, session_meta|
+			unless session_meta.verify_active
+				@sessions.delete(session_token)
+				ApplicationService.get(:NotificationService).delete_session(session_meta.user_id, session_token)
+			end
 		end
 	end
 
@@ -95,19 +115,27 @@ class SessionMeta
 	def initialize(user_id, csrf_token)
 		@user_id = user_id
 		@csrf_token = csrf_token
-		@time = Time.now
+		@time = Time.now.to_i
 	end
 	
 	# Checks if a session is active. If it is, then it updates the time.
 	# Returns true if active, false if not.
 	def verify_active
-		time = Time.now
+		time = Time.now.to_i
 		if time - @time < @@EVICT_TIMER
 			@time = time
 			return true
 		else
 			return false
 		end
+	end
+
+	# Checks if a session is active without updating it.
+	# Returns true if active, false if not.
+	def verify_active_no_touch
+		time = Time.now.to_i
+
+		(time - @time < @@EVICT_TIMER)
 	end
     
     def to_s

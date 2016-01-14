@@ -1,6 +1,7 @@
 class ProductController < ApplicationController
 
     include SessionsHelper
+    include NotificationHelper
 
     before_filter :require_auth, only: [:create, :update, :delete]
 
@@ -17,6 +18,15 @@ class ProductController < ApplicationController
         product.user = @current_user
 
         if product.save()
+
+            notify("NOTIF_NEW_PRODUCT", {
+                product: {
+                    id: product.id,
+                    product_name: product.product_name,
+                    price: product.price
+                }
+            })
+
             payload = {
                 error: false,
                 id: product.id
@@ -44,14 +54,15 @@ class ProductController < ApplicationController
         params[:page] ||= 1
         offset = (params[:page].to_i - 1) * params[:products_per_page].to_i
 		
-		criteria = {sold_status: Product.SOLD_NOT_SOLD}
+		criteria = {}
+        criteriaNot = {sold_status: Product.SOLD_SOLD}
 		if params[:username]
 			criteria_user = User.find_by_username params[:username]
 			criteria[:user_id] = criteria_user.id if criteria_user
             criteria[:user_id] ||= 0
 		end
     
-        products = Product.where(criteria).order(created_at: :desc).limit(params[:products_per_page].to_i).offset(offset).all
+        products = Product.where(criteria).where.not(criteriaNot).order(created_at: :desc).limit(params[:products_per_page].to_i).offset(offset).all
         products_for_json = []
         products.each do |product|
             if !@current_user || product.user_id != @current_user.id
@@ -78,6 +89,7 @@ class ProductController < ApplicationController
         product = Product.find_by_id(params[:id])
         if product
             payload = {
+                product_id: product.id,
                 product_name: product.product_name,
                 user: {
                     user_id: product.user.id,

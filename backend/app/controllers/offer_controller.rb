@@ -1,6 +1,7 @@
 class OfferController < ApplicationController
 
     include SessionsHelper
+    include NotificationHelper
     
     before_filter :require_auth
 
@@ -10,41 +11,59 @@ class OfferController < ApplicationController
         offer = Offer.where(user_id: @current_user.id, product_id: params[:product_id]).first
         if offer
             render status: 471, json: {error: true}
-        end
-        product = Product.find(params[:product_id])
-        if product
-            if product.user.id != @current_user.id
-                if product.sold_status != Product.SOLD_SOLD
-                    offer = Offer.new
-                    offer.user = @current_user
-                    offer.price = params[:price]
-                    offer.offer_status = Offer.OFFER_OFFERED
-                    offer.product = product
-                    if offer.save()
-                        payload = {
-                            error: false,
-                            id: offer.id
-                        }
-                        render status: 200, json: payload
-                    else
-                        errors = []
-                        offer.errors.keys.each do |key|
-                            errors << {field: key, message: offer.errors.full_messages_for(key).first}
+        else
+            product = Product.find(params[:product_id])
+            if product
+                if product.user.id != @current_user.id
+                    if product.sold_status != Product.SOLD_SOLD
+                        offer = Offer.new
+                        offer.user = @current_user
+                        offer.price = params[:price]
+                        offer.offer_status = Offer.OFFER_OFFERED
+                        offer.product = product
+                        if offer.save()
+
+                            notify("NOTIF_NEW_OFFER", {
+                                user: {
+                                    id: @current_user.id,
+                                    first_name: @current_user.first_name,
+                                    last_name: @current_user.last_name,
+                                },
+                                offer: {
+                                    id: offer.id,
+                                    price: offer.price
+                                },
+                                product: {
+                                    id: product.id,
+                                    product_name: product.product_name
+                                }
+                            }, product.user_id)
+
+                            payload = {
+                                error: false,
+                                id: offer.id
+                            }
+                            render status: 200, json: payload
+                        else
+                            errors = []
+                            offer.errors.keys.each do |key|
+                                errors << {field: key, message: offer.errors.full_messages_for(key).first}
+                            end
+                            payload = {
+                                error: true,
+                                errors: errors
+                            }
+                            render status: 200, json: payload
                         end
-                        payload = {
-                            error: true,
-                            errors: errors
-                        }
-                        render status: 200, json: payload
+                    else
+                        render status: 473, json: {error: true}
                     end
                 else
-                    render status: 473, json: {error: true}
+                    render status: 472, json: {error: true}
                 end
             else
-                render status: 472, json: {error: true}
+                render status: 404, json: {error: true}
             end
-        else
-            render status: 404, json: {error: true}
         end
     end
     
@@ -54,23 +73,29 @@ class OfferController < ApplicationController
         offers = []
         if params[:product_id]
             product = Product.find(params[:product_id])
-            if product
+            if product && (product.sold_status != Product.SOLD_SOLD || params[:allow_sold])
                 if product.user.id == @current_user.id && params[:include_offers_made_by_other_users]
                     product.offers.each do |offer|
                         offers << {
                             offer_id: offer.id,
                             product: {
+                                user: {
+                                    user_id: product.user.id
+                                },
                                 product_id: product.id,
                                 product_name: product.product_name,
                                 product_price: product.price
                             },
                             product_name: product.product_name,
                             user: {
-                                user_id: offer.user.user_id,
+                                user_id: offer.user.id,
                                 first_name: offer.user.first_name,
                                 last_name: offer.user.last_name
                             },
-                            price: offer.price
+                            conversation: offer.conversation ? {id: offer.conversation.id} : nil,
+                            offer_status: offer.offer_status,
+                            price: offer.price,
+                            created_at: offer.created_at.strftime("%-m/%-d/%Y")
                         }
                     end
                 elsif product.user.id != @current_user.id && params[:include_offers_made_by_current_user]
@@ -79,16 +104,23 @@ class OfferController < ApplicationController
                         offers << {
                             offer_id: offer.id,
                             product: {
+                                user: {
+                                    user_id: product.user.id
+                                },
                                 product_id: product.id,
                                 product_name: product.product_name,
                                 product_price: product.price
                             },
                             product_name: product.product_name,
                             user: {
+                                user_id: offer.user.id,
                                 first_name: offer.user.first_name,
                                 last_name: offer.user.last_name
                             },
-                            price: offer.price
+                            conversation: offer.conversation ? {id: offer.conversation.id} : nil,
+                            offer_status: offer.offer_status,
+                            price: offer.price,
+                            created_at: offer.created_at.strftime("%-m/%-d/%Y")
                         }
                     end
                 end
@@ -98,39 +130,57 @@ class OfferController < ApplicationController
         else
             if params[:include_offers_made_by_current_user]
                 @current_user.offers.each do |offer|
-                    offers << {
-                        offer_id: offer.id,
-                        product: {
-                            product_id: offer.product.id,
+                    if (offer.product.sold_status != Product.SOLD_SOLD || params[:allow_sold])
+                        offers << {
+                            offer_id: offer.id,
+                            product: {
+                                user: {
+                                    user_id: offer.product.user.id
+                                },
+                                product_id: offer.product.id,
+                                product_name: offer.product.product_name,
+                                product_price: offer.product.price
+                            },
                             product_name: offer.product.product_name,
-                            product_price: offer.product.price
-                        },
-                        product_name: offer.product.product_name,
-                        user: {
-                            first_name: offer.user.first_name,
-                            last_name: offer.user.last_name
-                        },
-                        price: offer.price
-                    }
+                            user: {
+                                user_id: offer.user.id,
+                                first_name: offer.user.first_name,
+                                last_name: offer.user.last_name
+                            },
+                            conversation: offer.conversation ? {id: offer.conversation.id} : nil,
+                            offer_status: offer.offer_status,
+                            price: offer.price,
+                            created_at: offer.created_at.strftime("%-m/%-d/%Y")
+                        }
+                    end
                 end
             end
             if params[:include_offers_made_by_other_users]
                 @current_user.products.each do |product|
-                    product.offers.each do |offer|
-                        offers << {
-                            offer_id: offer.id,
-                            product: {
-                                product_id: product.id,
+                    if (product.sold_status != Product.SOLD_SOLD || params[:allow_sold])
+                        product.offers.each do |offer|
+                            offers << {
+                                offer_id: offer.id,
+                                product: {
+                                    user: {
+                                        user_id: product.user.id
+                                    },
+                                    product_id: product.id,
+                                    product_name: product.product_name,
+                                    product_price: product.price
+                                },
                                 product_name: product.product_name,
-                                product_price: product.price
-                            },
-                            product_name: product.product_name,
-                            user: {
-                                first_name: offer.user.first_name,
-                                last_name: offer.user.last_name
-                            },
-                            price: offer.price
-                        }
+                                user: {
+                                    user_id: offer.user.id,
+                                    first_name: offer.user.first_name,
+                                    last_name: offer.user.last_name
+                                },
+                                conversation: offer.conversation ? {id: offer.conversation.id} : nil,
+                                offer_status: offer.offer_status,
+                                price: offer.price,
+                                created_at: offer.created_at.strftime("%-m/%-d/%Y")
+                            }
+                        end
                     end
                 end
             end
@@ -150,11 +200,14 @@ class OfferController < ApplicationController
                         product_id: offer.product.id,
                         product_name: offer.product.product_name,
                         product_type: offer.product.product_type,
-                        product_sold_status: offer.product.product_sold_status,
+                        product_sold_status: offer.product.sold_status,
                         price: offer.product.price,
                         description: offer.product.description
                     },
-                    price: offer.price
+                    conversation: offer.conversation ? {id: offer.conversation.id} : nil,
+                    offer_status: offer.offer_status,
+                    price: offer.price,
+                    created_at: offer.created_at.strftime("%-m/%-d/%Y")
                 }
             else
                 render status: 472, json: {error: true}
@@ -170,9 +223,28 @@ class OfferController < ApplicationController
         offer = Offer.find(params[:id])
         if offer
             if @current_user.id == offer.user.id
-                if offer.offer_status == Offer.OFFER_OFFERED
+                if offer.offer_status != Offer.OFFER_COMPLETED
+                    old_price = offer.price
                     offer.price = params[:price] if params[:price]
                     if offer.save()
+
+                        notify("NOTIF_UPDATED_OFFER", {
+                            user: {
+                                id: offer.user.id,
+                                first_name: offer.user.first_name,
+                                last_name: offer.user.last_name
+                            },
+                            offer: {
+                                id: offer.id,
+                                prev_price: old_price,
+                                price: offer.price
+                            },
+                            product: {
+                                id: offer.product.id,
+                                product_name: offer.product.product_name
+                            }
+                        }, offer.product.user_id)
+
                         payload = {
                             error: false,
                             id: offer.id
@@ -191,8 +263,10 @@ class OfferController < ApplicationController
                     end
                 else
                     render status: 473, json: {error: true}
+                end
             else
                 render status: 472, json: {error: true}
+            end
         else
             render status: 404, json: {error: true}
         end
@@ -217,6 +291,23 @@ class OfferController < ApplicationController
                     
                     offer.product.sold_status = Product.SOLD_IN_TRANSACTION
                     offer.product.save()
+
+                    notify("NOTIF_NEW_CONVERSATION", {
+                        conversation_id: conversation.id,
+                        user: {
+                            id: @current_user.id,
+                            first_name: @current_user.first_name,
+                            last_name: @current_user.last_name
+                        },
+                        offer: {
+                            id: offer.id,
+                            price: offer.price
+                        },
+                        product: {
+                            id: offer.product.id,
+                            product_name: offer.product.product_name
+                        }
+                    }, offer.user_id)
                     
                     render status: 200, json: {conversation_id: conversation.id}
                 else
@@ -233,11 +324,45 @@ class OfferController < ApplicationController
     # DELETE /offers/:id
     # See outlines/offer_api.txt
     def delete
-        offer = offer.find(params[:id])
+        offer = Offer.find(params[:id])
         if offer
             if offer.user.id == @current_user.id || offer.product.user.id == @current_user.id
                 if offer.offer_status != Offer.OFFER_COMPLETED
+
+                    if offer.user.id == @current_user.id
+                        notify("NOTIF_OFFER_REVOKE", {
+                            user: {
+                                id: offer.user.id,
+                                first_name: offer.user.first_name,
+                                last_name: offer.user.last_name
+                            },
+                            offer: {
+                                price: offer.price
+                            },
+                            product: {
+                                id: offer.product.id,
+                                product_name: offer.product.product_name
+                            }
+                        }, offer.product.user_id)
+                    else
+                        notify("NOTIF_OFFER_REJECT", {
+                            user: {
+                                id: offer.product.user.id,
+                                first_name: offer.product.user.first_name,
+                                last_name: offer.product.user.last_name
+                            },
+                            offer: {
+                                price: offer.price
+                            },
+                            product: {
+                                id: offer.product.id,
+                                product_name: offer.product.product_name
+                            }
+                        }, offer.user.id)
+                    end
+
                     offer.destroy
+
                     render status: 200, json: {error: false}
                 else
                     render status: 473, json: {error: true}
@@ -266,6 +391,22 @@ class OfferController < ApplicationController
                     
                     offer.offer_status = Offer.OFFER_COMPLETED
                     offer.save
+
+                    notify("NOTIF_TRANSACTION_FINISHED", {
+                        user: {
+                            id: @current_user.id,
+                            first_name: @current_user.first_name,
+                            last_name: @current_user.last_name
+                        },
+                        product: {
+                            id: product.id,
+                            product_name: product.product_name
+                        },
+                        offer: {
+                            price: offer.price
+                        }
+                    }, offer.user_id)
+
                     render status: 200, json: {error: false, id: offer.id}
                 else
                     render status: 471, json: {error: true}

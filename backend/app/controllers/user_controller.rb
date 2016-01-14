@@ -3,33 +3,6 @@ class UserController < ApplicationController
     include SessionsHelper
     
     before_filter :require_auth, only: [:read, :update, :logout]
-
-    def register
-    
-    end
-    
-    def login
-    
-    end
-    
-    def lo
-        payload = delete_session(params[:user_id], params[:session_token], params[:csrf_token])
-        if payload == :SESSION_DELETED
-            render status: 200, json: {error: false}
-        elsif payload == :SESSION_NO_AUTH
-            render status: 403, json: {error: true}
-        else
-            render status: 404, json: {error: true}
-        end
-    end
-    
-    def viewinfo
-       
-    end
-    
-    def modify_account
-    
-    end
     
 	# PUT /users
 	# Please see /outlines/user_api.txt
@@ -128,8 +101,10 @@ class UserController < ApplicationController
 	# Please see /outlines/user_api.txt
 	def authenticate
         user = User.authenticate(params[:username], params[:password])
+        device_type = params[:device_type] if params[:device_type]
+        device_type ||= :INCOMPAT_FOR_NOTIFS
         if user
-            session = create_session(user.id)
+            session = create_session(user.id, device_type)
             render status: 200, json: session
         else
             render status: 403, json: {error: true, message: "Invalid username or password."}
@@ -138,8 +113,15 @@ class UserController < ApplicationController
 	
 	# DELETE /users/:username
 	# Please see /outlines/user_api.txt
-	def logout
-        delete_session(params[:user_id], params[:session_token], params[:csrf_token])
-	end
+    def logout
+        payload = delete_session(params[:user_id], params[:session_token], params[:csrf_token])
+        if payload == :SESSION_DELETED
+            render status: 200, json: {error: false}
+        elsif payload == :SESSION_NO_AUTH
+            render status: 403, json: {error: true}
+        else
+            render status: 404, json: {error: true}
+        end
+    end
 	
 end

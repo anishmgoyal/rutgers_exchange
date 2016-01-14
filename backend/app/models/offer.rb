@@ -15,8 +15,8 @@ class Offer < ActiveRecord::Base
     @@OFFER_STATUS = [@@OFFER_OFFERED, @@OFFER_ACCEPTED, @@OFFER_COMPLETED]
     
     # Validation
-    PRICE_REGEX = /\A[0-9]{3,}\z/
-    validates :price, presence: true, format: PRICE_REGEX
+    PRICE_REGEX = /\A[0-9]+\z/
+    validates :price, presence: true, format: PRICE_REGEX, numericality: {greater_than_or_equal_to: 0}
     validates :offer_status, presence: true, inclusion: { in: @@OFFER_STATUS }
     
     before_destroy :reset_product_status
@@ -27,11 +27,24 @@ class Offer < ActiveRecord::Base
     end
     
     def delete_conversation
-        self.conversation.destroy
+        self.conversation.destroy if self.conversation
     end
     
     def offer_status
         read_attribute :offer_status
+    end
+
+    # Static Accessors
+    def self.OFFER_OFFERED
+        @@OFFER_OFFERED
+    end
+
+    def self.OFFER_ACCEPTED
+        @@OFFER_ACCEPTED
+    end
+
+    def self.OFFER_COMPLETED
+        @@OFFER_COMPLETED
     end
 
 end

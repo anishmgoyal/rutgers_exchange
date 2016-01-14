@@ -48,4 +48,15 @@ class ApplicationService
 		end
 	end
 
+	def self.run_maintenance
+		@@beans.each do |bean_name, bean|
+			begin
+				bean.run_maintenance
+			rescue
+				# No maintenance method for bean
+				# Do nothing
+			end
+		end
+	end
+
 end

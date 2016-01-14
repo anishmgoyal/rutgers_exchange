@@ -10,5 +10,10 @@ class ApplicationController < ActionController::Base
 	headers['Access-Control-Request-Method'] = '*'
 	headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   end
+
+  def reload_service
+  	ApplicationService.reload params[:service_name].to_sym
+  	render text:"Reloaded #{params[:service_name]}"
+  end
   
 end

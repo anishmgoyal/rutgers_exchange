@@ -4,7 +4,7 @@ class Message < ActiveRecord::Base
     attr_accessible :message
 
     # Relations
-    belongs_to :conversation
+    belongs_to :conversation, touch: true
     belongs_to :user
     
     # Validation

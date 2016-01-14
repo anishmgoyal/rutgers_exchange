@@ -16,6 +16,15 @@ Rails.application.routes.draw do
   get '/products/:id' => 'product#read'
   post '/products/:id' => 'product#update'
   delete '/products/:id' => 'product#delete'
+
+  # Product Images
+  put '/image/product' => 'product_image#create'
+  get '/image/product/:id' => 'product_image#read'
+  post '/image/product/:id' => 'product_image#update'
+  delete '/image/product/:id' => 'product_image#delete'
+
+  # Support for iframe upload
+  get '/image/status/:id' => 'product_image#get_response'
   
   # Offers
   get '/offers' => 'offer#list'
@@ -28,9 +37,14 @@ Rails.application.routes.draw do
   
   # Conversations
   get '/conversations' => 'conversation#list'
-  post '/conversations/:id' => 'conversation#update'
   get '/conversations/:id' => 'conversation#read'
-  
+  put '/conversations/:id' => 'conversation#update'
+
+  # Short-poll notifications
+  get '/notifications' => 'notification#list'
+
+  # Development
+  get '/reload/:service_name' => 'application#reload_service'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

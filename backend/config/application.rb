@@ -29,6 +29,7 @@ module RutgersExchange
 	end
 	
 	ApplicationService.set :SessionService, SessionService
+    ApplicationService.set :NotificationService, NotificationService
 	
   end
 end

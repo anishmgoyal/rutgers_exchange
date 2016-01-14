@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151004152810) do
+ActiveRecord::Schema.define(version: 20160110020035) do
 
   create_table "conversations", force: :cascade do |t|
     t.integer  "seller_id",  limit: 4
@@ -47,6 +47,19 @@ ActiveRecord::Schema.define(version: 20151004152810) do
   add_index "offers", ["product_id"], name: "index_offers_on_product_id", using: :btree
   add_index "offers", ["user_id"], name: "index_offers_on_user_id", using: :btree
 
+  create_table "product_images", force: :cascade do |t|
+    t.string   "image_location", limit: 255
+    t.string   "session_id",     limit: 255
+    t.integer  "ordinal",        limit: 4
+    t.integer  "user_id",        limit: 4
+    t.integer  "product_id",     limit: 4
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "content_type",   limit: 255
+  end
+
+  add_index "product_images", ["product_id"], name: "index_product_images_on_product_id", using: :btree
+
   create_table "products", force: :cascade do |t|
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
@@ -59,6 +72,15 @@ ActiveRecord::Schema.define(version: 20151004152810) do
   end
 
   add_index "products", ["user_id"], name: "index_products_on_user_id", using: :btree
+
+  create_table "upload_results", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4
+    t.text     "output",     limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "upload_results", ["user_id"], name: "index_upload_results_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "username",           limit: 255
