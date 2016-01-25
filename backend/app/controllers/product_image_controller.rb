@@ -11,6 +11,7 @@ class ProductImageController < ApplicationController
 
 			files = params[:file]
 			payload = {
+				status: 200,
 				results: []
 			}
 			files.first(8).each do |file|
@@ -91,7 +92,7 @@ class ProductImageController < ApplicationController
 					redirect_to "#{params[:redirect]}?#{query_payload.to_query}"
 				end
 			else
-				render status: 200, json: payload
+				render status: 200, text: "<html><head></head><body>#{payload.to_json}</body></html>"
 			end
 		else
 			render status: 477, json: {error: true}

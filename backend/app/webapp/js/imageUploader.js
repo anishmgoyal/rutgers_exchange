@@ -98,7 +98,7 @@
 			if(!data.results[i].error) {
 				var newImg = $(this.imageTemplate);
 				newImg.find(".image-uploader-image-block").click(this.toggleOrdinal.bind(this, data.results[i].id));
-				newImg.find(".image-uploader-image").attr("src", ImageApi.serverImageURL(data.results[i].id, ImageApi.PRODUCT)).load($(window).trigger.bind(window, "resize"));
+				newImg.find(".image-uploader-image").attr("src", ImageApi.serverImageURL(data.results[i].id, ImageApi.PRODUCT)).load($(window).trigger.bind($(window), "resize"));
 				newImg.find(".image-uploader-delete-button").click(this.removeItem.bind(this, data.results[i].id));
 				newImg.attr("id", "image-uploader-upload-result-" + data.results[i].id);
 				this.imagePane.append(newImg);

@@ -18,7 +18,7 @@
 			session_token: $form.find("#session_token"),
 			csrf_token: $form.find("#csrf_token"),
 			_method: $form.find("#_method"),
-			redirect: $form.find("#redirect"),
+			//redirect: $form.find("#redirect"),
 			product_id: $form.find("#product_id")
 		};
 		var values = {
@@ -26,7 +26,7 @@
 			session_token: pageLoader.getParam("session_token"),
 			csrf_token: pageLoader.getParam("csrf_token"),
 			_method: "put",
-			redirect: window.location.origin + window.clients[window.client.mode].uri + "pages/debug/query_json.htm",
+			//redirect: window.location.origin + window.clients[window.client.mode].uri + "pages/debug/query_json.htm",
 			product_id: productId
 		};
 		for(var field in fields) {
@@ -49,11 +49,11 @@
 		var target = $('<iframe name="' + form_target_id + '" id="' + form_target_id + '" style="display: none;" />');
 		pageLoader.getWnd().append(target);
 
-		// Bind the iframe load event to handle the preliminary server response
+		// Bind the iframe load event to handle the server response
 		target.load(function(successCallback, errorCallback) {
 			var response = JSON.parse(this.contents().find("body").text());
-			if(!response.error) {
-				ImageApi.getResponse(response.result, successCallback, errorCallback);
+			if(response.status == 200) {
+				successCallback(response);
 			} else {
 				errorCallback(response.status, response);
 			}
@@ -72,6 +72,7 @@
 		apiHandler.doRequest("post", ImageApi.stem + imageType, params, successCallback, errorCallback);
 	};
 
+	// Only for if the webapp is not on the same server as the api
 	ImageApi.getResponse = function(responseId, successCallback, errorCallback) {
 		var params = apiHandler.requireAuth();
 		apiHandler.doRequest("get", ImageApi.stem + ImageApi.STATUS + encodeURIComponent(responseId), params, successCallback, errorCallback);
