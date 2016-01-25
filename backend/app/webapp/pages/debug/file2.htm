@@ -1,0 +1,200 @@
+<style>
+	/* Make a square */
+	.blocks-container {
+		width: 12.5%;
+		float: left;
+	}
+	.blocks-container .text-name, .blocks-container .text-price {
+		padding: 0 5px;
+		text-align: center;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		display: none;
+	}
+	.blocks-container .text-name {
+		text-transform: capitalize;
+		text-decoration: underline;
+	}
+	.blocks-container .text-price {
+		font-weight: bold;
+	}
+	.blocks {
+		position: relative;
+		float: left;
+		width: 100%;
+		height: 0px;
+		padding-bottom: 100%;
+	}
+	/* Normalize the sizing, make spacing */
+	.blocks > .image {
+		height: 100%;
+		width: 100%;
+		display: inline-block;
+		position: absolute;
+		padding: 5px;
+		padding-bottom: 0;
+	}
+	/* Center the images */
+	.blocks > .image > .image {
+		box-sizing: border-box;
+		height: 100%;
+		text-align: center;
+		width: 100%;
+		white-space: nowrap;
+		position: relative;
+		padding: 10px;
+		border: 3px solid #444;
+	}
+	.blocks > .image > .image:before { 
+		content: '';
+		height: 100%;
+		display: inline-block;
+		vertical-align: middle;
+		margin-right: -0.25em;
+	}
+	.blocks > .image > .image > img {
+		display: inline-block;
+		max-width: 100%;
+		max-height: 100%;
+		vertical-align: middle;
+	}
+	.blocks > .image > .image > .image-overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		display: inline-block;
+		background-color: rgba(120, 120, 120, 0.4);
+		font-weight: bold;
+		font-size: 2em;
+		color: white;
+		text-shadow: 0 0 4px black;
+		white-space: nowrap;
+	    -webkit-touch-callout: none;
+	    -webkit-user-select: none;
+	    user-select: none;
+		box-shadow: inset 0 0 20px 0 #444;
+	}
+	.blocks > .image > .image > .image-overlay:before {
+		content: '';
+		margin-right: -0.25em;
+		vertical-align: middle;
+		display: inline-block;
+		height: 100%;
+		width: 0;
+	}
+	.blocks > .image > .image > .image-overlay > .content {
+		vertical-align: middle;
+		display: inline-block;
+	}
+	@media only screen and (max-width: 40em) {
+		.blocks-container {
+			width: 25%;
+		}
+	}
+	@media only screen and (min-width: 40.063em) and (max-width: 64em) {
+		.blocks-container {
+			width: 16.6667%;
+		}
+	}
+</style>
+
+<div>
+	<div class="blocks-container">
+		<div class="blocks">
+			<div class="image">
+				<div class="image">
+					<img src="/Images/back.png" />
+					<div class="image-overlay">
+						<div class="content">2</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="text-name">Product Name</div>
+		<div class="text-price">$12.44</div>
+	</div>
+	<div class="blocks-container">
+		<div class="blocks">
+			<div class="image">
+				<div class="image">
+					<img src="/Images/back2.jpg" />
+				</div>
+			</div>
+		</div>
+		<div class="text-name">Product Name</div>
+		<div class="text-price">$12.44</div>
+	</div>
+	<div class="blocks-container">
+		<div class="blocks">
+			<div class="image">
+				<div class="image">
+					<img src="/Images/back10.jpg" />
+				</div>
+			</div>
+		</div>
+		<div class="text-name">Product Name</div>
+		<div class="text-price">$12.44</div>
+	</div>
+	<div class="blocks-container">
+		<div class="blocks">
+			<div class="image">
+				<div class="image">
+					<img src="/Images/fb_logo.png" />
+				</div>
+			</div>
+		</div>
+		<div class="text-name">Product Name</div>
+		<div class="text-price">$12.44</div>
+	</div>
+	<div class="blocks-container">
+		<div class="blocks">
+			<div class="image">
+				<div class="image">
+					<img src="/Images/AnishGoyal_small.jpg" />
+					<div class="image-overlay">
+						<div class="content">1</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="text-name">Product Name</div>
+		<div class="text-price">$12.44</div>
+	</div>
+	<div class="blocks-container">
+		<div class="blocks">
+			<div class="image">
+				<div class="image">
+					<img src="/Images/AnishGoyal_small.jpg" />
+				</div>
+			</div>
+		</div>
+		<div class="text-name">Product Name</div>
+		<div class="text-price">$12.44</div>
+	</div>
+	<div class="blocks-container">
+		<div class="blocks">
+			<div class="image">
+				<div class="image">
+					<img src="/Images/back2.jpg" />
+				</div>
+			</div>
+		</div>
+		<div class="text-name">Product Name</div>
+		<div class="text-price">$12.44</div>
+	</div>
+	<div class="blocks-container">
+		<div class="blocks">
+			<div class="image">
+				<div class="image">
+					<img src="/Images/back2.jpg" />
+				</div>
+			</div>
+		</div>
+		<div class="text-name">Product Name</div>
+		<div class="text-price">$12.44</div>
+	</div>
+</div>
+<div style="display: inline-block; width: 100%;">&nbsp;&nbsp;<div class="product-control-button"><i class="fi-refresh"></i> Reset Order</div></div>

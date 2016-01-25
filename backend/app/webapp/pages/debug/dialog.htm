@@ -1,0 +1,43 @@
+<section class="padded">
+
+	<h4>Alert Dialogues</h4>
+
+	<div id="template_offer">
+		<div class="product-popup-offer-row">
+			<div>
+				<strong>$29.44</strong> by <a href="#">Anish Goyal</a>
+			</div>
+			<div>
+				Offered on 12/26/15
+			</div>
+			<div>
+				<div class="product-control-button product-control-button-constructive dialog-closer">
+					<i class="fi-check"></i>
+					ACCEPT
+				</div>
+				<div class="product-control-button product-control-button-destructive dialog-closer">
+					<i class="fi-x"></i>
+					REJECT
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<input type="button" value="Show" 
+		onclick="(function() {new Dialog({
+					content: $('#template_offer').html() + $('#template_offer').html() + $('#template_offer').html() + $('#template_offer').html() + $('#template_offer').html() + $('#template_offer').html(),
+					deleteOnHide: true,
+					height: 500,
+					title: 'View Offers',
+					wnd: pageLoader.getWnd(),
+					onconfirm: function() {
+						console.log('Confirmed');
+					},
+					oncancel: function() {
+						console.log('Cancelled');
+					},
+					offsets: {top: $('#nav')}
+				}).show();})();"
+	/>
+
+</section>

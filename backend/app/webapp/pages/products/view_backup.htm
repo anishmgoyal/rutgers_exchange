@@ -1,0 +1,82 @@
+<br />
+
+<!-- src="http://www.51allout.co.uk/wp-content/uploads/2012/02/Image-not-found.gif" -->
+
+<!-- The following ID conventions are to be observed: -->
+<!-- template_sv_*: template seller view -->
+<!-- template_bv_*: template buyer view -->
+
+<!-- The following class conventions are to be observed: -->
+<!-- template_show_buyer: hidden in seller view -->
+<!-- template_show_seller: hidden in buyer view -->
+
+<section>
+	<div class="row">
+	</div>
+	<div class="product-listing-image small-12 medium-4 large-3 columns">
+		<div class="image-uploader-image-variable-container image-uploader-no-select">
+			<div class="image-uploader-image-block">
+				<div class="image-uploader-image-padding">
+					<div class="image-uploader-image-inner-no-border">
+						<img id="template_product_image" class="image-uploader-image" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<br /><br />
+	</div>
+	<div id="template_product_info" class="small-12 medium-8 large-9 columns">
+		<!-- Product name -->
+		<h4 id="template_product_name" class="product-listing-title auto-cap"></h4>
+
+		<div class="page-alert product-show-for-draft small-12 columns template_show_seller">
+			This listing is currently a <strong>draft</strong> and has yet to be published.
+		</div>
+
+		<div class="product-control-buttons product-listing-controls template_show_seller">
+			<div class="product-control-button">
+				<a id="template_sv_edit" class="template_link" href="#!/products/edit/:product_id">
+					<i class="fi-pencil"></i>
+					Edit
+				</a>
+			</div>
+			<div id="template_sv_publish" class="product-show-for-draft product-control-button product-control-button-constructive">
+				<i class="fi-eye"></i>
+				Publish
+			</div>
+			<div id="template_sv_delete" class="product-control-button product-control-button-destructive">
+				<i class="fi-trash"></i>
+				Remove
+			</div>
+		</div>
+
+		<div class="product-control-buttons product-listing-controls template_show_buyer">
+			<div class="product-control-button product-control-button-constructive">
+				<a id="template_bv_offer_same" class="template_link" href="#!/offers/new/:product_id/same">
+					<i class="fi-price-tag"></i>
+					Offer asking price
+				</a>
+			</div>
+			<div class="product-control-button">
+				<a id="template_bv_offer_diff" class="template_link" href="#!/offers/new/:product_id/diff">
+					<i class="fi-price-tag"></i>
+					Offer another amount
+				</a>
+			</div>
+		</div>
+
+		<!-- Show who posted this, and when it was posted -->
+		<div id="template_bv_product_poster" class="template_show_buyer product-listing-poster">Listed by <a id="template_bv_product_usrlink" class="template_link" href="#!/user/:user_id"></a> on <span class="template_product_date"></span></div>
+		<div id="template_sv_product_poster" class="template_show_seller product-listing-poster">Listed by you on <span class="template_product_date"></span></div>
+
+		<!-- Show pricing info -->
+		<div class="product-listing-price">Asking Price: $<span id="template_product_price"></span></div>
+
+		<!-- Extra spacing-->
+		<br />
+
+		<!-- Show the description -->
+		<div class="product-listing-header">Description</div>
+		<div class="product-listing-description" id="template_product_description"></div>
+	</div>
+</section>

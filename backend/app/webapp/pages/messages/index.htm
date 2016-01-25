@@ -1,0 +1,71 @@
+<section class="message-fillable-parent">
+	<div class="message-fill-parent">
+		<div class="message-fill-fixed">
+			<div id="message-conversation-pane" class="message-conversation-pane medium-8 large-9 columns">
+				<div class="message-fill-table">
+					<div class="message-conversation-titlebar">
+						<h4 id="template_meta_product_name" class="message-title message-left-adjustment-small">&nbsp;</h4>
+						<div class="product-control-buttons message-control-buttons">
+							<span>
+								<div class="switch-screens product-control-button show-for-small">
+									<i class="fi-arrow-left"></i>
+									See All
+								</div>
+								<div class="transaction-commit product-control-button show_for_seller product-control-button-constructive">
+									<i class="fi-check"></i>
+									Finalize
+								</div>
+								<div class="transaction-cancel product-control-button show_for_seller product-control-button-destructive">
+									<i class="fi-x"></i>
+									Cancel Sale
+								</div>
+								<div class="transaction-edit product-control-button show_for_buyer">
+									<i class="fi-pencil"></i>
+									Edit Offer
+								</div>
+								<div class="transaction-cancel product-control-button show_for_buyer product-control-button-destructive">
+									<i class="fi-x"></i>
+									Revoke Offer
+								</div>
+							</span>
+						</div>
+					</div>
+					<div class="message-message-pane">
+						<div id="message-conversation-container" class="message-message-pane-inner"></div>
+					</div>
+					<div id="template_send_msg" class="message-send-pane">
+						<br />
+						<input class="message-box" id="message-message-field" name="message-message-field" type="text" placeholder="What would you like to say?" />
+						<div class="message-standing-offer message-medium">
+							<div>The current offer is $<span id="template_meta_offer_price"></span></div>
+						</div>
+						<button id="message-send-button" class="message-send-button">Send</button>
+					</div>
+				</div>
+			</div>
+			<div id="message-sidebar" class="message-sidebar medium-4 large-3 hide-for-small columns">
+				<h4 class="message-left-adjustment"> All Chats</h4>
+				<span id="message-conversation-list"></span>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section id="template_convo_box" class="template">
+	<div class="message-convo-box">
+		<div class="template_product_name message-convo-name"></div>
+		<div class="template_user_name message-small"></div>
+		<div class="message-convo-previous message-small"></div>
+		<div class="message-small">$<span class="template_offer_price"></span> offer</div>
+	</div>
+</section>
+
+<section id="template_message" class="template">
+	<div class="message-message">
+		<div class="message-meta">
+			<strong class="template_name"></strong>
+			<span class="template_date meta-small"></span>
+		</div>
+		<div class="template_message message-contents"></div>
+	</div>
+</section>

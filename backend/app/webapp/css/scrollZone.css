@@ -1,0 +1,44 @@
+.scrollZone-inner-pane {
+	box-sizing: content-box;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding-right: 30px;
+	width: 100%;
+}
+
+.scrollZone-scrollbar-track {
+	display: inline-block;
+	height: 100%;
+
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.scrollZone-scrollbar {
+	display: inline-block;
+	position: absolute;
+}
+
+.scrollZone-inner-pane-horiz {
+	box-sizing: border-box;
+	height: 100%; width: 100%;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	padding-bottom: 3px;
+}
+
+.scrollZone-scrollbar-track-horiz {
+	display: inline-block;
+	width: 100%;
+
+	position: absolute;
+	left: 0;
+	bottom: 0;
+}
+
+.scrollZone-scrollbar-horiz {
+	display: inline-block;
+	position: absolute;
+}

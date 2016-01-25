@@ -1,0 +1,261 @@
+/* General stuff */
+
+::selection {
+	color: white;
+	background-color: #f33;
+}
+
+body {
+	font-family: "Open Sans" !important;
+	font-size: 0.9em;
+	overflow-y: scroll;
+}
+
+h1, h2, h3, h4, h5, h6, label {
+	color: #dbdbdb;
+	font-family: "Open Sans" !important;
+}
+
+a, a:visited {
+	color: #a0d3e8;
+	text-decoration: underline;
+}
+
+a:active, a:hover {
+	color: #a0d3e8;
+	text-decoration: none;
+}
+
+label {
+	margin: 0;
+}
+
+.click-grid li {
+	cursor: pointer;
+}
+
+
+.counter {
+	background-color: #dbdbdb;
+	color: black;
+	font-size: 0.6em;
+	font-weight: bold;
+	padding: 1px 7px 0;
+	position: relative;
+	top: -1px;
+	border-radius: 999px;
+}
+
+.auto-cap {
+	text-transform: capitalize;
+}
+
+/* Specific stuff */
+
+nav {
+	background-color: #444445;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+	padding: 15px 0;
+	width: 100%;
+	position: absolute;
+	z-index: 800;
+}
+nav h4 {
+	color: #dbdbdb;
+	font-weight: bold;
+	margin: 0;
+}
+
+nav img.logo {
+	height: 30px;
+}
+
+nav button {
+	background-color: rgba(0, 0, 0, 0) !important;
+	color: black !important;
+	padding: 5px 0 7px;
+	margin: 0;
+	margin-left: -25px;
+}
+
+nav input[type=text] {
+	height: 30px;
+	padding: 4px;
+	margin: 0;
+}
+
+nav ul {
+	list-style: none;
+	margin: 0;
+}
+
+nav li {
+	color: #dbdbdb;
+	float: left;
+	font-size: 1.2em;
+	margin: 0 8px;
+}
+
+.front-item {
+	padding-top: 70px !important;
+}
+
+.main-container {
+	background-color: #333334;
+	color: #dbdbdb;
+	height: 100%;
+	min-height: 100%;
+	padding: 10px 10px;
+}
+
+.main-container h4 {
+	color: #dbdbdb;
+	font-weight: bold;
+}
+
+.main-container section.padded {
+	padding: 0 20px;
+}
+
+.search::-ms-clear {
+	display: none;
+}
+
+.sidebar-container {
+	background-color: #3b3b3c;
+	height: 100%;
+	min-height: 100%;
+	padding: 10px 15px;
+}
+.sidebar-container.show-for-small {
+	box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+}
+.sidebar a {
+	color: #a0d3e8;
+	display: block;
+	padding: 4px 10px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-decoration: none;
+	text-overflow: ellipsis;
+}
+.sidebar a:hover {
+	background-color: #2b2b2b;
+}
+.sidebar h6 {
+	color: #8b8b8b;
+	font-weight: bold;
+	font-size: 0.9em;
+	margin: 0;
+	padding: 0 10px;
+	text-transform: uppercase;
+}
+.sidebar hr {
+	color: #4f4f4f;
+	border-color: #4f4f4f;
+	background-color: #4f4f4f;
+}
+
+/* Ubiquitous styles */
+
+.centered {
+	text-align: center;
+}
+
+.plain-link {
+	text-decoration: none;
+}
+
+.page-alert {
+	color: #f76868;
+	margin: 0;
+	padding: 0;
+}
+
+/* Page styles */
+
+.login {
+	margin-top: 50px;
+}
+
+/* Media Queries */
+
+@media only screen and (max-width: 40em) {
+	.main-container section.padded {
+		padding: 0 10px;
+	}
+}
+
+@media only screen and (min-width: 40.063em) and (max-width: 64em) {
+	.main-container section.padded {
+		padding: 0 15px;
+	}
+}
+
+@media only screen and (min-width: 64.063em) {
+	.main-container section.padded {
+		padding: 0 20px;
+	}
+}
+
+/* Fonts */
+
+@font-face {
+
+    font-family: "Open Sans";
+
+    font-style: normal;
+
+    font-weight: 700;
+
+    src: local("Open Sans Bold"), local("OpenSans-Bold"), url(https://themes.googleusercontent.com/static/fonts/opensans/v6/k3k702ZOKiLJc3WVjuplzJ1r3JsPcQLi8jytr04NNhU.woff) format('woff');
+
+}
+
+@font-face {
+
+    font-family: "Open Sans";
+
+    font-style: normal;
+
+    font-weight: 300;
+
+    src: local("Open Sans Light"), local("OpenSans-Light"), url(https://themes.googleusercontent.com/static/fonts/opensans/v6/DXI1ORHCpsQm3Vp6mXoaTZ1r3JsPcQLi8jytr04NNhU.woff) format('woff');
+
+}
+
+@font-face {
+
+    font-family: "Open Sans";
+
+    font-style: normal;
+
+    font-weight: 800;
+
+    src: local("Open Sans Extrabold"), local("OpenSans-Extrabold"), url(https://themes.googleusercontent.com/static/fonts/opensans/v6/EInbV5DfGHOiMmvb1Xr-hp1r3JsPcQLi8jytr04NNhU.woff) format('woff');
+
+}
+
+@font-face {
+
+    font-family: "Open Sans";
+
+    font-style: normal;
+
+    font-weight: 400;
+
+    src: local("Open Sans"), local("OpenSans"), url(https://themes.googleusercontent.com/static/fonts/opensans/v6/K88pR3goAWT7BTt32Z01mz8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+
+}
+
+/* To make the pageLoader framework work */
+.template {display: none};
+
+@-webkit-keyframes move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 50% 50%;
+  }
+}

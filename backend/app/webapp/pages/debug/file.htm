@@ -1,0 +1,201 @@
+<section class="padded form">
+
+	<style>
+		.bar-holder {
+			box-sizing: border-box;
+			border: 2px solid rgba(255, 255, 255, 0.2);
+			font-weight: bold;
+			max-width: 400px;
+			width: 75%;
+			margin: auto;
+			text-transform: uppercase;
+			padding: 2px;
+		}
+		.stripes {
+			animation: progbar 3s linear infinite;
+			-webkit-animation: progbar 3s linear infinite;
+			-ms-animation: progbar 3s linear infinite;
+			-moz-animation: progbar 3s linear infinite;
+			-o-animation: progbar 3s linear infinite;
+			background-size: 30px 30px;
+			background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.1) 75%, transparent 75%, transparent);
+			height: 100%;
+			text-align: center;
+		}
+		.fill-all {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			height: 100%;
+			width: 100%;
+			vertical-align: middle;
+		}
+		.image_holster {
+			border: 2px solid #444;
+			display: table;
+			width: 100%;
+			height: 0;
+			padding-bottom: 100%;
+			position: relative;
+			text-align: center;
+		}
+		.image_holster > div {
+			padding: 5px 5px 0 5px;
+			overflow: hidden;
+			border-bottom: 5px solid rgba(0, 0, 0, 0);
+		}
+		/*.image_holster div {
+			display: table-cell;
+			text-align: center;
+			vertical-align: middle;
+		}*/
+
+		@keyframes progbar {
+			0% {
+				background-position: -60px 0;
+			}
+			100% {
+				background-position: 0 0;
+			}
+		}
+		@-ms-keyframes progbar {
+			0% {
+				background-position: -60px 0;
+			}
+			100% {
+				background-position: 0 0;
+			}
+		}
+		@-webkit-keyframes progbar {
+			0% {
+				background-position: -60px 0;
+			}
+			100% {
+				background-position: 0 0;
+			}
+		}
+		@-moz-keyframes progbar {
+			0% {
+				background-position: -60px 0;
+			}
+			100% {
+				background-position: 0 0;
+			}
+		}
+		@-o-keyframes progbar {
+			0% {
+				background-position: -60px 0;
+			}
+			100% {
+				background-position: 0 0;
+			}
+		}
+	</style>
+
+	<ul id="image_out" class="small-block-grid-4 medium-block-grid-6 large-block-grid-8"></ul>
+	<div id="proto123" style="position: relative; padding: 15px 20px; text-align: center; font-size: 0.8em; border: 2px dashed #888; cursor: pointer;">
+		<div class="show-for-instruction">Click here to choose a file</div>
+		<div class="show-for-instruction hide-for-small">You can also drag and drop files onto this box</div>
+		<div class="show-for-progress fill-all">
+			<table style="height: 100%; width: 100%; background: none; border: none;">
+				<tr><td>
+				<div class="bar-holder">
+					<div class="stripes">Uploading your files</div>
+				</div>
+			</td></tr>
+			</table>
+		</div>
+		<form id="uploader_form" target="ajax_frame" action="http://localhost:3000/image/product" method="post" enctype="multipart/form-data" style="display: none">
+			<input type="hidden" name="redirect" value="http://localhost/rutgersexchange/pages/debug/query_json.htm" />
+			<input type="hidden" name="_method" value="put" />
+			<input type="hidden" name="user_id" id="user_id" />
+			<input type="hidden" name="session_token" id="session_token" />
+			<input type="hidden" name="csrf_token" id="csrf_token" />
+			<input type="file" name="file[]" id="file" multiple="multiple" capture="camera" accept="image/jpg,image/jpeg,image/png,image/gif" />
+		</form>
+	</div>
+	<div id="error_out" class="error"></div>
+
+
+	<script type="text/javascript">
+
+		$("#user_id").val(pageLoader.getParam("user_id"));
+		$("#session_token").val(pageLoader.getParam("session_token"));
+		$("#csrf_token").val(pageLoader.getParam("csrf_token"));
+
+		$(".show-for-progress").css("visibility", "hidden");
+
+		var box = $("#proto123")[0];
+
+		$(box).click(function() {
+			$("#file")[0].click();
+		});
+
+		$("#uploader_form").first().attr("action", apiHandler.server + "/image/product");
+
+		$("#file").change(function() {
+			pageLoader.getWnd().append($('<iframe id="ajax_frame" name="ajax_frame" style="display: none"></iframe>'));
+
+			$("#ajax_frame").load(function() {
+				var response = JSON.parse($("#ajax_frame").contents().find("body").text());
+
+				$("#error_out").html("");
+
+				console.log(response);
+
+				if(!response.error) {
+					var results = response.results;
+					if(results) {
+						for(var i = 0; i < results.length; i++) {
+							if(!results[i].error) {
+								$("#image_out").append($("<li style='padding: 5px'><div class='image_holster'><div class='fill-all'><table style='width: 100%; height: 100%'><tr><td><img src='" + apiHandler.server + "/image/product/" + results[i].id + "' /></td></tr></table></div></div></li>"));
+							} else {
+								if(results[i].status == 474) $("#error_out").append("The file \"" + results[i].file_name + "\" could not be uploaded because it is not a jpeg, png, or gif image.<br />");
+								else if(results[i].status == 476) $("#error_out").append("The file \"" + results[i].file_name + "\" could not be uploaded because it exceeds the max file size limit of 100MB.<br />");
+								else $("#error_out").append("The file \"" + results[i].file_name + "\" could not be uploaded.<br />");
+							}
+						}
+					}
+				} else {
+					if(response.status == 403)
+						$("#error_out").append("An authentication error occurred.<br />");
+					else if(response.status == 477)
+						$("#error_out").append("You cannot upload more than 8 images at once.<br />");
+				}
+
+				$("#file")[0].value = '';
+
+				$("#ajax_frame").remove();
+				$('.show-for-progress').css("visibility", "hidden");
+				$('.show-for-instruction').css("visibility", "visible");
+			});
+
+			$('.show-for-progress').css("visibility", "visible");
+			$('.show-for-instruction').css("visibility", "hidden");
+			$("#uploader_form")[0].submit();
+		});
+
+		box.addEventListener('dragenter', function(e) {
+			if(e.stopPropogation) e.stopPropogation();
+			if(e.preventDefault) e.preventDefault();
+			else return false;
+		}, false);
+		box.addEventListener('dragover', function(e) {
+			if(e.stopPropogation) e.stopPropogation();
+			if(e.preventDefault) e.preventDefault();
+			else return false;
+		}, false);
+		box.addEventListener('drop', function(e) {
+			if(e.stopPropogation) e.stopPropogation();
+			if(e.preventDefault) e.preventDefault();
+
+			var dt = e.dataTransfer;
+
+			$("#file")[0].files = dt.files;
+		}, false);
+
+	</script>
+
+</section>

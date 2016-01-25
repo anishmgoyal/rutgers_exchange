@@ -1,0 +1,21 @@
+<section>
+	<form id="offer-form" class="offer-form form">
+		<input type="hidden" id="product_id" name="product_id" value="-1" />
+		<div class="small-12 medium-centered medium-10 large-4 columns">
+			<h4 id="template_product_name" class="auto-cap"></h4>
+			<div>
+				<label>Asking Price</label>
+				The seller would like <strong>$<span id="template_price"></span></strong> for this item.
+			</div>
+			<div>
+				<label for="offer_price">Your Offer (USD)</label>
+				<label for="offer_price" id="price_error" class="error"></label>
+				<input type="text" id="offer_price" name="offer_price" />
+			</div>
+			<div>
+				<button type="submit" id="template_submit" class="form_button">Place Offer</button>
+				<a href="#!/products/view/:product_id" id="template_cancel" class="template_link">Click to cancel</a>
+			</div>
+		</div>
+	</form>
+</section>

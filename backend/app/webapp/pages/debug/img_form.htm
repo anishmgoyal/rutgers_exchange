@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>HEADLESS</title>
+		<script type="text/javascript">
+			window.onload = function() {
+				parent.loadUploadForm();
+			};
+		</script>
+	</head>
+	<body>
+		<form method="post" id="photo_upload_form" action=":server_url/image/product" enctype="multipart/form-data">
+			<input type="hidden" name="_method" value="put" />
+			<input type="hidden" id="user_id" name="user_id" />
+			<input type="hidden" id="session_token" name="session_token" />
+			<input type="hidden" id="csrf_token" name="csrf_token" />
+			<input type="file" id="file_field" name="file" />
+		</form>
+	</body>
+</html>

@@ -1,0 +1,30 @@
+<h3>Image Api Test</h3>
+<form id="test" enctype="multipart/form-data">
+	<input type="file" id="file" name="file[]" multiple="multiple" />
+</form>
+<div id="out">
+
+</div>
+
+<script type="text/javascript">
+
+	$("#file").change(function() {
+		ImageApi.upload(document.getElementById("test"), ImageApi.PRODUCT, function success(data) {
+			var results = data.results;
+			console.log("Upload response");
+			console.log(data);
+			console.log("");
+			for(var i = 0; i < results.length; i++) {
+				if(!results[i].error) {
+					$("#out").append($("<img src='" + ImageApi.serverImageURL(results[i].id, ImageApi.PRODUCT) + "' style='max-width: 200px; max-height: 200px; margin: 4px;' />"));
+				} else {
+					console.log(results[i]);
+				}
+			}
+		}, function error(code, response) {
+			console.log("Error code received: " + code);
+			console.log(response);
+		});
+	});
+
+</script>

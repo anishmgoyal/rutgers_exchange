@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
 
+  # Webapp
+  get '/' => 'webapp#get_index'
+  get '/css/*all' => 'webapp#get'
+  get '/js/*all' => 'webapp#get'
+  get '/pages/*all' => 'webapp#get'
+  get '/img/*all' => 'webapp#get'
+
   # User accounts
   get '/users/login' => 'user#login'
   put '/users/lgn' => 'user#authenticate'

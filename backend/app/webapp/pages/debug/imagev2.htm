@@ -1,0 +1,73 @@
+
+<section class="padded">
+	<div class="small-12 columns small-centered">
+		<h4 id="template_product_name" class="product-listing-title auto-caps"></h4>
+
+		<div class="product-control-buttons product-listing-controls template_show_seller">
+			<div class="product-control-button">
+				<a id="template_sv_edit" class="template_link" href="#!/products/edit/:product_id">
+					<i class="fi-pencil"></i>
+					Edit
+				</a>
+			</div>
+			<div id="template_sv_publish" class="product-show-for-draft product-control-button product-control-button-constructive">
+				<i class="fi-eye"></i>
+				Publish
+			</div>
+			<div id="template_sv_delete" class="product-control-button product-control-button-destructive">
+				<i class="fi-trash"></i>
+				Remove
+			</div>
+		</div>
+
+		<div id="template_sv_product_poster" class="template_show_seller product-listing-poster">Listed by you on <span class="template_product_date"></span></div>
+
+		<div class="product-listing-price">Asking Price: $<span id="template_product_price"></span></div>
+
+	</div>
+	<div class="product-listing-image">
+		<div class="image-viewer">
+			<div class="image-viewer-selected">
+				<img />
+				<div class="image-viewer-lr-control image-viewer-left-control image-viewer-control-disabled"><div class="image-viewer-lr-control-content"></div></div>
+				<div class="image-viewer-lr-control image-viewer-right-control image-viewer-control-disabled"><div class="image-viewer-lr-control-content"></div></div>
+			</div>
+			<div class="image-viewer-slider-container">
+				<div class="image-viewer-slider"></div>
+			</div>
+		</div>
+	</div>
+	<div class="small-12 columns small-centered">
+
+		<!-- Show the description -->
+		<div class="product-listing-header">Description</div>
+		<div class="product-listing-description" id="template_product_description"></div>
+	</div>
+</section>
+
+<section id="image-viewer-image-template" class="template">
+	<div class="image-viewer-slider-image">
+		<img />
+		<div class="image-viewer-overlay">
+		</div>
+	</div>
+</section>
+
+<script type="text/javascript">
+
+	ProductApi.getProduct(77, function success(data) {
+		$("#template_product_name").text(data.product_name);
+		$("#template_product_description").text(data.description);
+		$("#template_product_price").text(apiHandler.serverCurrencyToClient(data.price));
+		$("#template_product_date").text(data.created_at);
+		var imageViewer = new ImageViewer({});
+		for(var j = 0; j < 2; j++)
+			for(var i = 0; i < data.images.length; i++) {
+				imageViewer.addImage(data.images[i]);
+			}
+		imageViewer.loadComplete();
+	}, function error(code) {
+		$("#template_product_name").text("Error " + code);
+	});
+
+</script>

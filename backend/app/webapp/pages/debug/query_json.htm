@@ -1,0 +1,88 @@
+<!-- This turns a rails Hash.to_query result into a JSON object -->
+<script type="text/javascript">
+
+	var query_obj = {};
+	var query_string = window.location.search.substring(1);
+	var query_string_segments = query_string.split("&");
+
+	for(var i = 0; i < query_string_segments.length; i++) {
+
+		var query_item = query_string_segments[i].split("=");
+		if(query_item.length < 2) continue;
+
+		var value = decodeURIComponent(query_item[1]);
+		value = checkForSpecial(value);
+		
+		var insertionProtocol = keyParse(decodeURIComponent(query_item[0]));
+		insert(insertionProtocol, query_obj, value);
+
+	}
+
+	document.write(JSON.stringify(query_obj));
+
+	// Check if this is a boolean or numerical item
+	// Only ints and floats in decimal are supported for numericals
+	function checkForSpecial(value) {
+		if (value == "true") return true;
+		else if (value == "false") return false;
+		else if (value.match(/^-?\d*(\.\d+)?$/))
+			if(value.indexOf(".") == -1) return parseInt(value, 10);
+			else return parseFloat(value, 10);
+		else return value
+	}
+
+	// Check if this is a deep-nested object
+	function keyParse(key) {
+		var array_name;
+		var last_left = key.lastIndexOf("[");
+		var last_right = key.lastIndexOf("]");
+		if(last_left < 0 || last_right < 0 || last_right < last_left) {
+			// Recursive base case
+			return [{type: "accessor", value: key}];
+		} else {
+			// Do recursive call
+			var cut = key.substring(0, last_left);
+			var ret = keyParse(cut);
+			// Process the right-most brackets
+			if(last_right - last_left == 1) ret.push({type: "pusher"});
+			else ret.push({type: "accessor", value: key.substring(last_left + 1, last_right)});
+			
+			return ret;
+		}
+	}
+
+	// Insert (supports deep-nested objects as well as non-nested hashes)
+	function insert(insertionProtocol, container, value) {
+		for(var i = 0; i < insertionProtocol.length - 1; i++) {
+			var descent = insertionProtocol[i];
+			if(descent.type == "accessor") {
+				var tmp_container = container[descent.value];
+				if(!tmp_container) {
+					tmp_container = (insertionProtocol[i+1].type == "accessor")? {} : [];
+					container[descent.value] = tmp_container;
+				}
+				container = tmp_container;
+			} else {
+				if(insertionProtocol[i+1].type == "accessor") {
+					if(container.length == 0 || container[container.length - 1].hasOwnProperty(insertionProtocol[i+1].value)) {
+						tmp_container = {};
+						container.push(tmp_container);
+						container = tmp_container;
+					} else {
+						container = container[container.length - 1];
+					}
+				} else {
+					tmp_container = [];
+					container.push(tmp_container);
+					container = tmp_container;
+				}
+			}
+		}
+		var last = insertionProtocol[insertionProtocol.length - 1];
+		if(last.type == "accessor") {
+			container[last.value] = value;
+		}
+		else container.push(value);
+	}
+
+</script>

@@ -1,0 +1,124 @@
+<section>
+	<div id="offer_switch_pane">
+		<div class="spcontent" id="switch_pane_buying">
+			<p>
+				<strong>You do not have any active offers as a buyer.</strong>
+			</p>
+			<p>
+				<strong>
+					If you previously did make an offer on a product, and it is not here, it is possible that the offer
+					was rejected by the seller. This can happen even if the seller had previously accepted the offer.
+				</strong>
+			</p>
+			<p>
+				<strong>
+					Another reason this may occur is if the seller of the product deleted the product you had made an
+					offer for.
+				</strong>
+			</p>
+			<p>
+				<strong>
+					Finally, it is possible that the seller marked the transaction as complete. If this is the case, you
+					should already be in possession of the product you were attempting to buy.
+				</strong>
+			</p>
+		</div>
+		<div class="spcontent" id="switch_pane_selling">
+			<p>
+				<strong>You do not have any active offers as a seller.</strong>
+			</p>
+			<p>
+				<strong>
+					When you list products, offers that other users make to buy them appear here.
+					If you recently listed a product, it is possible that buyers have not discovered it yet.
+				</strong>
+			</p>
+			<p>
+				<strong>
+					When making listings, ensure that you give them helpful titles and descriptions. Whenever
+					possible, include images of what you're selling - you're allowed to add up to four.
+				</strong>
+			</p>
+		</div>
+		<div class="tab_pane">
+			<a class="tab active" id="tab_buying">Buying</a><!--
+			--><a class="tab last" id="tab_selling">Selling</a>
+		</div>
+	</div>
+</section>
+
+<section class="template" id="template_product_header">
+	<div class="product-row-container">
+		<div class="product-row product-row-offer">
+			<div class="product-row-left">
+				<a href="#!/products/view/:product_id" class="plain-link template_link">
+					<div class="template_image product-row-image"></div>
+				</a>
+			</div>
+			<div class="product-row-right">
+				<a href="#!/products/view/:product_id" class="plain-link template_link">
+					<div class="template_name product-row-name product-row-offer-name"></div>
+				</a>
+
+				<div class="show_for_buyer">
+					<div class="product-control-button">
+						<a href="#!/offers/edit/:offer_id" class="plain-link template_link">
+							<i class="fi-pencil"></i>
+							Edit
+						</a>
+					</div>
+					<div class="product-control-button product-control-button-destructive template_revoke_link">
+							<i class="fi-trash"></i>
+							Revoke
+					</div>
+				</div>
+				<div class="show_for_seller">
+					<div class="product-control-button product-control-button-constructive hide-for-accepted template_accept_link">
+						<i class="fi-check"></i>
+						Accept Top
+					</div>
+					<div class="product-control-button template_viewall_link">
+						<i class="fi-info"></i>
+						View All
+					</div>
+				</div>
+				
+				<div class="product-row-price product-important show_for_buyer">
+					You offered $<span class="template_offer_price"></span>
+				</div>
+				<div class="product-row-price product-important show_for_seller">
+					<span class="num_offers"></span> offer<span class="num_offers_plural"></span> up to
+					$<span class="template_offer_max_price"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="product-offer-list"></div>
+</section>
+
+<section id="template_offer_row" class="template">
+	<div class="product-popup-offer-row">
+		<div>
+			<strong>$<span class="template_offer_price"></span></strong> by <a href="#!/users/view/:user_id" class="template_link template_seller_name"></a>
+		</div>
+		<div>
+			Offered on <span class="template_offer_date"></span>
+		</div>
+		<div>
+			<div class="product-control-button dialog-closer template_conversation_link" style="display: none">
+				<a href="#!/messages/:conversation_id" class="plain-link template_link">
+					<i class="fi-mail"></i>
+					SEE CONVERSATION
+				</a>
+			</div>
+			<div class="product-control-button product-control-button-constructive dialog-closer template_accept_link">
+				<i class="fi-check"></i>
+				ACCEPT
+			</div>
+			<div class="product-control-button product-control-button-destructive dialog-closer template_reject_link">
+				<i class="fi-x"></i>
+				REJECT
+			</div>
+		</div>
+	</div>
+</section>

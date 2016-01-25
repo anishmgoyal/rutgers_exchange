@@ -1,0 +1,57 @@
+<div class="image-uploader-image-pane">
+	<div class="image-uploader-show-for-notempty">
+		<div class="product-control-button image-uploader-how-to-sort">
+			<i class="fi-info"></i>
+			How to sort
+		</div>
+	</div>
+</div>
+<div class="image-uploader-upload-box">
+	<span>
+		<div class="image-uploader-show-for-instruction">Click here to choose pictures</div>
+		<div class="image-uploader-show-for-instruction hide-for-small">You can also drag and drop files onto this box</div>
+	</span>
+	<div class="image-uploader-show-for-progress image-uploader-progress-container">
+		<div class="image-uploader-progress-bar">
+			<div class="image-uploader-progress-stripes">
+				Uploading your files
+			</div>
+		</div>
+	</div>
+</div>
+<div class="image-uploader-error"></div>
+
+<form class="image-uploader-form" enctype="multipart/form-data">
+	<input type="file" id="file" name="file[]" multiple="true" accept="image/jpg,image/jpeg,image/png,image/gif" capture="camera" />
+</from>
+
+<div id="template_image_template">
+	<div class="image-uploader-image-container">
+		<div class="image-uploader-image-block">
+			<div class="image-uploader-image-padding">
+				<div class="image-uploader-image-inner">
+					<img class="image-uploader-image" />
+					<div class="image-uploader-image-overlay">
+						<div class="image-uploader-image-overlay-content"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="image-uploader-image-text">
+			<div class="product-control-button product-control-button-destructive image-uploader-delete-button">
+				<i class="fi-x"></i>
+				Delete
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	ImageUploader({
+		elem: $(".image-uploader-upload-box"),
+		form: $(".image-uploader-form"),
+		imagePane: $(".image-uploader-image-pane"),
+		imageTemplate: $("#template_image_template").html(),
+		errorPane: $(".image-uploader-error")
+	});
+</script>

@@ -1,0 +1,106 @@
+<section>
+	<form class="product-listing-form form">
+		<div class="small-12 large-8 columns small-centered">
+			<div class="row">
+				<div class="small-12 columns">
+					<h4 class="product-listing-legend show-for-new">New Listing</h4>
+					<h4 class="product-listing-legend show-for-edit">Edit Listing</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-12 columns">
+					<label for="product_name">Listing Title</label>
+					<input type="text" id="product_name" name="product_name" />
+					<label for="product_name" id="product_name_error" class="error"></label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-12 columns">
+					<label>Images</label>
+					<span class="show-for-new">
+						You will be able to add images after entering the details of your listing.
+					</span>
+					<span class="show-for-edit">
+						<div id="template_listing_images">
+							You have not added any images for this listing.
+						</div>
+					</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-12 medium-4 columns">
+					<label for="product_price">Price</label>
+					<input type="text" id="product_price" name="product_price" />
+					<label for="product_price" id="price_error" class="error"></label>
+				</div>
+				<div class="small-12 medium-4 columns">
+					<label for="product_type">Category</label>
+					<select id="product_type" name="product_type">
+						<option value="MISC">Miscellaneous</option>
+						<option value="TEXTBOOK">Textbook</option>
+						<option value="FURNITURE">Furniture</option>
+					</select>
+				</div>
+				<div class="small-12 medium-4 columns">
+					<label for="product_condition">Condition</label>
+					<select id="product_condition" name="product_condition">
+						<option value="">Select One</option>
+						<option value="NEW">New</option>
+						<option value="NEWISH">Newish</option>
+						<option value="EXCELLENT">Excellent</option>
+						<option value="GOOD">Good</option>
+						<option value="FAIR">Fair</option>
+						<option value="POOR">Poor</option>
+						<option value="FORPARTS">For Parts</option>
+					</select>
+					<label for="product_condition" id="product_condition_error" class="error"></label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-12 columns">
+					<label for="description">Description</label>
+					<label for="description" id="description_error" class="error"></label>
+					<textarea id="description" name="description" maxlength="2500"></textarea>
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-12 medium-4 large-4 columns">
+					<button id="template-image-upload" onclick="this.form.goal=&quot;image-upload&quot;" type="submit" class="form_button product-listing-submit">
+						<span class="show-for-new">Add</span>
+						<span class="show-for-edit">Manage</span>
+						Images
+					</button>
+				</div>
+				<div class="small-12 medium-4 large-4 columns">
+					<button id="template-save-draft" onclick="this.form.goal=&quot;save-draft&quot;" type="submit" class="form_button product-listing-submit">
+						<span class="product-show-for-draft">Save</span>
+						<span class="show-for-new">as</span>
+						<span class="show-for-edit product-hide-for-draft">Revert to</span>
+						Draft
+					</button>
+				</div>
+				<div class="small-12 medium-4 large-4 columns">
+					<button id="template-publish-now" onclick="this.form.goal=&quot;publish-now&quot;" type="submit" class="form_button product-listing-submit">
+						<span class="product-show-for-draft">Publish Listing</span>
+						<span class="show-for-edit product-hide-for-draft">Save Changes</span>
+					</button>
+				</div>
+			</div>
+			<div class="show-for-edit row" style="margin-left: 10px;">
+				<a href="#!/products/view/:id" class="template_link">Click to cancel</a>
+			</div>
+		</div>
+	</form>
+</section>
+
+<section id="template_image_template" class="template">
+	<div class="image-uploader-image-container image-uploader-no-select">
+		<div class="image-uploader-image-block">
+			<div class="image-uploader-image-padding">
+				<div class="image-uploader-image-inner">
+					<img class="image-uploader-image" />
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

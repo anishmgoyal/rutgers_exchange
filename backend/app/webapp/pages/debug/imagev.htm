@@ -1,0 +1,328 @@
+<script type="text/javascript">
+
+</script>
+<style>
+
+.image-viewer {
+	background-color: #222;
+	background-image: linear-gradient(#242424, #202020);
+	box-shadow: 0 1px 10px 0 black;
+	padding: 10px;
+	width: 100%;
+	margin-bottom: 10px;
+	position: relative;
+}
+
+.image-viewer-main {
+	display: inline-block;
+	width: 100%;
+	min-height: 200px;
+	height: 30vh;
+	max-height: 500px;
+	vertical-align: middle;
+	white-space: nowrap;
+	position: relative;
+}
+.image-viewer-main:before {
+	content: '';
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+	width: 0;
+	margin-left: -0.25em;
+}
+
+.image-viewer-main img {
+	box-shadow: 0 1px 15px 0 black;
+	max-height: 100%;
+	max-width: 100%;
+}
+
+.image-viewer-slider {
+	margin: 10px 0 0;
+	width: 100%;
+	height: 80px;
+	position: relative;
+	box-sizing: border-box;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.image-viewer-slider-image {
+	height: 100%;
+	position: relative;
+	padding: 0 3px 0;
+	display: inline-block;
+	box-sizing: border-box;
+}
+
+.image-viewer-slider-image img {
+	height: 100%;
+	width: auto;
+	box-shadow: 0 0 5px black;
+}
+
+.image-viewer-active .image-viewer-overlay {
+	position: absolute;
+	top: 0; left: 3px; right: 3px; bottom : 0;
+	background-color: rgba(255, 255, 255, 0.3);
+}
+
+.image-viewer-author-controls {
+	margin: 5px 0;
+	font-size: 1.2em;
+}
+
+.image-control {
+	color: white;
+	font-size: 3em;
+	position: absolute;
+	height: 100%;
+	width: 40px;
+	text-align: center;
+	vertical-align: middle;
+	display: inline-block;
+	cursor: pointer;
+	opacity: 1;
+	text-shadow: 0 0 2px black, 0 0 5px black;
+}
+.image-control:hover {
+	font-size: 4em;
+}
+.image-control-disabled {
+	opacity: 0.5;
+	font-size: 3em;
+}
+.image-control-disabled:hover {
+	font-size: 3em;
+}
+.image-control-content {
+	display: inline-block;
+	padding: 0;
+}
+.image-control-left:before, .image-control-right:after {
+	content: '';
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+	width: 0;
+	font-size: 0;
+	margin-left: -0.25em;
+}
+
+.image-control-left {
+	left: 0;
+}
+
+.image-control-left .image-control-content:after {
+	content: '\2039';
+}
+
+.image-control-right .image-control-content:before {
+	content: '\203a';
+}
+
+.image-control-right {
+	right: 0;
+}
+
+@media only screen and (max-width: 40em) {
+	.image-viewer-slider {
+		height: 50px;
+	}
+}
+
+</style>
+
+<br />
+<section class="padded">
+	<div class="small-12 medium-12 large-7 columns small-centered">
+		<h4 id="template_product_name" class="product-listing-title auto-caps"></h4>
+
+		<!--<div class="page-alert product-show-for-draft small-12 columns template_show_seller">
+			This listing is currently a <strong>draft</strong> and has yet to be published.
+		</div>-->
+
+		<div class="product-control-buttons product-listing-controls template_show_seller">
+			<div class="product-control-button">
+				<a id="template_sv_edit" class="template_link" href="#!/products/edit/:product_id">
+					<i class="fi-pencil"></i>
+					Edit
+				</a>
+			</div>
+			<div id="template_sv_publish" class="product-show-for-draft product-control-button product-control-button-constructive">
+				<i class="fi-eye"></i>
+				Publish
+			</div>
+			<div id="template_sv_delete" class="product-control-button product-control-button-destructive">
+				<i class="fi-trash"></i>
+				Remove
+			</div>
+		</div>
+
+		<!--<div class="product-control-buttons product-listing-controls template_show_buyer">
+			<div class="product-control-button product-control-button-constructive">
+				<a id="template_bv_offer_same" class="template_link" href="#!/offers/new/:product_id/same">
+					<i class="fi-price-tag"></i>
+					Offer asking price
+				</a>
+			</div>
+			<div class="product-control-button">
+				<a id="template_bv_offer_diff" class="template_link" href="#!/offers/new/:product_id/diff">
+					<i class="fi-price-tag"></i>
+					Offer another amount
+				</a>
+			</div>
+		</div>-->
+
+		<!-- Show who posted this, and when it was posted -->
+		<!--<div id="template_bv_product_poster" class="template_show_buyer product-listing-poster">Listed by <a id="template_bv_product_usrlink" class="template_link" href="#!/user/:user_id"></a> on <span class="template_product_date"></span></div>-->
+		<div id="template_sv_product_poster" class="template_show_seller product-listing-poster">Listed by you on <span class="template_product_date"></span></div>
+
+		<!-- Show pricing info -->
+		<div class="product-listing-price">Asking Price: $<span id="template_product_price"></span></div>
+
+		<br />
+
+	</div>
+	<div class="product-listing-image small-12 medium-12 large-7 columns small-centered">
+		<div class="image-viewer">
+			<div class="image-viewer-main">
+				<img id="template_product_image" />
+				<div class="image-control image-control-left image-control-disabled"><div class="image-control-content"></div></div>
+				<div class="image-control image-control-right"><div class="image-control-content"></div></div>
+			</div>
+			<div class="image-viewer-author-controls">
+				<div class="product-control-button">
+					<i class="fi-pencil"></i>
+					EDIT IMAGES
+				</div>
+			</div>
+			<div id="slider" class="image-viewer-slider"></div>
+		</div>
+	</div>
+	<div class="small-12 medium-12 large-7 columns small-centered">
+
+		<!-- Show the description -->
+		<div class="product-listing-header">Description</div>
+		<div class="product-listing-description" id="template_product_description"></div>
+	</div>
+</section>
+
+<section id="image-viewer-image-template" class="template">
+	<div class="image-viewer-slider-image">
+		<img />
+		<div class="image-viewer-overlay">
+		</div>
+	</div>
+</section>
+
+<script type="text/javascript">
+
+	ProductApi.getProduct(77, function success(data) {
+		var storage = {};
+		$("#template_product_name").text(data.product_name);
+		$("#template_product_image").attr("src", ImageApi.serverImageURL(data.images[0], ImageApi.PRODUCT));
+		$("#template_product_date").text(data.created_at);
+		$("#template_product_price").text(apiHandler.serverCurrencyToClient(data.price));
+		$("#template_product_description").text(data.description);
+		for(var i = 0; i < data.images.length; i++) {
+			var item = $("<div />").addClass("image-viewer-slider-block");
+			var image = $("<div />")
+				.addClass("image-viewer-slider-image")
+				.css("cursor", "pointer")
+				.append('<img src="' + ImageApi.serverImageURL(data.images[i], ImageApi.PRODUCT) + '" />');
+			if(i == 0) image.addClass("image-viewer-active");
+			image.append('<div class="image-viewer-overlay"> </div>');
+			image.on('click touchend', (function(url, storage) {
+				return function(e) {
+					if(storage.delta < 10) {
+						$(".image-viewer-active").removeClass("image-viewer-active");
+						$(this).addClass("image-viewer-active");
+						setTimeout(function() {	
+							$("#template_product_image").attr("src", url);
+						}.bind(this, url), 1);
+						$(".image-control-disabled").removeClass("image-control-disabled");
+						var next = $(this).next('.image-viewer-slider-image');
+						var prev = $(this).prev('.image-viewer-slider-image');
+						if(next.length == 0) {
+							$(".image-control-right").addClass("image-control-disabled");
+						}
+						if(prev.length == 0) {
+							$(".image-control-left").addClass("image-control-disabled");
+						}
+					}
+					storage.delta = 0;
+				};
+			})(ImageApi.serverImageURL(data.images[i], ImageApi.PRODUCT), storage));
+			$("#slider").append(image);
+		}
+		$("#slider").on('mousedown', function(e) {
+			storage.delta = 0;
+			storage.pageX = e.pageX;
+			var mousemove = function(e) {
+				var slider = $("#slider");
+				var scale = slider.prop("scrollWidth") / slider.innerWidth();
+				var delta = (this.pageX - e.pageX) * Math.max(1, scale / 1.4);
+				this.delta += Math.abs(this.pageX - e.pageX);
+				this.pageX = e.pageX;
+				slider.scrollLeft(slider.scrollLeft() + delta);
+				e.preventDefault();
+			}.bind(storage);
+			$(window).one('mouseup', function() {
+				$(window).off('mousemove', mousemove);
+			});
+			$(window).on('mousemove', mousemove);
+		});
+		$("#slider").on('touchstart', function(e) {
+			storage.pageX = getPointerEvent(e).pageX;
+			storage.delta = 0;
+			var touchmove = function(e) {
+				this.delta += Math.abs(this.pageX - getPointerEvent(e).pageX);
+				var slider = $("#slider");
+				var scale = slider.prop("scrollWidth") / slider.innerWidth();
+				var delta = (this.pageX - getPointerEvent(e).pageX) * Math.max(1, scale / 1.4);
+				this.pageX = getPointerEvent(e).pageX;
+				slider.scrollLeft(slider.scrollLeft() + delta);
+			}.bind(storage);
+			$(window).one('touchend', function() {
+				$(window).off('touchmove', touchmove);
+			});
+			$(window).on('touchmove', touchmove);
+			e.preventDefault();
+		});
+
+		$(".image-control").on('mousedown touchend', function(e) {
+			var isRight = $(this).hasClass("image-control-right");
+			var curr = $(".image-viewer-active");
+			var sibFn = (isRight)? "next" : "prev"
+			var sibs = curr[sibFn + "All"](".image-viewer-slider-image");
+			if(sibs.length > 0) {
+				var slider = $("#slider");
+				var target = sibs.first();
+				storage.delta = false;
+				target.first().trigger("click");
+				var left = target.position().left;
+				var width = target.outerWidth();
+				var slWidth = slider.innerWidth();
+				var pos = slider.scrollLeft();
+				if(left < 0) {
+					slider.scrollLeft(pos + left);
+				}
+				if(left + width > slWidth) {
+					slider.scrollLeft(pos + left - slWidth + width);
+				}
+			}
+			e.preventDefault();
+		});
+
+		$("img").on('load', $(window).trigger.bind($(window), "resize"));
+	}, function error(code) {
+		$("#template_product_name").text("Error " + code);
+	});
+
+	var getPointerEvent = function(ev) {
+		return ev.originalEvent.targetTouches ? ev.originalEvent.targetTouches[0] : ev.originalEvent.touches ? ev.originalEvent.touches[0] : ev.originalEvent.changedTouches ? ev.originalEvent.changedTouches[0] : ev;
+	};
+
+</script>
