@@ -82,6 +82,7 @@ class OfferController < ApplicationController
                                 user: {
                                     user_id: product.user.id
                                 },
+                                thumbnail: product.thumbnail,
                                 product_id: product.id,
                                 product_name: product.product_name,
                                 product_price: product.price
@@ -107,6 +108,7 @@ class OfferController < ApplicationController
                                 user: {
                                     user_id: product.user.id
                                 },
+                                thumbnail: product.thumbnail,
                                 product_id: product.id,
                                 product_name: product.product_name,
                                 product_price: product.price
@@ -137,6 +139,7 @@ class OfferController < ApplicationController
                                 user: {
                                     user_id: offer.product.user.id
                                 },
+                                thumbnail: offer.product.thumbnail,
                                 product_id: offer.product.id,
                                 product_name: offer.product.product_name,
                                 product_price: offer.product.price
@@ -165,6 +168,7 @@ class OfferController < ApplicationController
                                     user: {
                                         user_id: product.user.id
                                     },
+                                    thumbnail: product.thumbnail,
                                     product_id: product.id,
                                     product_name: product.product_name,
                                     product_price: product.price
@@ -202,7 +206,8 @@ class OfferController < ApplicationController
                         product_type: offer.product.product_type,
                         product_sold_status: offer.product.sold_status,
                         price: offer.product.price,
-                        description: offer.product.description
+                        description: offer.product.description,
+                        thumbnail: offer.product.thumbnail,
                     },
                     conversation: offer.conversation ? {id: offer.conversation.id} : nil,
                     offer_status: offer.offer_status,

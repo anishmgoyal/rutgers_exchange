@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   # Product Images
   put '/image/product' => 'product_image#create'
+  post '/image/product' => 'product_image#update_multi'
   get '/image/product/:id' => 'product_image#read'
   post '/image/product/:id' => 'product_image#update'
   delete '/image/product/:id' => 'product_image#delete'
@@ -43,8 +44,8 @@ Rails.application.routes.draw do
   # Short-poll notifications
   get '/notifications' => 'notification#list'
 
-  # Development
-  get '/reload/:service_name' => 'application#reload_service'
+  # Search
+  get '/search' => 'search#search'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

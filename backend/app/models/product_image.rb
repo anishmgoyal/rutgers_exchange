@@ -5,9 +5,12 @@ class ProductImage < ActiveRecord::Base
 	belongs_to :product
 
 	# Validation
-	validates :ordinal, numericality: {greater_than_or_equal_to: 0, less_than: 5}
+	validates :ordinal, numericality: {greater_than_or_equal_to: 0, less_than: 8}
 	validates :session_id, presence: true
 	validates :content_type, presence: true
+
+	# For sorting
+	default_scope { order :ordinal }
 
 	def update_product_information(current_user, ordinal, product_id)
 		if current_user.id == self.user_id

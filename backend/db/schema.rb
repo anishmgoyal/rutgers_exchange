@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160110020035) do
+ActiveRecord::Schema.define(version: 20160121190348) do
 
   create_table "conversations", force: :cascade do |t|
     t.integer  "seller_id",  limit: 4
@@ -27,9 +27,9 @@ ActiveRecord::Schema.define(version: 20160110020035) do
   create_table "messages", force: :cascade do |t|
     t.integer  "user_id",         limit: 4
     t.integer  "conversation_id", limit: 4
-    t.string   "message",         limit: 255
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.text     "message",         limit: 65535
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   add_index "messages", ["conversation_id"], name: "index_messages_on_conversation_id", using: :btree
@@ -61,17 +61,27 @@ ActiveRecord::Schema.define(version: 20160110020035) do
   add_index "product_images", ["product_id"], name: "index_product_images_on_product_id", using: :btree
 
   create_table "products", force: :cascade do |t|
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
     t.string   "product_name", limit: 255
     t.integer  "price",        limit: 4
     t.string   "product_type", limit: 255
-    t.string   "description",  limit: 255
+    t.text     "description",  limit: 65535
     t.string   "sold_status",  limit: 255
     t.integer  "user_id",      limit: 4
+    t.boolean  "is_published",               default: false
   end
 
   add_index "products", ["user_id"], name: "index_products_on_user_id", using: :btree
+
+  create_table "search_entries", force: :cascade do |t|
+    t.string   "word",        limit: 255, null: false
+    t.integer  "product_id",  limit: 4,   null: false
+    t.string   "filter_type", limit: 255, null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "frequency",   limit: 4
+  end
 
   create_table "upload_results", force: :cascade do |t|
     t.integer  "user_id",    limit: 4

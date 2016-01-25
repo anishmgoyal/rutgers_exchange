@@ -3,6 +3,7 @@ class ProductController < ApplicationController
     include SessionsHelper
     include NotificationHelper
 
+    before_filter :check_auth, only: [:list, :read]
     before_filter :require_auth, only: [:create, :update, :delete]
 
     # PUT /product
@@ -13,6 +14,7 @@ class ProductController < ApplicationController
         product.product_name = params[:product_name]
         product.price = params[:price]
         product.product_type = params[:product_type]
+        product.is_published = true if params[:is_published]
         product.sold_status = Product.SOLD_NOT_SOLD
         product.description = params[:description]
         product.user = @current_user
@@ -54,39 +56,46 @@ class ProductController < ApplicationController
         params[:page] ||= 1
         offset = (params[:page].to_i - 1) * params[:products_per_page].to_i
 		
-		criteria = {}
+        criteria = {}
         criteriaNot = {sold_status: Product.SOLD_SOLD}
+
+        scope = (params[:show_drafts] && @current_user) ? Product.with_drafts(@current_user.id) : Product.published
+
 		if params[:username]
 			criteria_user = User.find_by_username params[:username]
 			criteria[:user_id] = criteria_user.id if criteria_user
             criteria[:user_id] ||= 0
 		end
-    
-        products = Product.where(criteria).where.not(criteriaNot).order(created_at: :desc).limit(params[:products_per_page].to_i).offset(offset).all
+
+        criteriaNot[:user_id] = @current_user.id if @current_user and !params[:show_current_user]
+
+        products = scope.where(criteria).where.not(criteriaNot).order(created_at: :desc).limit(params[:products_per_page].to_i).offset(offset).all
         products_for_json = []
         products.each do |product|
-            if !@current_user || product.user_id != @current_user.id
-                product_for_json = {
-                    product_id: product.id,
-                    product_name: product.product_name,
-                    product_price: product.price,
-                    user: {
-                        first_name: product.user.first_name,
-                        last_name: product.user.last_name
-                    },
-					created_at: product.created_at.strftime("%-m/%-d/%Y")
-                }
-                products_for_json << product_for_json
-            end
+            thumbnail_id = (product.product_image_ids.length > 0) ? product.product_image_ids[0] : :NONE
+            product_for_json = {
+                product_id: product.id,
+                product_name: product.product_name,
+                product_price: product.price,
+                user: {
+                    first_name: product.user.first_name,
+                    last_name: product.user.last_name
+                },
+                thumbnail: thumbnail_id,
+                is_published: product.is_published,
+				created_at: product.created_at.strftime("%-m/%-d/%Y")
+            }
+            products_for_json << product_for_json
         end
         payload = {products: products_for_json}
         render status: 200, json: payload
     end
 
-    # GET /product:id
+    # GET /product/:id
     # Please see /outlines/product_api.txt
     def read
-        product = Product.find_by_id(params[:id])
+        scope = (@current_user) ? Product.with_drafts(@current_user.id) : Product.published
+        product = scope.find_by_id(params[:id])
         if product
             payload = {
                 product_id: product.id,
@@ -97,6 +106,8 @@ class ProductController < ApplicationController
                     first_name: product.user.first_name,
                     last_name: product.user.last_name
                 },
+                images: product.product_image_ids,
+                is_published: product.is_published,
                 product_type: product.product_type,
                 price: product.price,
                 sold_status: product.sold_status,
@@ -112,16 +123,17 @@ class ProductController < ApplicationController
     # POST /product/:id
     # Please see /outlines/product_api.txt
     def update
-        product = Product.find_by_id(params[:id])
+        product = Product.with_drafts(@current_user.id).find_by_id(params[:id])
         if product
             if @current_user.id == product.user.id
-            
+
                 product.product_name = params[:product_name] if params[:product_name]
                 product.price = params[:price] if params[:price]
                 product.product_type = params[:product_type] if params[:product_type]
+                product.is_published = params[:is_published] if params[:is_published]
                 product.sold_status = params[:sold_status] if params[:sold_status]
                 product.description = params[:description] if params[:description]
-            
+
                 if product.save()
                     payload = {
                         error: false,
@@ -150,7 +162,7 @@ class ProductController < ApplicationController
     # DELETE /product/:id
     # Please see /outlines/product_api.txt
     def delete
-        product = Product.find_by_id(params[:id])
+        product = Product.with_drafts(@current_user.id).find_by_id(params[:id])
         if product
             if @current_user.id == product.user.id
                 product.destroy
@@ -162,6 +174,5 @@ class ProductController < ApplicationController
             render status: 404, json: {error: true}
         end
     end
-
 
 end

@@ -30,15 +30,17 @@ module SessionsHelper
     def check_auth
         session_service = ApplicationService.get :SessionService
         
-        user_id = params[:user_od]
+        user_id = params[:user_id]
         session_token = params[:session_token]
         csrf_token = params[:csrf_token]
         
         session_status = session_service.verify(user_id, session_token, csrf_token)
         
         if session_status == :SESSION_VALID
-            @current_user = user.find(user_id)
-        end 
+            @current_user = User.find(user_id)
+        end
+
+        true
     end
     
     def create_session(user_id, device_type=:INCOMPAT_FOR_NOTIFS)

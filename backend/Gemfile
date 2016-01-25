@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 
+# Backwards or-query compatibility
+gem 'where-or'
+
 # password encryption
 gem 'bcrypt-ruby', :require => 'bcrypt'
 # mass assignment protection

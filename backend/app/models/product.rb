@@ -6,6 +6,7 @@ class Product < ActiveRecord::Base
     # Relations
     belongs_to :user
     has_many :offers
+    has_many :product_images
     
     # Constants
     @@SOLD_NOT_SOLD = "SOLD_NOT_SOLD"
@@ -20,13 +21,30 @@ class Product < ActiveRecord::Base
     validates :product_type, presence: true
     validates :price, presence: true, format: @@PRICE_REGEX, numericality: {greater_than_or_equal_to: 0}
     validates :sold_status, presence: true, inclusion: { in: @@SOLD_STATUS }
+    validates :description, length: { in: 0..2500 }
     
+    after_save :index_product
+    before_save :delete_index
+    before_destroy :delete_index
     before_destroy :delete_offers
+
+    def index_product
+        SearchEntry.build_index self
+    end
+
+    def delete_index
+        SearchEntry.destroy_index self
+    end
     
     def delete_offers
         offers.each do |offer|
             offer.destroy
         end
+    end
+
+    def thumbnail
+        :NONE
+        self.product_image_ids[0] if self.product_image_ids.length > 0
     end
 	
 	#Static Accessors
@@ -41,5 +59,13 @@ class Product < ActiveRecord::Base
 	def self.SOLD_SOLD
 		@@SOLD_SOLD
 	end
+
+    def self.published
+        where is_published: true
+    end
+
+    def self.with_drafts(user_id)
+        where "`products`.`is_published` = ? OR `products`.`user_id` = ?", true, user_id
+    end
 
 end

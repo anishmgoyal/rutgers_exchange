@@ -1,0 +1,2 @@
+module SearchEntryHelper
+end
