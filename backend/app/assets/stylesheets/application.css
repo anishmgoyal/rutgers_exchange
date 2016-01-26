@@ -10,6 +10,17 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_tree .
+ *= require foundation.min
+ *= require foundation-icons
+ *= require main
+ *= require form
+ *= require products
+ *= require message
+ *= require dialog
+ *= require switchPane
+ *= require scrollZone
+ *= require imageUploader
+ *= require imageViewer
+ *
  *= require_self
  */

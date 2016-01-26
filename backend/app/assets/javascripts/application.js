@@ -10,7 +10,63 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
-//= require jquery_ujs
-//= require turbolinks
-//= require_tree .
+
+// Libraries
+
+//= require jquery-2.1.1.min
+//= require foundation.min
+
+// Configuration
+
+//= require clientConfig
+//= require serverConfig
+
+// Frameworks
+
+//= require pageLoader
+//= require apiHandler
+//= require linkHelper
+
+// Handlers
+
+//= require pages/handlers/404
+
+// Pages
+
+//= require pages/index
+//= require pages/login
+//= require pages/logout
+//= require pages/register
+//= require pages/products
+//= require pages/offers
+//= require pages/messages
+//= require pages/debug
+//= require pages/search
+
+// Tools
+
+//= require pages/tool/tool-message
+
+// APIs
+
+//= require api/UserApi
+//= require api/ProductApi
+//= require api/OfferApi
+//= require api/ConversationApi
+//= require api/NotificationApi
+//= require api/ImageApi
+//= require api/SearchApi
+
+// Miscellaneous
+
+//= require animHelper
+//= require dialog
+//= require loadingIcon
+//= require switchPane
+//= require scrollZone
+//= require imageUploader
+//= require imageViewer
+
+// Main Script
+
+//= require main

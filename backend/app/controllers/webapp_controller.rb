@@ -1,5 +1,8 @@
 class WebappController < ApplicationController
 
+	caches_page :get
+	caches_page :get_index
+
 	def get
 		uri = request.fullpath
 		index = nil
@@ -13,7 +16,7 @@ class WebappController < ApplicationController
 	end
 
 	def get_index
-		send_file Rails.root.join("app", "webapp", "index.html"), disposition: "inline"
+		# send_file Rails.root.join("app", "webapp", "index.html"), disposition: "inline"
 	end
 
 end
