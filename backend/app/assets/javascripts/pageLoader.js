@@ -107,7 +107,7 @@
 				if(!this.forceLoading) {
 					this.loadingIcon.hide();
 				}
-			}.bind(this), 100);
+			}.bind(this), 250);
 			this.isLoadingPage = false;
 		}
 	};
@@ -214,7 +214,7 @@
 					if(!this.forceLoading) {
 						this.loadingIcon.hide();
 					}
-				}.bind(this), 100);
+				}.bind(this), 250);
 			}
 		}
 	};

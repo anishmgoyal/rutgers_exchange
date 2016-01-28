@@ -188,6 +188,7 @@ $(document).ready(function() {
 				delete messageApplication.currentConversation.messages;
 				messageApplication.conversationScrollbox.trigger("resize");
 				messageApplication.conversationScrollbox.setScrollPosition({percentage: 1});
+				$('.message-fillable-parent').show();
 			}, function error(id, code) {
 				removeConversation(id);
 			}.bind(this, id));
