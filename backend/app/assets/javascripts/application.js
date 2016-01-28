@@ -60,6 +60,7 @@
 // Miscellaneous
 
 //= require animHelper
+//= require cookieManager
 //= require dialog
 //= require loadingIcon
 //= require switchPane

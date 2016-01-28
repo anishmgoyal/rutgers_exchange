@@ -12,10 +12,16 @@
 		params.device_type = "WEB_SHORT_POLL";
 
 		apiHandler.doRequest("put", UserApi.stem + encodeURIComponent(params.username), params, function success(data) {
+			
+			// Set the session for pageLoader
 			pageLoader.setParam("user_id", data["user_id"]);
 			pageLoader.setParam("username", params.username);
 			pageLoader.setParam("session_token", data["session_token"]);
 			pageLoader.setParam("csrf_token", data["csrf_token"]);
+
+			// Persistent cookies for session
+			cookieManager.saveAuth(data["user_id"], params.username, data["session_token"], data["csrf_token"]);
+
 			pageLoader.redirect("/index");
 			linkHelper.loadState("STATE_AUTH");
 			NotificationApi.tick();
@@ -27,14 +33,21 @@
 	
 	UserApi.dethenticate = function() {
 		var params = apiHandler.requireAuth();
+
 		apiHandler.doRequest("delete", UserApi.stem + encodeURIComponent(params.username), params, function success(data) {
-
+			// So... what?
 		}, function error(code) {
-
+			// Can't really do anything... session was probably invalid to begin with
 		});
+		
+		// Remove the session from the pageLoader framework
 		pageLoader.removeParam("user_id");
 		pageLoader.removeParam("session_token");
 		pageLoader.removeParam("csrf_token");
+
+		// Remove cookies for session
+		cookieManager.deleteAuth();
+
 		linkHelper.loadState("STATE_UNAUTH");
 	};
 

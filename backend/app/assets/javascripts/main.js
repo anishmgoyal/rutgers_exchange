@@ -21,15 +21,15 @@ $(document).ready(function() {
 	var bigSearchBar = $("#query");
 	bigSearchForm.submit(searchForm.bind(bigSearchBar[0], bigSearchBar));
 	
+	// Load appropriate links in the navigation bar
+	checkLoginState();
+	
 	// Start-up configuration the pageLoader framework
 	pageLoader.pageChange(destroyMobileMenu);
 	if(window.location.hash.length > 2)
 		pageLoader.reloadPage();
 	else 
 		pageLoader.redirect("/index");
-	
-	// Load appropriate links in the navigation bar
-	checkLoginState();
 
 });
 
@@ -136,7 +136,15 @@ function searchForm(searchBar, e) {
 }
 
 function checkLoginState() {
-	linkHelper.loadState("STATE_UNAUTH");
+	var auth = cookieManager.checkAuth();
+	if(auth.logged_in) {
+		pageLoader.setParam("user_id", auth.user_id);
+		pageLoader.setParam("session_token", auth.session_token);
+		pageLoader.setParam("csrf_token", auth.csrf_token);
+		linkHelper.loadState("STATE_AUTH");
+	} else {
+		linkHelper.loadState("STATE_UNAUTH");
+	}
 }
 
 function _id(id) {return document.getElementById(id);}
