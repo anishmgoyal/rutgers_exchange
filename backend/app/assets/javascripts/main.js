@@ -154,6 +154,7 @@ function checkLoginState() {
 			NotificationApi.tick();
 		}.bind(pageLoader, auth), function error(code) {
 			linkHelper.loadState("STATE_UNAUTH");
+			cookieManager.deleteAuth();
 		});
 	} else {
 		linkHelper.loadState("STATE_UNAUTH");
