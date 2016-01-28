@@ -8,6 +8,7 @@
 		this.pages = {};
 		this.handlers = {};
 		this.errors = [];
+		this.beforeChangeHandlers = [];
 		this.pageChangeHandlers = [];
 		this.addHashListener();
 		this.ev = {};
@@ -21,6 +22,7 @@
 			var hashChangeListener = (function(pageLoader) {
 				return function() {
 					// substring to ignore shebang (#!)
+					pageLoader.onBeforeChange();
 					pageLoader.loadPage(pageLoader.getMainPath());
 					pageLoader.onPageChange();
 				};
@@ -64,6 +66,7 @@
 		window.location.hash = "!" + path;
 	};
 	PageLoader.prototype.reloadPage = function(onload) {
+		this.onBeforeChange();
 		this.loadPage(this.getMainPath(), onload);
 		this.onPageChange();
 	};
@@ -159,6 +162,14 @@
 	PageLoader.prototype.getErrors = function() {
 		return this.errors;
 	};
+	PageLoader.prototype.beforeChange = function(handler) {
+		this.beforeChangeHandlers.push(handler);
+	};
+	PageLoader.prototype.onBeforeChange = function() {
+		for(var i = 0; i < this.beforeChangeHandlers.length; i++) {
+			this.beforeChangeHandlers[i].call(this);
+		}
+	}
 	PageLoader.prototype.pageChange = function(handler) {
 		this.pageChangeHandlers.push(handler);
 	};

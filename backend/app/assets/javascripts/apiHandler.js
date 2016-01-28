@@ -40,7 +40,7 @@
 			}
 		});
 
-		if(skipRegistry) this.activeRequests.push(request);
+		if(!skipRegistry) this.activeRequests.push(request);
 
 	};
 	ApiHandler.prototype.processForm = function(/*String... fieldNames*/) {

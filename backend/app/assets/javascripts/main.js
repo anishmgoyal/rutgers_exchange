@@ -32,8 +32,8 @@ $(document).ready(function() {
 	});
 
 	// Start-up configuration the pageLoader framework
+	pageLoader.beforeChange(apiHandler.cancelRunning.bind(apiHandler));
 	pageLoader.pageChange(destroyMobileMenu);
-	pageLoader.pageChange(apiHandler.cancelRunning.bind(apiHandler));
 	if(window.location.hash.length > 2)
 		pageLoader.reloadPage();
 	else 

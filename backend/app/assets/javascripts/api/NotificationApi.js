@@ -21,6 +21,7 @@
 			var nextTick = data.tick_delay;
 			if(nextTick < 2) nextTick = 2;
 			setTimeout(NotificationApi.tick, data.tick_delay * 1000);
+			
 		}, function error(code) {
 			console.log(code);
 		});
