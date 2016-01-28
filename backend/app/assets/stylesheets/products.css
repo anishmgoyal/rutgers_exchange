@@ -143,6 +143,10 @@
 	text-decoration: underline;
 }
 
+.product-control-buttons-spacing {
+	margin-bottom: 10px;
+}
+
 .product-control-button {
 	background-color: #eee;
 	border: 1px solid #aaa;

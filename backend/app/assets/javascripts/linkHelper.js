@@ -56,10 +56,6 @@
 			uri: "/index",
 			text: "Home"
 		},
-		listnew: {
-			uri: "/products/new",
-			text: "Post Products"
-		},
 		login: {
 			uri: "/login",
 			text: "Login"
@@ -79,12 +75,12 @@
 		},
 		offers: {
 			uri: "/offers",
-			text: "Offers",
+			text: "Buying & Selling",
 			badge: true
 		},
 		products: {
 			uri: "/products",
-			text: "My Products"
+			text: "Manage Listings"
 		},
 		register: {
 			uri: "/register",
@@ -106,7 +102,6 @@
 					"messages",
 					"offers",
 					"products",
-					"listnew",
 					"myprofile",
 					"logout"
 				]
@@ -119,7 +114,6 @@
 					"messages",
 					"offers",
 					"products",
-					"listnew",
 					"myprofile",
 					"logout"
 				]

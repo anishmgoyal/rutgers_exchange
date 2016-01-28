@@ -23,9 +23,17 @@ $(document).ready(function() {
 
 	// Load appropriate links in the navigation bar
 	checkLoginState();
-	
+
+	// Bind an interface to pageLoader for apiHandler's loading icon IE let
+	// pageLoader manage the icon
+	apiHandler.setLoadingIcon({
+		show: pageLoader.forceIsLoading.bind(pageLoader, true),
+		hide: pageLoader.forceIsLoading.bind(pageLoader, false)
+	});
+
 	// Start-up configuration the pageLoader framework
 	pageLoader.pageChange(destroyMobileMenu);
+	pageLoader.pageChange(apiHandler.cancelRunning.bind(apiHandler));
 	if(window.location.hash.length > 2)
 		pageLoader.reloadPage();
 	else 
@@ -53,7 +61,6 @@ function equalizeMainContentColumnSizes() {
 function vcenter() {
 	var elems = $('.vcenter');
 	elems.each(function() {
-		console.log("Vertical centering...");
 		var instance = $(this);
 		var parent = instance.parent();
 
@@ -143,6 +150,7 @@ function checkLoginState() {
 		pageLoader.setParam("session_token", auth.session_token);
 		pageLoader.setParam("csrf_token", auth.csrf_token);
 		linkHelper.loadState("STATE_AUTH");
+		NotificationApi.tick();
 	} else {
 		linkHelper.loadState("STATE_UNAUTH");
 	}

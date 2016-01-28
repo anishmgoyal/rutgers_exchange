@@ -14,7 +14,8 @@
 		var params = {
 			username: username,
 			show_drafts: true,
-			show_current_user: true
+			show_current_user: true,
+			products_per_page: 50
 		};
 		apiHandler.requireAuth(params);
 		apiHandler.doRequest("get", ProductApi.stem, params, successCallback, errorCallback);

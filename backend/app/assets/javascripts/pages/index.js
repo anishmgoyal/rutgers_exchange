@@ -30,22 +30,51 @@ $(document).ready(function() {
 		var itemTemplate = wnd.find('#productTemplate1').html();
 
 		var recentAdded = $('<section />').html(sectionTemplate);
-		recentAdded.find('.template_title').html("Recently Added");
+		recentAdded.find('.template_title').text("Recently Added");
 		var recentAddedList = recentAdded.find('.template_list');
-		for(i = 0; i < products.length; i++) {
-			item = $(itemTemplate);
-			var clickFN = (function(id) {
-				return function() {
-					pageLoader.redirect("/products/view/" + id);
-				}
-			})(products[i].product_id);
-			item.find('.template_image').attr("src", ImageApi.serverImageURL(products[i].thumbnail, ImageApi.PRODUCT));
-			item.find('.template_name').text(products[i].product_name);
-			item.find('.template_price').text("$" + apiHandler.serverCurrencyToClient(products[i].product_price));
-			item.click(clickFN);
-			recentAddedList.append(item);
+		if(products.length == 0) {
+			recentAddedList.text("There are currently no items available that have not been sold.");
+		} else {
+			for(i = 0; i < products.length; i++) {
+				item = $(itemTemplate);
+				var clickFN = (function(id) {
+					return function() {
+						pageLoader.redirect("/products/view/" + id);
+					}
+				})(products[i].product_id);
+				item.find('.template_image').attr("src", ImageApi.serverImageURL(products[i].thumbnail, ImageApi.PRODUCT));
+				item.find('.template_name').text(products[i].product_name);
+				item.find('.template_price').text("$" + apiHandler.serverCurrencyToClient(products[i].product_price));
+				item.click(clickFN);
+				recentAddedList.append(item);
+			}
 		}
 		wnd.append(recentAdded);
+
+		if(pageLoader.hasParam("username")) {
+			ProductApi.getUserProductList(pageLoader.getParam("username"), function success(wnd, sectionTemplate, itemTemplate, data) {
+				var products = data.products;
+				if(products.length > 0) {
+					var myListQuickView = $('<section />').html(sectionTemplate);
+					myListQuickView.find('.template_title').text("My Products");
+					var mlqvList = myListQuickView.find('.template_list');
+					for(var i = 0; i < products.length; i++) {
+						var item = $(itemTemplate);
+						var clickFN = pageLoader.redirect.bind(pageLoader, "/products/view/" + products[i].product_id);
+						item.find('.template_image').attr("src", ImageApi.serverImageURL(products[i].thumbnail, ImageApi.PRODUCT));
+						item.find('.template_name').text(products[i].product_name);
+						item.find('.template_price').text("$" + apiHandler.serverCurrencyToClient(products[i].product_price));
+						item.click(clickFN);
+						mlqvList.append(item);
+					}
+					wnd.append(myListQuickView);
+					this.notifyChange();
+				}
+			}.bind(pageLoader, wnd, sectionTemplate, itemTemplate), function error(code) {
+				console.log(code);
+				// Let this one slide...
+			});
+		}
 
 		wnd.find('.template').remove();
 		pageLoader.notifyDone();

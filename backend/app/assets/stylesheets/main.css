@@ -96,6 +96,12 @@ nav li {
 	margin: 0 8px;
 }
 
+.block-list-panel {
+	display: inline-block;
+	width: 100%;
+	margin-bottom: 10px;
+}
+
 .front-item {
 	padding-top: 70px !important;
 }

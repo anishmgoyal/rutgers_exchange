@@ -119,7 +119,7 @@
 		else
 			return {
 				logged_in: true,
-				user_id: params[0],
+				user_id: parseInt(params[0], 10),
 				username: params[1],
 				session_token: params[2],
 				csrf_token: params[3]

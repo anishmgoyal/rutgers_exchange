@@ -33,7 +33,8 @@
 	
 	UserApi.dethenticate = function() {
 		var params = apiHandler.requireAuth();
-
+		apiHandler.skipIcon(params);
+		apiHandler.skipRegistry(params);
 		apiHandler.doRequest("delete", UserApi.stem + encodeURIComponent(params.username), params, function success(data) {
 			// So... what?
 		}, function error(code) {
@@ -42,6 +43,7 @@
 		
 		// Remove the session from the pageLoader framework
 		pageLoader.removeParam("user_id");
+		pageLoader.removeParam("username");
 		pageLoader.removeParam("session_token");
 		pageLoader.removeParam("csrf_token");
 

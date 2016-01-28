@@ -67,7 +67,6 @@
 
 	ImageApi.setOrdinals = function(ordinalMap, imageType, successCallback, errorCallback) {
 		var params = {ordinal_map: ordinalMap};
-		console.log(ordinalMap);
 		apiHandler.requireAuth(params);
 		apiHandler.doRequest("post", ImageApi.stem + imageType, params, successCallback, errorCallback);
 	};
@@ -84,6 +83,8 @@
 
 	ImageApi.deleteImage = function(id, imageType, successCallback, errorCallback) {
 		var params = apiHandler.requireAuth();
+		apiHandler.skipIcon(params);
+		apiHandler.skipRegistry(params);
 		apiHandler.doRequest("delete", ImageApi.stem + imageType + encodeURIComponent(id), params, successCallback, errorCallback);
 	};
 

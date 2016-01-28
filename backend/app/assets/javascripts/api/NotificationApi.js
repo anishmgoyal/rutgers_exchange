@@ -6,11 +6,9 @@
 
 	NotificationApi.tick = function() {
 		var params = apiHandler.requireAuth();
+		apiHandler.skipIcon(params);
+		apiHandler.skipRegistry(params);
 		apiHandler.doRequest("get", NotificationApi.stem, params, function success(data) {
-
-			if(data.notifications.length > 0) {
-				console.log(data.notifications);
-			}
 
 			for(var i = 0; i < data.notifications.length; i++) {
 				if(data.notifications[i].type == "NOTIF_NEW_MESSAGE") {

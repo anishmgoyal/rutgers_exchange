@@ -12,6 +12,8 @@
 		this.addHashListener();
 		this.ev = {};
 		this.requests = [];
+		this.isLoadingPage = false;
+		this.forceLoading = false;
 		return this;
 	};
 	PageLoader.prototype.addHashListener = function() {
@@ -49,6 +51,7 @@
 		
 		if(typeof this.loadingIcon !== "undefined") {
 			this.loadingIcon.show();
+			this.isLoadingPage = true;
 		}
 		
 		if(this.pages.hasOwnProperty(path)) {
@@ -82,6 +85,7 @@
 		
 		if(typeof this.loadingIcon !== "undefined") {
 			this.loadingIcon.show();
+			this.isLoadingPage = true;
 		}
 		
 		if(this.handlers.hasOwnProperty(handler)) {
@@ -99,7 +103,12 @@
 			this.ev.onload(wnd);
 		}
 		if(typeof this.loadingIcon !== "undefined") {
-			this.loadingIcon.hide();
+			setTimeout(function() {
+				if(!this.forceLoading) {
+					this.loadingIcon.hide();
+				}
+			}.bind(this), 100);
+			this.isLoadingPage = false;
 		}
 	};
 	PageLoader.prototype.notifyDoneWithoutAjax = function() {
@@ -128,6 +137,9 @@
 	PageLoader.prototype.getParam = function(param) {
 		if(this.session.hasOwnProperty(param)) return this.session[param];
 		else return null;
+	};
+	PageLoader.prototype.hasParam = function(param) {
+		return this.session.hasOwnProperty(param);
 	};
 	PageLoader.prototype.setParam = function(param, value) {
 		this.session[param] = value;
@@ -189,6 +201,22 @@
 			success: function(data) { var wnd = this.getWnd(); wnd.html(data); callback.call(this, wnd) }.bind(this),
 			error: function() { this.loadHandler(404); }.bind(this)
 		}));
+	};
+
+	PageLoader.prototype.forceIsLoading = function(isLoading) {
+		if(this.hasOwnProperty("loadingIcon")) {
+			if(isLoading) {
+				this.loadingIcon.show();
+				this.forceLoading = true;
+			} else {
+				this.forceLoading = false;
+				setTimeout(function() {
+					if(!this.forceLoading) {
+						this.loadingIcon.hide();
+					}
+				}.bind(this), 100);
+			}
+		}
 	};
 
 	window.PageLoader = PageLoader;

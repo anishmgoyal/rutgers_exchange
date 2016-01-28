@@ -144,7 +144,7 @@ $(document).ready(function() {
 					$("#product_list_mine").append(itemDiv);
 				}
 			} else {
-				$("#product_list_mine").append("You have no listings currently.<br />You can add a listing through the menu by clicking on the <a href='#!/products/new'>Post Products</a> link.");
+				$("#product_list_mine").append("You have no listings currently.");
 			}
 			pageLoader.notifyDone();
 		}, function error(code) {
@@ -167,13 +167,15 @@ $(document).ready(function() {
 
 				var product_user_id = product.user.user_id;
 				var current_user_id = pageLoader.getParam("user_id");
+
+				console.log(product_user_id);
+				console.log(current_user_id);
 				
 				wnd.find("#template_product_name").text(product.product_name);
 				wnd.find("#template_product_price").text(apiHandler.serverCurrencyToClient(product.price));
 				wnd.find(".template_product_date").text(date_string);
 				wnd.find("#template_product_description").text(product.description);
-				//wnd.find("#template_product_image").attr("src", ImageApi.serverImageURL(product.images[0], ImageApi.PRODUCT));
-
+				
 				// Images
 				var imageViewer = new ImageViewer({});
 				if(product.images.length == 0) {
