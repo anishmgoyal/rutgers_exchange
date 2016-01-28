@@ -20,7 +20,7 @@ $(document).ready(function() {
 	var bigSearchForm = $(".bigSearchForm");
 	var bigSearchBar = $("#query");
 	bigSearchForm.submit(searchForm.bind(bigSearchBar[0], bigSearchBar));
-	
+
 	// Load appropriate links in the navigation bar
 	checkLoginState();
 	
@@ -139,6 +139,7 @@ function checkLoginState() {
 	var auth = cookieManager.checkAuth();
 	if(auth.logged_in) {
 		pageLoader.setParam("user_id", auth.user_id);
+		pageLoader.setParam("username", auth.username);
 		pageLoader.setParam("session_token", auth.session_token);
 		pageLoader.setParam("csrf_token", auth.csrf_token);
 		linkHelper.loadState("STATE_AUTH");
