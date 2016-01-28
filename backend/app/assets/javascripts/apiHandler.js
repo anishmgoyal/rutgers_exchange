@@ -19,7 +19,12 @@
 		if(!data.apiHandlerSkipRegistry) skipRegistry = false;
 		else delete data.apiHandlerSkipRegistry;
 
+		var async = false;
+		if(!data.apiHandlerBlocking) async = true;
+		else delete data.apiHandlerBlocking;
+
 		var request = $.ajax({
+			async: async,
 			url: this.server + path,
 			data: data,
 			method: method,
@@ -50,6 +55,9 @@
 		}
 		return retval;
 	};
+
+	// Parameter modifiers
+
 	ApiHandler.prototype.requireAuth = function(params) {
 		if(typeof params === "undefined") params = {};
 		params.user_id = pageLoader.getParam("user_id");
@@ -67,6 +75,13 @@
 		params.apiHandlerSkipRegistry = true;
 		return params;
 	};
+	ApiHandler.prototype.blockingCall = function(params) {
+		if(typeof params === "undefined") params = {};
+		params.apiHandlerSkipRegistry = true;				// A blocking call isn't interruptible.
+		params.apiHandlerBlocking = true;
+		return params;
+	};
+
 	ApiHandler.prototype.clientCurrencyToServer = function(price) {
 		var priceValidityRegex = /^\$?\d+(,\d{3})*(\.\d{2})?$/;
 		var priceExtraStripRegex = /[\$,]/g;
@@ -88,6 +103,7 @@
 	ApiHandler.prototype.setLoadingIcon = function(loadingIcon) {
 		this.loadingIcon = loadingIcon;
 	};
+	// This also removes all finished requests.
 	ApiHandler.prototype.cancelRunning = function() {
 		var reqs = this.activeRequests;
 		while(reqs.length > 0) {

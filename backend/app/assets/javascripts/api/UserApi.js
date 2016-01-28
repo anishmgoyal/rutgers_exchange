@@ -3,6 +3,7 @@
 	var UserApi = {};
 
 	UserApi.stem = "/users/";
+	UserApi.sessionStem = "/session/";
 
 	UserApi.authenticate = function() {
 
@@ -53,6 +54,15 @@
 		linkHelper.loadState("STATE_UNAUTH");
 	};
 
+	UserApi.verifySession = function(user_id, session_token, csrf_token, successCallback, errorCallback) {
+		var params = apiHandler.blockingCall({
+			user_id: user_id,
+			session_token: session_token,
+			csrf_token: csrf_token
+		});
+		apiHandler.doRequest("get", UserApi.sessionStem + encodeURIComponent("verify"), params, successCallback, errorCallback);
+	};
+
 	UserApi.register = function(username, email, phone, password, passwordConfirmation) {
 
 		var params = apiHandler.processForm("username", "first_name", "last_name", "email_address", "phone_number", "password", "password_confirmation");
@@ -71,7 +81,12 @@
 					}
 				}; })(params));
 			} else {
-				window.location.hash = "!/register/success";
+				messageTool.loadMessage(
+					pageLoader.getWnd(),
+					"Account Created Successfully",
+					"We've sent an email to the address you gave us. Please click the link in that email to activate your account and log in for the first time. " +
+					"Click <a href='#!/index'>here</a> to go back to the main page."
+				);
 			}
 		}, function error(code) {
 			pageLoader.loadHandler(pageLoader.NO_INTERNET);

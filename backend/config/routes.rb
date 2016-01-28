@@ -8,14 +8,12 @@ Rails.application.routes.draw do
   get '/img/*all' => 'webapp#get'
 
   # User accounts
-  get '/users/login' => 'user#login'
-  put '/users/lgn' => 'user#authenticate'
-  
   put '/users' => 'user#create'
   put '/users/:username' => 'user#authenticate'
   get '/users/:username' => 'user#read'
   post '/users/:id' => 'user#update'
   delete '/users/:username' => 'user#logout'
+  get '/session/verify' => 'user#verify_session'
   
   # Products
   get '/products' => 'product#list'

@@ -2,7 +2,7 @@ class UserController < ApplicationController
 
     include SessionsHelper
     
-    before_filter :require_auth, only: [:read, :update, :logout]
+    before_filter :require_auth, only: [:read, :update, :logout, :verify_session]
     
 	# PUT /users
 	# Please see /outlines/user_api.txt
@@ -122,6 +122,12 @@ class UserController < ApplicationController
         else
             render status: 404, json: {error: true}
         end
+    end
+
+    # This has a require_auth filter, and does nothing - so you can check the status
+    # code of the response to see if the session is valid.
+    def verify_session
+        render status: 200, json: {error: false}
     end
 	
 end

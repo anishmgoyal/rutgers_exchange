@@ -145,12 +145,16 @@ function searchForm(searchBar, e) {
 function checkLoginState() {
 	var auth = cookieManager.checkAuth();
 	if(auth.logged_in) {
-		pageLoader.setParam("user_id", auth.user_id);
-		pageLoader.setParam("username", auth.username);
-		pageLoader.setParam("session_token", auth.session_token);
-		pageLoader.setParam("csrf_token", auth.csrf_token);
-		linkHelper.loadState("STATE_AUTH");
-		NotificationApi.tick();
+		UserApi.verifySession(auth.user_id, auth.session_token, auth.csrf_token, function success(auth, data) {
+			pageLoader.setParam("user_id", auth.user_id);
+			pageLoader.setParam("username", auth.username);
+			pageLoader.setParam("session_token", auth.session_token);
+			pageLoader.setParam("csrf_token", auth.csrf_token);
+			linkHelper.loadState("STATE_AUTH");
+			NotificationApi.tick();
+		}.bind(pageLoader, auth), function error(code) {
+			linkHelper.loadState("STATE_UNAUTH");
+		});
 	} else {
 		linkHelper.loadState("STATE_UNAUTH");
 	}
