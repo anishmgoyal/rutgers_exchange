@@ -103,10 +103,11 @@ class ProductImageController < ApplicationController
 	def read
 		image = ProductImage.find_by id: params[:id]
 		if image
-			image_file = File.open(Rails.root.join(image.image_location, image.id.to_s), 'rb')
-			payload = image_file.read
-			image_file.close
-			render status: 200, text: payload, content_type: image.content_type
+			#image_file = File.open(Rails.root.join(image.image_location, image.id.to_s), 'rb')
+			#payload = image_file.read
+			#image_file.close
+			#render status: 200, text: payload, content_type: image.content_type
+			send_file Rails.root.join(image.image_location, image.id.to_s), type: image.content_type, disposition: 'inline'
 		else
 			not_found_file = Rails.root.join("assets", "images", "notfound.png")
 			send_file not_found_file, disposition: "inline"
