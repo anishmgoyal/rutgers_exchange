@@ -72,7 +72,13 @@ class ProductController < ApplicationController
         products = scope.where(criteria).where.not(criteriaNot).order(created_at: :desc).limit(params[:products_per_page].to_i).offset(offset).all
         products_for_json = []
         products.each do |product|
-            thumbnail_id = (product.product_image_ids.length > 0) ? product.product_image_ids[0] : :NONE
+
+	    thumbnail_id = ProductImage.default_image
+	    if product.product_images.length > 0
+		thumbnail_im = product.product_images.first
+	        thumbnail_id = File.join(thumbnail_im.image_location, thumbnail_im.id.to_s)
+            end
+
             product_for_json = {
                 product_id: product.id,
                 product_name: product.product_name,
@@ -97,6 +103,12 @@ class ProductController < ApplicationController
         scope = (@current_user) ? Product.with_drafts(@current_user.id) : Product.published
         product = scope.find_by_id(params[:id])
         if product
+
+	    images = []
+	    product.product_images.each do |image|
+		images << File.join(image.image_location, image.id.to_s)
+	    end
+
             payload = {
                 product_id: product.id,
                 product_name: product.product_name,
@@ -106,7 +118,7 @@ class ProductController < ApplicationController
                     first_name: product.user.first_name,
                     last_name: product.user.last_name
                 },
-                images: product.product_image_ids,
+                images: images,
                 is_published: product.is_published,
                 product_type: product.product_type,
                 price: product.price,

@@ -20,13 +20,17 @@ class ProductImage < ActiveRecord::Base
 		end
 	end
 
+	def self.default_image
+		"notfound.png"
+	end
+
 	def self.delete_dangling(session_id)
 		puts "Deleting dangling"
 		ProductImage.where(session_id: session_id).all.each do |image|
 			puts "Processing image"
 			unless image.product_id
 				puts "Dangling image found"
-				fpath = Rails.root.join(image.image_location, image.id.to_s)
+				fpath = Rails.root.join("app", "assets", "images", image.image_location, image.id.to_s)
 				File.delete fpath if File.exists? fpath
 				image.destroy()
 			end

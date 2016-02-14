@@ -20,20 +20,21 @@ class ProductImageController < ApplicationController
 						image = ProductImage.new
 						image.user = @current_user
 						image.session_id = params[:session_token]
-						image.image_location = File.join("assets", "images", "upload", @current_user.id.to_s, SecureRandom.uuid)
+						image.image_location = File.join("user", "upload", @current_user.id.to_s, SecureRandom.uuid)
 						image.content_type = file.content_type
 						image.ordinal = 0
 						image.product_id = params[:product_id]
 						if image.save()
 							begin
-								FileUtils.mkdir_p Rails.root.join(image.image_location) unless File.directory? image.image_location
-								out_file = File.open(Rails.root.join(image.image_location, image.id.to_s), "wb") #{ |out_file| out_file.write(file.read) }
+								FileUtils.mkdir_p Rails.root.join("app", "assets", "images", image.image_location) unless File.directory? image.image_location
+								out_file = File.open(Rails.root.join("app", "assets", "images", image.image_location, image.id.to_s), "wb") #{ |out_file| out_file.write(file.read) }
 			                    out_file.write(file.read)
 			                    out_file.close
 
 			                    payload[:results] << {
 			                    	status: 200,
 			                        id: image.id,
+						image_location: File.join(image.image_location, image.id.to_s),
 			                        error: false,
 			                    	file_name: chomp(file.original_filename, 45)
 			                    }
@@ -103,13 +104,9 @@ class ProductImageController < ApplicationController
 	def read
 		image = ProductImage.find_by id: params[:id]
 		if image
-			#image_file = File.open(Rails.root.join(image.image_location, image.id.to_s), 'rb')
-			#payload = image_file.read
-			#image_file.close
-			#render status: 200, text: payload, content_type: image.content_type
-			send_file Rails.root.join(image.image_location, image.id.to_s), type: image.content_type, disposition: 'inline'
+			send_file Rails.root.join("app", "assets", "images", image.image_location, image.id.to_s), type: image.content_type, disposition: 'inline'
 		else
-			not_found_file = Rails.root.join("assets", "images", "notfound.png")
+			not_found_file = Rails.root.join("app", "assets", "images", "notfound.png")
 			send_file not_found_file, disposition: "inline"
 		end
 	end
@@ -176,7 +173,7 @@ class ProductImageController < ApplicationController
 		image = ProductImage.find_by id: params[:id]
 		if image
 			if image.user_id == @current_user.id
-				file_path = Rails.root.join(image.image_location, image.id.to_s)
+				file_path = Rails.root.join("app", "assets", "images", image.image_location, image.id.to_s)
 				File.delete file_path if File.exists? file_path
 				image.destroy
 				render status: 200, json: {error: false}

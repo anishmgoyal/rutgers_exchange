@@ -43,7 +43,7 @@ class Product < ActiveRecord::Base
     end
 
     def thumbnail
-        :NONE
+	ProductImage.default_image
         self.product_image_ids[0] if self.product_image_ids.length > 0
     end
 	

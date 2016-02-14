@@ -179,7 +179,7 @@ $(document).ready(function() {
 				// Images
 				var imageViewer = new ImageViewer({});
 				if(product.images.length == 0) {
-					product.images.push("NONE");
+					product.images.push("notfound.png");
 				}
 				for(var i = 0; i < product.images.length; i++) {
 					imageViewer.addImage(product.images[i]);
