@@ -43,6 +43,10 @@ a.tab.last {
 	.switch_pane {
 		padding: 5px;
 	}
+
+	.switch_pane p {
+		padding: 0 5px;
+	}
 }
 
 @media only screen and (min-width: 40.063em) and (max-width: 64em) {
