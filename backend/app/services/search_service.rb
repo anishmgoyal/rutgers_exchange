@@ -4,7 +4,7 @@ class SearchService
 
 	def init
 
-		stop_word_path = Rails.root.join("assets", "search", "stopwords.txt")
+		stop_word_path = Rails.root.join("app", "assets", "search", "stopwords.txt")
 		
 		file = File.open(stop_word_path, "r")
 		words = get_word_list(file.read)
