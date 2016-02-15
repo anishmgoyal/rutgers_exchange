@@ -10,7 +10,7 @@
 		var params = apiHandler.processForm("username", "password");
 
 		if(params.username.length == 0) params.username = "?";
-		params.device_type = "WEB_SHORT_POLL";
+		params.device_type = "WEB_SOCKET";
 
 		apiHandler.doRequest("put", UserApi.stem + encodeURIComponent(params.username), params, function success(data) {
 			

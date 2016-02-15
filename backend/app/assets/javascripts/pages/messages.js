@@ -235,7 +235,6 @@ $(document).ready(function() {
 	};
 
 	var processChatNotification = function(notification) {
-		this.conversationScrollbox.elemContent.find(".in-transit-message").remove();
 		var conversationId = notification.conversation;
 		var currentUserId = pageLoader.getParam("user_id");
 		if(typeof this.conversationList[conversationId] !== "undefined") {
@@ -342,16 +341,7 @@ $(document).ready(function() {
 		var messageApplication = pageLoader.getParam("messageApplication");
 		var message = messageApplication.htmlElements.send.field.val()
 		ConversationApi.sendMessage(messageApplication.currentConversation.id, message, function success(data) {
-			if(!data.error) {
-				var messageBox = $(messageApplication.htmlElements.message.template);
-				messageBox.find(".template_name").text(messageApplication.currentConversation.names[pageLoader.getParam("user_id")]);
-				messageBox.find(".template_date").text("sending...");
-				messageBox.find(".template_message").text(message);
-				messageBox.addClass("in-transit-message");
-				messageApplication.conversationScrollbox.elemContent.append(messageBox);
-				messageApplication.conversationScrollbox.trigger("resize");
-				messageApplication.conversationScrollbox.setScrollPosition({percentage: 1});
-			}
+			// Nothing needs to be done.
 		}, function error(code) {
 			// Show error "failed to send message"
 			console.log(code);

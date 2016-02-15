@@ -3,8 +3,9 @@
 	var NotificationApi = {};
 
 	NotificationApi.stem = "/notifications/";
+	NotificationApi.websock_stem = "/faye";
 
-	NotificationApi.tick = function() {
+	NotificationApi.tickShortPoll = function() {
 		var params = apiHandler.requireAuth();
 		apiHandler.skipIcon(params);
 		apiHandler.skipRegistry(params);
@@ -25,7 +26,35 @@
 		}, function error(code) {
 			console.log(code);
 		});
-	}
+	};
+
+	NotificationApi.tick = function() {
+		var client = new Faye.Client(apiHandler.server + NotificationApi.websock_stem);
+		client.addExtension({
+			outgoing: function(message, callback) {
+				if(!message.hasOwnProperty("ext")) message.ext = {};
+				apiHandler.requireAuth(message.ext);
+
+				callback(message);
+			}
+		});
+		client.subscribe("/user/" + pageLoader.getParam("username"), function(message) {
+			if(message.type == "NOTIF_NEW_MESSAGE") {
+				handleNewMessage(message.value);
+			}
+		}).then(function success(message) {
+			// Do nothing, just be happy.
+		}, function error(message) {
+			new Dialog({
+				title: "Failed to connect",
+				content: "Failed to connect to server. Realtime events will not be available.",
+				wnd: pageLoader.getWnd(),
+				offsets: {
+					top: $("#nav")
+				}
+			}).show();
+		});
+	};
 
 	var handleNewMessage = function(notification) {
 		if(pageLoader.getMainPath() == "/messages") {

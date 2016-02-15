@@ -10,6 +10,9 @@ require Rails.root.join('app', 'faye', 'server_ext.rb')
 bayeux = Faye::RackAdapter.new(mount: '/faye', timeout: 25)
 bayeux.add_extension(ServerExt.new)
 
+require Rails.root.join('app', 'services', 'application_service.rb')
+ApplicationService.set_bayeux(bayeux)
+
 class Backend
     def initialize(app, faye)
         @app = app
@@ -24,5 +27,5 @@ class Backend
     end
 end
 
-back = Backend.new(Rails.application, bayeux)
-run back
+backend = Backend.new(Rails.application, bayeux)
+run backend

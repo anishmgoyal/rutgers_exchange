@@ -6,7 +6,8 @@ class ServiceInitializer
 	end
 	
 	ApplicationService.set :SessionService, SessionService
-    ApplicationService.set :NotificationService, NotificationService
+    ApplicationService.set :NotificationService, WebsockNotificationService
+    ApplicationService.alias :NotificationService, :WebsockNotificationService
     ApplicationService.set :SearchService, SearchService
 
 end
