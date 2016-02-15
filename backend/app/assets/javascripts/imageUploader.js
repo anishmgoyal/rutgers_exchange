@@ -98,7 +98,7 @@
 			if(!data.results[i].error) {
 				var newImg = $(this.imageTemplate);
 				newImg.find(".image-uploader-image-block").click(this.toggleOrdinal.bind(this, data.results[i].id));
-				newImg.find(".image-uploader-image").attr("src", ImageApi.serverImageURL(data.results[i].image_location, ImageApi.PRODUCT)).load($(window).trigger.bind($(window), "resize"));
+				newImg.find(".image-uploader-image").attr("src", ImageApi.serverThumbnailURL(data.results[i].image_location, ImageApi.PRODUCT)).load($(window).trigger.bind($(window), "resize"));
 				newImg.find(".image-uploader-delete-button").click(this.removeItem.bind(this, data.results[i].id));
 				newImg.attr("id", "image-uploader-upload-result-" + data.results[i].id);
 
@@ -135,7 +135,7 @@
 
 		var newImg = $(this.imageTemplate);
 		newImg.find(".image-uploader-image-block").click(this.toggleOrdinal.bind(this, id));
-		newImg.find(".image-uploader-image").attr("src", ImageApi.serverImageURL(image_location, ImageApi.PRODUCT)).load($(window).trigger.bind($(window), "resize"));
+		newImg.find(".image-uploader-image").attr("src", ImageApi.serverThumbnailURL(image_location, ImageApi.PRODUCT)).load($(window).trigger.bind($(window), "resize"));
 		newImg.find(".image-uploader-delete-button").click(this.removeItem.bind(this, id));
 		newImg.attr("id", "image-uploader-upload-result-" + id);
 		this.imagePane.append(newImg);

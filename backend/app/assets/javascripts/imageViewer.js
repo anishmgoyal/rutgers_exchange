@@ -156,7 +156,7 @@
 
 					//new
 					var replacement = document.createElement("img");
-					replacement.src = image.attr("src");
+					replacement.src = image.attr("src").slice(0, -1);
 					instance.fields.updating = true;
 					$(replacement).on('load', function(image, replacement, instance) {
 						image.fadeOut({duration: 200, complete: function(image, replacement, instance) {
@@ -320,7 +320,7 @@
 		console.log("Image being added");
 		var img = $(this.settings.imageTemplate);
 		var imageTag = img.find("img");
-		imageTag.attr("src", ImageApi.serverImageURL(id, ImageApi.PRODUCT)).on('load', this.handleImageLoad.bind(this, imageTag));
+		imageTag.attr("src", ImageApi.serverThumbnailURL(id, ImageApi.PRODUCT)).on('load', this.handleImageLoad.bind(this, imageTag));
 		this.bindImageEvents(img);
 
 		if(this.images.length == 0) {

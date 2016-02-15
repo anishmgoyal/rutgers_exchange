@@ -1,6 +1,6 @@
 window.server = {
 	mode: "integrated",
-	configuration: "development",
+	configuration: "production",
 	version: "1.0a",
 	serviceName: "Rutgers Exchange"
 };

@@ -78,8 +78,11 @@
 	};
 
 	ImageApi.serverImageURL = function(id, imageType) {
-		console.log(id);
-		return apiHandler.server + "assets/" + id; //ImageApi.stem + imageType + encodeURIComponent(id);
+		return apiHandler.server + "assets/" + id;
+	};
+
+	ImageApi.serverThumbnailURL = function(id, imageType) {
+		return apiHandler.server + "assets/" + id + "t";
 	};
 
 	ImageApi.deleteImage = function(id, imageType, successCallback, errorCallback) {

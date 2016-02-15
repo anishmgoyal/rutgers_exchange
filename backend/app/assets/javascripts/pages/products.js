@@ -131,7 +131,7 @@ $(document).ready(function() {
 			if(data.products.length > 0) {
 				for(var i = 0; i < data.products.length; i++) {
 					var itemDiv = $(itemTemplate);
-					itemDiv.find(".template_image").text(" ").css("background-image", "url('" + ImageApi.serverImageURL(data.products[i].thumbnail, ImageApi.PRODUCT) + "')");
+					itemDiv.find(".template_image").text(" ").css("background-image", "url('" + ImageApi.serverThumbnailURL(data.products[i].thumbnail, ImageApi.PRODUCT) + "')");
 					itemDiv.find(".template_name").text(data.products[i].product_name);
 					if(!data.products[i].is_published) {
 						itemDiv.find(".template_name").prepend($('<strong style="color: white">(DRAFT) </strong>'));
@@ -285,7 +285,7 @@ $(document).ready(function() {
 
 						for(var i = 0; i < product.images.length; i++) {
 							var newImg = $(imageTemplate);
-							newImg.find(".image-uploader-image").attr("src", ImageApi.serverImageURL(product.images[i], ImageApi.PRODUCT));
+							newImg.find(".image-uploader-image").attr("src", ImageApi.serverThumbnailURL(product.images[i], ImageApi.PRODUCT));
 							imagePane.append(newImg);
 						}
 						imagePane.prepend("<div>To change the order of these, or to add/remove images, please click \"Manage Images\" at the bottom of this page.</div>");

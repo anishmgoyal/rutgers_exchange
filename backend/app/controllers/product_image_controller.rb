@@ -2,6 +2,7 @@ class ProductImageController < ApplicationController
 
 	require 'fileutils'
 	require 'securerandom'
+	require 'mini_magick'
 	include SessionsHelper
 
 	before_filter :require_auth, except: [:read]
@@ -30,6 +31,13 @@ class ProductImageController < ApplicationController
 								out_file = File.open(Rails.root.join("app", "assets", "images", image.image_location, image.id.to_s), "wb") #{ |out_file| out_file.write(file.read) }
 			                    out_file.write(file.read)
 			                    out_file.close
+
+					    fullsize = MiniMagick::Image.new(Rails.root.join("app", "assets", "images", image.image_location, image.id.to_s))
+					    fullsize.auto_orient
+
+					    thumbnail = MiniMagick::Image.open(Rails.root.join("app", "assets", "images", image.image_location, image.id.to_s))
+					    thumbnail.resize "125x125"
+					    thumbnail.write Rails.root.join("app", "assets", "images", image.image_location, "#{image.id}t")
 
 			                    payload[:results] << {
 			                    	status: 200,
@@ -175,6 +183,10 @@ class ProductImageController < ApplicationController
 			if image.user_id == @current_user.id
 				file_path = Rails.root.join("app", "assets", "images", image.image_location, image.id.to_s)
 				File.delete file_path if File.exists? file_path
+
+				file_path = "#{file_path}t"
+				File.delete file_path if File.exists? file_path
+
 				image.destroy
 				render status: 200, json: {error: false}
 			else

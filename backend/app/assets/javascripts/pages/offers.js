@@ -110,7 +110,7 @@ $(document).ready(function() {
 
 						if(typeof seller_prod_pane === "undefined") {
 							seller_prod_pane = $(template_product_header);
-							seller_prod_pane.find(".template_image").text(" ").css("background-image", "url('" + ImageApi.serverImageURL(offer.product.thumbnail, ImageApi.PRODUCT) + "')");
+							seller_prod_pane.find(".template_image").text(" ").css("background-image", "url('" + ImageApi.serverThumbnailURL(offer.product.thumbnail, ImageApi.PRODUCT) + "')");
 							seller_prod_pane.find(".template_name").html(offer.product.product_name);
 							seller_prod_pane.find(".template_price").html(apiHandler.serverCurrencyToClient(offer.product.product_price));
 							seller_prod_pane.find(".show_for_buyer").remove();
@@ -180,7 +180,7 @@ $(document).ready(function() {
 						if(num_as_buyer ++ == 0) sp_buying.html("");
 
 						var buyer_prod_pane = $(template_product_header);
-						buyer_prod_pane.find(".template_image").text(" ").css("background-image", "url('" + ImageApi.serverImageURL(offer.product.thumbnail, ImageApi.PRODUCT) + "')");
+						buyer_prod_pane.find(".template_image").text(" ").css("background-image", "url('" + ImageApi.serverThumbnailURL(offer.product.thumbnail, ImageApi.PRODUCT) + "')");
 						buyer_prod_pane.find(".template_name").html(offer.product.product_name);
 						buyer_prod_pane.find(".template_price").html(apiHandler.serverCurrencyToClient(offer.product.product_price));
 						buyer_prod_pane.find(".template_offer_price").html(apiHandler.serverCurrencyToClient(offer.price));

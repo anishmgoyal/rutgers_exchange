@@ -44,7 +44,7 @@ class Product < ActiveRecord::Base
 
     def thumbnail
 	ProductImage.default_image
-        self.product_image_ids[0] if self.product_image_ids.length > 0
+        File.join(self.product_images.first.image_location, self.product_images.first.id.to_s) if self.product_image_ids.length > 0
     end
 	
 	#Static Accessors
