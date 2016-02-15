@@ -42,6 +42,17 @@ module SessionsHelper
 
         true
     end
+
+    def faye_auth(user_id, session_token, csrf_token)
+	session_service = ApplicationService.get :SessionService
+	session_status = session_service.verify(user_id, session_token, csrf_token)
+
+	if session_status == :SESSION_VALID
+	    User.find(user_id)
+	else
+	    nil
+	end
+    end
     
     def create_session(user_id, device_type=:INCOMPAT_FOR_NOTIFS)
         session_service = ApplicationService.get :SessionService

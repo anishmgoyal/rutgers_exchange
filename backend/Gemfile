@@ -57,3 +57,5 @@ gem 'actionpack-page_caching'
 gem 'mini_magick'
 
 gem 'puma'
+
+gem 'faye'
