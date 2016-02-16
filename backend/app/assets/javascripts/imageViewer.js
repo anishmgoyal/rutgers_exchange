@@ -347,7 +347,7 @@
 		this.fields.scroll.offset = Math.min(this.fields.scroll.max, Math.max(this.fields.scroll.min, this.fields.scroll.offset));
 		
 		if(this.settings.useTransform) {
-			this.settings.slider[0].style[this.settings.transformRule] = "translateX(" + this.fields.scroll.offset + "px)";
+			this.settings.slider[0].style[this.settings.transformRule] = "translate3d(" + this.fields.scroll.offset + "px, 0, 0)";
 		} else {
 			this.settings.slider.parent().scrollLeft(this.settings.slider.parent().scrollLeft() - delta);
 		}

@@ -107,9 +107,9 @@ $(document).ready(function() {
 
 					var chatEntry = $(messageApplication.htmlElements.convoBox.template);
 					chatEntry.attr("id", "conversation-skinny-" + conversations[i].id);
-					chatEntry.find(".template_product_name").html(conversations[i].product.product_name);
-					chatEntry.find(".template_user_name").html(conversations[i].other_user.first_name + " " + conversations[i].other_user.last_name);
-					chatEntry.find(".template_offer_price").html(apiHandler.serverCurrencyToClient(conversations[i].offer.price));
+					chatEntry.find(".template_product_name").text(conversations[i].product.product_name);
+					chatEntry.find(".template_user_name").text(conversations[i].other_user.first_name + " " + conversations[i].other_user.last_name);
+					chatEntry.find(".template_offer_price").text(apiHandler.serverCurrencyToClient(conversations[i].offer.price));
 
 					if(conversations[i].prev_message != null) {
 						var prevIsCurrent = (conversations[i].prev_message.user_id == currentUserId);

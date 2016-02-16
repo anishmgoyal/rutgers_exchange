@@ -111,8 +111,8 @@ $(document).ready(function() {
 						if(typeof seller_prod_pane === "undefined") {
 							seller_prod_pane = $(template_product_header);
 							seller_prod_pane.find(".template_image").text(" ").css("background-image", "url('" + ImageApi.serverThumbnailURL(offer.product.thumbnail, ImageApi.PRODUCT) + "')");
-							seller_prod_pane.find(".template_name").html(offer.product.product_name);
-							seller_prod_pane.find(".template_price").html(apiHandler.serverCurrencyToClient(offer.product.product_price));
+							seller_prod_pane.find(".template_name").text(offer.product.product_name);
+							seller_prod_pane.find(".template_price").text(apiHandler.serverCurrencyToClient(offer.product.product_price));
 							seller_prod_pane.find(".show_for_buyer").remove();
 							sp_selling.append(seller_prod_pane);
 
@@ -125,17 +125,17 @@ $(document).ready(function() {
 								id: offer.offer_id,
 								view_all: view_all
 							};
-							seller_prod_pane.find(".num_offers").html("1");
-							seller_prod_pane.find(".template_offer_max_price").html(apiHandler.serverCurrencyToClient(offer.price));
+							seller_prod_pane.find(".num_offers").text("1");
+							seller_prod_pane.find(".template_offer_max_price").text(apiHandler.serverCurrencyToClient(offer.price));
 						} else {
 							view_all = seller_prod_pane.view_all;
 							seller_prod_pane.num_offers++;
 							if(offer.price > seller_prod_pane.max) {
 								seller_prod_pane.id = offer.offer_id;
 								seller_prod_pane.max = offer.price;
-								seller_prod_pane.pane.find(".num_offers").html(seller_prod_pane.num_offers);
-								seller_prod_pane.pane.find(".num_offers_plural").html("s");
-								seller_prod_pane.pane.find(".template_offer_max_price").html(apiHandler.serverCurrencyToClient(offer.price));
+								seller_prod_pane.pane.find(".num_offers").text(seller_prod_pane.num_offers);
+								seller_prod_pane.pane.find(".num_offers_plural").text("s");
+								seller_prod_pane.pane.find(".template_offer_max_price").text(apiHandler.serverCurrencyToClient(offer.price));
 							}
 							seller_prod_pane = seller_prod_pane.pane;
 						}
@@ -145,9 +145,9 @@ $(document).ready(function() {
 						}
 
 						var view_all_row = $(template_offer_row);
-						view_all_row.find(".template_offer_price").html(apiHandler.serverCurrencyToClient(offer.price));
-						view_all_row.find(".template_seller_name").html(offer.user.first_name + " " + offer.user.last_name);
-						view_all_row.find(".template_offer_date").html(offer.created_at);
+						view_all_row.find(".template_offer_price").text(apiHandler.serverCurrencyToClient(offer.price));
+						view_all_row.find(".template_seller_name").text(offer.user.first_name + " " + offer.user.last_name);
+						view_all_row.find(".template_offer_date").text(offer.created_at);
 						if(offer.offer_status != OfferApi.status.OFFER_OFFERED) {
 							view_all_row.find('.template_accept_link').remove();
 							view_all_row.find('.template_conversation_link').css("display", "inline-block");
@@ -181,9 +181,9 @@ $(document).ready(function() {
 
 						var buyer_prod_pane = $(template_product_header);
 						buyer_prod_pane.find(".template_image").text(" ").css("background-image", "url('" + ImageApi.serverThumbnailURL(offer.product.thumbnail, ImageApi.PRODUCT) + "')");
-						buyer_prod_pane.find(".template_name").html(offer.product.product_name);
-						buyer_prod_pane.find(".template_price").html(apiHandler.serverCurrencyToClient(offer.product.product_price));
-						buyer_prod_pane.find(".template_offer_price").html(apiHandler.serverCurrencyToClient(offer.price));
+						buyer_prod_pane.find(".template_name").text(offer.product.product_name);
+						buyer_prod_pane.find(".template_price").text(apiHandler.serverCurrencyToClient(offer.product.product_price));
+						buyer_prod_pane.find(".template_offer_price").text(apiHandler.serverCurrencyToClient(offer.price));
 						buyer_prod_pane.find(".show_for_seller").remove();
 						sp_buying.append(buyer_prod_pane);
 						buyer_prod_panes[offer.product.product_id] = buyer_prod_pane;
@@ -253,8 +253,8 @@ $(document).ready(function() {
 				wnd.html(data);
 				var price_str = apiHandler.serverCurrencyToClient(product.price);
 				$("#product_id").val(product.product_id);
-				$("#template_product_name").html(product.product_name);
-				$("#template_price").html(price_str);
+				$("#template_product_name").text(product.product_name);
+				$("#template_price").text(price_str);
 
 				if(pref == "same") {
 					$("#offer_price").val(price_str);
@@ -268,7 +268,7 @@ $(document).ready(function() {
 
 				var errors = pageLoader.getErrors();
 				for(var i = 0; i < errors.length; i++) {
-					$("#" + errors[i].field + "_error").html(errors[i].message);
+					$("#" + errors[i].field + "_error").text(errors[i].message);
 				}
 
 				$("#offer-form").submit(function(e) {
@@ -294,10 +294,10 @@ $(document).ready(function() {
 
 				var price_str = apiHandler.serverCurrencyToClient(offer.product.price);
 				$("#product_id").val(offer.product.product_id);
-				$("#template_product_name").html(offer.product.product_name);
-				$("#template_price").html(price_str);
+				$("#template_product_name").text(offer.product.product_name);
+				$("#template_price").text(price_str);
 
-				$("#template_submit").html("Update Offer");
+				$("#template_submit").text("Update Offer");
 				$("#template_cancel").attr("href", "#!/offers");
 
 				$("#offer_price").val(apiHandler.serverCurrencyToClient(offer.price));
@@ -310,7 +310,7 @@ $(document).ready(function() {
 
 				var errors = pageLoader.getErrors();
 				for(var i = 0; i < errors.length; i++) {
-					$("#" + errors[i].field + "_error").html(errors[i].message);
+					$("#" + errors[i].field + "_error").text(errors[i].message);
 				}
 
 				$("#offer-form").submit(function(e) {
