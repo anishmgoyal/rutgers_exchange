@@ -27,6 +27,9 @@
 		if(params.hasOwnProperty("deleteOnHide")) this.deleteOnHide = params.deleteOnHide;
 		else this.deleteOnHide = true;
 
+		this.buttonText = "OK";
+		if(params.hasOwnProperty("buttonText")) this.buttonText = params.buttonText;
+
 		var hideFn = (function(instance) {
 			return function(e) {
 				// If the target isn't a child of the dialog, which should be the only DOM element with
@@ -90,7 +93,7 @@
 			this.buttonbar = $('<div class="dialog-buttons" />');
 			this.button = $('<div class="dialog-button dialog-active dialog-expand" />')
 				.click(this.hide.bind(this))
-				.html("OK");
+				.html(this.buttonText);
 				this.isConfirm = true;
 			this.buttonbar.append(this.button);
 			this.dialog.append(this.buttonbar);

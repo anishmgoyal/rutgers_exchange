@@ -1,5 +1,5 @@
 .form {
-	font-family: "Segoe UI" !important;
+	font-family: "Open Sans" !important;
 }
 
 .form .row .columns {
@@ -29,7 +29,7 @@
 	border: 1px solid #bbb;
 	box-sizing: border-box;
 	display: block;
-	font-family: "Segoe UI";
+	font-family: "Open Sans" !important;
 	outline: 0;
 	margin: 0 0 4px;
 	width: 100%;
@@ -137,4 +137,16 @@
 	box-shadow: inset 0 0 1px 0 #aaa;
 	color: #222;
 	text-shadow: none;
+}
+
+.form-dark label, .form-dark h4 {
+	color: black;
+}
+
+.form-dark input {
+	border-color: #adadad;
+}
+
+.form p.form-instructions {
+	font-size: 0.9em;
 }

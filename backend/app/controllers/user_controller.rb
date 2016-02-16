@@ -65,11 +65,9 @@ class UserController < ApplicationController
         if user
             if @current_user.id == user.id
             
-               @current_user.username = params[:username] if params[:username]
                @current_user.encrypted_password = nil if params[:password]
                @current_user.password = params[:password] if params[:password]
                @current_user.password_confirmation = params[:password_confirmation] if params[:password]
-               @current_user.email_address = params[:email_address] if params[:email_address]
                @current_user.phone_number = params[:phone_number] if params[:phone_number]
                @current_user.first_name = params[:first_name] if params[:first_name]
                @current_user.last_name = params[:last_nmae] if params[:last_name]

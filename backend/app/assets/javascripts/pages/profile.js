@@ -24,6 +24,7 @@
 			wnd.find("#template_created_at").text(data.created_at);
 			if(data.email_address) {
 				wnd.find(".template_show_for_other").hide();
+				map_edit_link(data);
 			} else {
 				wnd.find(".template_show_for_self").hide();
 			}
@@ -75,10 +76,37 @@
 				}
 				pageLoader.notifyChange();
 			}
-			$(".template").remove();
+			$(".template_p").remove();
 		}, function error(code) {
 			pageLoader.loadHandler(code);
 		});
+	};
+
+	var map_edit_link = function(user) {
+		var form = $("#template_edit_form").html();
+
+		var link = $("#template_edit_link");
+		link.click(function(user, e) {
+			new Dialog({
+				title: "Edit Account",
+				content: form,
+				buttonText: "Save Details",
+				height: 475,
+				width: 400,
+				wnd: pageLoader.getWnd(),
+				offsets: {
+					top: $("#nav")
+				}
+			}).show();
+
+			$("#first_name")[0].value = user.first_name;
+			$("#last_name")[0].value = user.last_name;
+
+			if(e.preventDefault) e.preventDefault();
+			else return false;
+		}.bind(window, user));
+
+		$(".template_u").remove();
 	};
 
 })( jQuery );
