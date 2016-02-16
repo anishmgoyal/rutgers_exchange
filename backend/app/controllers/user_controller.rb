@@ -2,7 +2,8 @@ class UserController < ApplicationController
 
     include SessionsHelper
     
-    before_filter :require_auth, only: [:read, :update, :logout, :verify_session]
+    before_filter :require_auth, only: [:update, :logout, :verify_session]
+    before_filter :check_auth, only: [:read]
     
 	# PUT /users
 	# Please see /outlines/user_api.txt
@@ -44,9 +45,10 @@ class UserController < ApplicationController
             payload = {
                 username: user.username,
                 first_name: user.first_name,
-                last_name: user.last_name
+                last_name: user.last_name,
+                created_at: user.created_at.strftime("%-m/%-d/%Y")
             }
-			if @current_user.id == user.id
+			if @current_user and @current_user.id == user.id
                 payload[:email_address] = user.email_address
                 payload[:phone_number] = user.phone_number
             end

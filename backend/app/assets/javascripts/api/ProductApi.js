@@ -20,6 +20,17 @@
 		apiHandler.requireAuth(params);
 		apiHandler.doRequest("get", ProductApi.stem, params, successCallback, errorCallback);
 	};
+
+	ProductApi.getRecentUserProductListWithSold = function(username, successCallback, errorCallback) {
+		var params = {
+			username: username,
+			show_sold: true,
+			show_current_user: true,
+			products_per_page: 25
+		};
+		apiHandler.requireAuth(params);
+		apiHandler.doRequest("get", ProductApi.stem, params, successCallback, errorCallback);
+	};
 	
 	ProductApi.createProduct = function(isPublishNow, redirectAction) {
 

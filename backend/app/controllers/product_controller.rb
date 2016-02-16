@@ -57,7 +57,8 @@ class ProductController < ApplicationController
         offset = (params[:page].to_i - 1) * params[:products_per_page].to_i
 		
         criteria = {}
-        criteriaNot = {sold_status: Product.SOLD_SOLD}
+        criteriaNot = {}
+        criteriaNot[:sold_status] = Product.SOLD_SOLD unless params[:show_sold]
 
         scope = (params[:show_drafts] && @current_user) ? Product.with_drafts(@current_user.id) : Product.published
 
@@ -87,6 +88,7 @@ class ProductController < ApplicationController
                     first_name: product.user.first_name,
                     last_name: product.user.last_name
                 },
+                sold: product.sold_status == Product.SOLD_SOLD,
                 thumbnail: thumbnail_id,
                 is_published: product.is_published,
 				created_at: product.created_at.strftime("%-m/%-d/%Y")
@@ -118,6 +120,7 @@ class ProductController < ApplicationController
                     first_name: product.user.first_name,
                     last_name: product.user.last_name
                 },
+                sold: product.sold_status == Product.SOLD_SOLD,
                 images: images,
                 is_published: product.is_published,
                 product_type: product.product_type,
