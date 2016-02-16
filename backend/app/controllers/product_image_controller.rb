@@ -27,22 +27,28 @@ class ProductImageController < ApplicationController
 						image.product_id = params[:product_id]
 						if image.save()
 							begin
-								FileUtils.mkdir_p Rails.root.join("app", "assets", "images", image.image_location) unless File.directory? image.image_location
-								out_file = File.open(Rails.root.join("app", "assets", "images", image.image_location, image.id.to_s), "wb") #{ |out_file| out_file.write(file.read) }
+
+								image_dir = Rails.root.join("app", "assets", "images", image.image_location)
+								image_location = File.join(image_dir, image.id.to_s)
+
+								FileUtils.mkdir_p image_dir unless File.directory? image_dir
+								out_file = File.open(image_location, "wb")
 			                    out_file.write(file.read)
 			                    out_file.close
 
-					    fullsize = MiniMagick::Image.new(Rails.root.join("app", "assets", "images", image.image_location, image.id.to_s))
-					    fullsize.auto_orient
+							    fullsize = MiniMagick::Image.open(image_location)
+							    fullsize.resize "600x600" if fullsize[:width] > 600 or fullsize[:height] > 600
+							    fullsize.auto_orient
+							    fullsize.write image_location
 
-					    thumbnail = MiniMagick::Image.open(Rails.root.join("app", "assets", "images", image.image_location, image.id.to_s))
-					    thumbnail.resize "125x125"
-					    thumbnail.write Rails.root.join("app", "assets", "images", image.image_location, "#{image.id}t")
+							    thumbnail = fullsize
+							    thumbnail.resize "150x150" if thumbnail[:width] > 150 or thumbnail[:height] > 150
+							    thumbnail.write "#{image_location}t"
 
 			                    payload[:results] << {
 			                    	status: 200,
 			                        id: image.id,
-						image_location: File.join(image.image_location, image.id.to_s),
+									image_location: File.join(image.image_location, image.id.to_s),
 			                        error: false,
 			                    	file_name: chomp(file.original_filename, 45)
 			                    }
