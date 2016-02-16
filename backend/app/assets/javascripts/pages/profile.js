@@ -56,7 +56,7 @@
 
 					if(!product.sold) {
 						activeList.append(item);
-						item.click(pageLoader.redirect.bind(pageLoader, "/products/view/" + product.id));
+						item.click(pageLoader.redirect.bind(pageLoader, "/products/view/" + product.product_id));
 						numActive ++;
 					} else {
 						soldList.append(item);
