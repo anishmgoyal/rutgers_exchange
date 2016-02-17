@@ -1,0 +1,14 @@
+<h4>Welcome to <%= @app_name %>, <%= @user.first_name %> <%= @user.last_name%>!</h4>
+<p>
+	Your account has successfully been created. However, to log in to <%= @app_name %>, you must
+	activate your account.
+</p>
+<p>
+	Your activation code is <b><%= @user.username %></b>.
+</p>
+<p>
+	You can enter this code here: <a href="<%= @url %>"><%= @url %></a>
+</p>
+<p>
+	Thank you for joining <%= @app_name %>! We hope you find what you are looking for!
+</p>

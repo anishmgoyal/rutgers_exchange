@@ -19,6 +19,7 @@ class UserController < ApplicationController
         user.last_name = params[:last_name]
         
 		if user.save()
+            UserMailer.activation_email(user).deliver_later
 			payload = {
 				error: false,
 				id: user.id
