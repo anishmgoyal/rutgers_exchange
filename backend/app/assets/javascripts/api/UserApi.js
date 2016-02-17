@@ -94,6 +94,17 @@
 
 	};
 
+	UserApi.updateProfile = function(successCallback, errorCallback) {
+		var params = apiHandler.processForm("first_name", "last_name", "password", "password_confirmation");
+		if(params.first_name.length == 0) delete params.first_name;
+		if(params.last_name.length == 0) delete params.last_name;
+		if(params.password.length == 0) delete params.password;
+		if(params.password_confirmation.length == 0) delete params.password_confirmation;
+		apiHandler.requireAuth(params);
+		var userId = encodeURIComponent(pageLoader.getParam("user_id"));
+		apiHandler.doRequest("post", UserApi.stem + userId, params, successCallback, errorCallback);
+	};
+
 	UserApi.getUserInformation = function(otherUserId, successCallback, errorCallback) {
 		var params = {
 			user_id: pageLoader.getParam("user_id"),

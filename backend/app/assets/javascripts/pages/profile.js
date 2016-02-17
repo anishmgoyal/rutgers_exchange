@@ -29,6 +29,7 @@
 				wnd.find(".template_show_for_self").hide();
 			}
 			wnd.find("#template_user_info").css("display", "block");
+			pageLoader.notifyChange();
 		}, function error(code) {
 			pageLoader.loadHandler(code);
 		});
@@ -87,7 +88,30 @@
 
 		var link = $("#template_edit_link");
 		link.click(function(user, e) {
-			new Dialog({
+			var submitFn = function(e) {
+					UserApi.updateProfile(function success(data) {
+						if(!data.error) {
+							var first_name = $("#first_name").val();
+							if(first_name.length > 0) user.first_name = first_name;
+							var last_name = $("#last_name").val();
+							if(last_name.length > 0) user.last_name = last_name;
+							$("#template_user_fullname").text(user.first_name + " " + user.last_name);
+							this.hide();
+						} else {
+							var errors = data.errors;
+							for(var i = 0; i < errors.length; i++) {
+								$("#" + errors[i].field + "_error").html(errors[i].message);
+							}
+						}
+					}.bind(this), function error(code) {
+						pageLoader.loadHandler(code);
+					}.bind(this));
+
+					if(e && e.preventDefault) e.preventDefault();
+					else return false;
+			};
+
+			var dialog = new Dialog({
 				title: "Edit Account",
 				content: form,
 				buttonText: "Save Details",
@@ -96,8 +120,11 @@
 				wnd: pageLoader.getWnd(),
 				offsets: {
 					top: $("#nav")
-				}
+				},
+				onsubmit: submitFn
 			}).show();
+
+			$("#template_update_profile_form").submit(submitFn.bind(dialog));
 
 			$("#first_name")[0].value = user.first_name;
 			$("#last_name")[0].value = user.last_name;

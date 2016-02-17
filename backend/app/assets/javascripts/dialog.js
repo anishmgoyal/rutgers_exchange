@@ -90,11 +90,14 @@
 			this.oncancel = params.oncancel;
 			this.storage = params.storage;
 		} else {
+
+			var submit = (params.hasOwnProperty("onsubmit"))? this.submit.bind(this) : this.hide.bind(this);
 			this.buttonbar = $('<div class="dialog-buttons" />');
 			this.button = $('<div class="dialog-button dialog-active dialog-expand" />')
-				.click(this.hide.bind(this))
+				.click(submit)
 				.html(this.buttonText);
-				this.isConfirm = true;
+			this.isConfirm = true;
+			this.onsubmit = params.onsubmit;
 			this.buttonbar.append(this.button);
 			this.dialog.append(this.buttonbar);
 		}
@@ -211,6 +214,11 @@
 		// ScrollZone integration
 		this.scrollZone.applyCSS({height: paneHeight + "px"});
 		this.scrollZone.trigger("resize");
+	};
+	Dialog.prototype.submit = function() {
+		if(typeof this.onsubmit !== "undefined") {
+			if(this.onsubmit.call(this)) this.hide();
+		}
 	};
 	Dialog.prototype.confirm = function() {
 		this.hide();

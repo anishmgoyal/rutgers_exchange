@@ -15,8 +15,8 @@ class User < ActiveRecord::Base
 	validates :username, :presence => true, :uniqueness => true, :length => { :in => 5..20 }
 	validates :email_address, :presence => true, :uniqueness => true, :format => EMAIL_REGEX
 	validates :password, :length => { :in => 7..20 }, :confirmation => true, :unless => :encrypted_password?
-    validates :first_name, presence: true
-    validates :last_name, presence: true
+    validates :first_name, presence: true, :length => { :in => 2..40 }
+    validates :last_name, presence: true, :length => { :in => 2..40 }
     validates :phone_number, presence: true, format: PHONE_REGEX
 	validates_format_of :username, without: EMAIL_REGEX
 	validates_presence_of :password_confirmation, :unless => lambda { |user| user.password.blank? }
@@ -30,10 +30,12 @@ class User < ActiveRecord::Base
 			self.salt = BCrypt::Engine.generate_salt
 			self.encrypted_password = BCrypt::Engine.hash_secret(password, salt)
 		end
+		true
 	end
 	
 	def clear_password
 		self.password = nil
+		true
 	end
     
     def self.authenticate(username="", password="")

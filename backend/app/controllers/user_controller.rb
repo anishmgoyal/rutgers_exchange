@@ -65,17 +65,16 @@ class UserController < ApplicationController
         if user
             if @current_user.id == user.id
             
-               @current_user.encrypted_password = nil if params[:password]
-               @current_user.password = params[:password] if params[:password]
-               @current_user.password_confirmation = params[:password_confirmation] if params[:password]
-               @current_user.phone_number = params[:phone_number] if params[:phone_number]
-               @current_user.first_name = params[:first_name] if params[:first_name]
-               @current_user.last_name = params[:last_nmae] if params[:last_name]
+               user.encrypted_password = nil if params[:password]
+               user.password = params[:password] if params[:password]
+               user.password_confirmation = params[:password_confirmation] if params[:password]
+               user.first_name = params[:first_name] if params[:first_name]
+               user.last_name = params[:last_name] if params[:last_name]
                
-                if @current_user.save()
+                if user.save()
                     payload = {
                         error: false,
-                        id: @current_user.id
+                        id: user.id
                     }
                     render status: 200, json: payload
                 else
