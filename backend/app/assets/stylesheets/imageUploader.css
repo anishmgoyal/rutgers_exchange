@@ -105,7 +105,7 @@
 }
 
 .image-uploader-image-inner, .image-uploader-image-inner-no-border {
-	background-color: #2b2b2b;
+	background-color: #1e1e1e;
 	box-sizing: border-box;
 	height: 100%; width: 100%;
 	position: relative;
