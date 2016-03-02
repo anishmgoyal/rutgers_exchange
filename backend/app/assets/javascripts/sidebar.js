@@ -320,8 +320,6 @@
 			if(doWidth) {
 				width = 100 - target;
 				elem.style.width = width + "%";
-				widthSlide = Math.floor(100 / width * target);
-				elem.style.transform = "translate3d(" + widthSlide + "%, 0, 0)";
 			} else {
 				elem.style.transform = "translate3d(" + target + "%, 0, 0)";
 			}
@@ -330,8 +328,6 @@
 			if(doWidth) {
 				width = 100 - currSlide;
 				elem.style.width = width + "%";
-				widthSlide = Math.floor(100 / width * currSlide);
-				elem.style.transform = "translate3d(" + widthSlide + "%, 0, 0)";
 			} else {
 				elem.style.transform = "translate3d(" + currSlide + "%, 0, 0)";
 			}
