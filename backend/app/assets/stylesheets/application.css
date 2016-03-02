@@ -13,6 +13,7 @@
  *= require foundation.min
  *= require foundation-icons
  *= require main
+ *= require sidebar
  *= require form
  *= require products
  *= require message

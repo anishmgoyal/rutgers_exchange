@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+	var sidebar = new Sidebar(document.getElementById("sidebar"), document.getElementById("mobile_menu"), {
+		close: destroyMobileMenu
+	});
+
 	// Bind handler for the framing of the window
 	equalizeMainContentColumnSizes();
 	$(window).load(equalizeMainContentColumnSizes);
@@ -11,10 +15,10 @@ $(document).ready(function() {
 	$(window).resize(vcenter);
 
 	// Make mobile buttons work
-	$('.toggle-menu').click(createMobileMenu);
-	$('.toggle-menu-hide').click(destroyMobileMenu);
-	$('.toggle-search').click(createMobileSearchBar);
-	$('.toggle-search-hide').click(destroyMobileSearchBar);
+	$('.toggle-menu').click(createMobileMenu.bind(window, sidebar));
+	$('.toggle-menu-hide').click(destroyMobileMenu.bind(window, sidebar));
+	$('.toggle-search').click(createMobileSearchBar.bind(window, sidebar));
+	$('.toggle-search-hide').click(destroyMobileSearchBar.bind(window, sidebar));
 
 	// Bind the search form(s) to the correct handler
 	var bigSearchForm = $(".bigSearchForm");
@@ -33,7 +37,11 @@ $(document).ready(function() {
 
 	// Start-up configuration the pageLoader framework
 	pageLoader.beforeChange(apiHandler.cancelRunning.bind(apiHandler));
-	pageLoader.pageChange(destroyMobileMenu);
+	pageLoader.pageChange(destroyMobileMenu.bind(window, sidebar));
+	pageLoader.pageChange(destroyMobileSearchBar.bind(window, sidebar));
+	pageLoader.pageChange(function() {
+		linkHelper.setPage(pageLoader.getMainPath(), window.location.hash.substring(2));
+	});
 	if(window.location.hash.length > 2)
 		pageLoader.reloadPage();
 	else 
@@ -72,40 +80,35 @@ function vcenter() {
 	});
 }
 
-function createMobileMenu() {
+function createMobileMenu(sidebar) {
 	destroyMobileSearchBar();
-	var mobileMenu = $('<div class="show-for-small sidebar-container small-12 columns" />').html($('.sidebar-container').html());
-	mobileMenu.css('z-index', '50')
-		  .css('height', 'auto')	
-		  .css('position', 'absolute');
-	mobileMenu.find('.sidebar').css("height", "auto");
+
+	sidebar.openMobileMenu(pageLoader.getMainPath(), window.location.hash.substring(2));
 
 	var overlay = $('<div class="overlay show-for-small">&nbsp;</div>')
-		  .click(destroyMobileMenu)
+		  .click(destroyMobileMenu.bind(window, sidebar))
 		  .css('background-color', 'rgba(0, 0, 0, 0.8')
 		  .css('width', '100%')
 		  .css('position', 'absolute')
 		  .css('z-index', '45');
 
-	var topbarHeight = $('nav').outerHeight();
 	var maincontentHeight = $('.main-container').outerHeight();
-	mobileMenu.css('top', topbarHeight + "px");
 	overlay.css('height', maincontentHeight + "px");
-	$(document.body).append(mobileMenu);
 	$(document.body).append(overlay);
 	$('.toggle-menu').hide();
 	$('.toggle-menu-hide').show();
 	$(window).scrollTop(0);
 }
 
-function destroyMobileMenu() {
-	$('.sidebar-container.show-for-small,.overlay').remove();
+function destroyMobileMenu(sidebar) {
+	$('.overlay').remove();
+	sidebar.closeMobileMenu(pageLoader.getMainPath(), window.location.hash.substring(2));
 	$('.toggle-menu').show();
 	$('.toggle-menu-hide').hide();
 }
 
-function createMobileSearchBar() {
-	destroyMobileMenu();
+function createMobileSearchBar(sidebar) {
+	destroyMobileMenu(sidebar);
 	$(".toggle-search").hide();
 	$(".toggle-search-hide").show();
 
@@ -129,7 +132,7 @@ function createMobileSearchBar() {
 	$(document.body).append(queryBar);
 }
 
-function destroyMobileSearchBar() {
+function destroyMobileSearchBar(sidebar) {
 	$(".toggle-search").show();
 	$(".toggle-search-hide").hide();
 	$(".query-box").remove();

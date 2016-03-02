@@ -124,14 +124,6 @@
 		this.resizeNow();
 		$("img").on("load", this.resizeNow.bind(this))
 				.on("error", this.resizeNow.bind(this));
-		$("a").each(function() {
-			$(this).on('click', function(e) {
-				if(this.href.substring(this.href.indexOf("#")) === location.hash) {
-					//TODO: This doesn't work for some links... why??
-					// pageLoader.reloadPage();
-				}
-			});
-		});
 	};
 	PageLoader.prototype.resizeNow = function() {
 		var wrapper = $(window);

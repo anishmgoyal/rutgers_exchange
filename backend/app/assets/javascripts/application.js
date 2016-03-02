@@ -25,7 +25,7 @@
 
 //= require pageLoader
 //= require apiHandler
-//= require linkHelper
+//= require sidebar
 
 // Handlers
 

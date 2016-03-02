@@ -9,6 +9,7 @@ body {
 	font-family: "Open Sans" !important;
 	font-size: 0.9em;
 	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6, label {
@@ -127,7 +128,7 @@ nav li {
 	display: none;
 }
 
-.sidebar-container {
+/*.sidebar-container {
 	background-color: #3b3b3c;
 	height: 100%;
 	min-height: 100%;
@@ -160,7 +161,7 @@ nav li {
 	color: #4f4f4f;
 	border-color: #4f4f4f;
 	background-color: #4f4f4f;
-}
+}*/
 
 /* Ubiquitous styles */
 
