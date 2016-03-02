@@ -1,4 +1,5 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "noreply@rutgersxchange.com"
+  include ApplicationHelper
+  default from: "#{@@APPLICATION_BACKEND_NAME} <noreply@rutgersxchange.com>"
   layout 'mailer'
 end

@@ -23,20 +23,5 @@ module RutgersExchange
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
-    config.action_mailer.default_url_options = { host: "www.rutgersxchange.com" }
-    config.action_mailer.raise_delivery_errors = true
-    config.action_mailer.delivery_method = :smtp
-    config.action_mailer.smtp_settings = {
-        :address		=>	"smtp.zoho.com",
-        :port			=>	465,
-        :username		=>	"noreply@rutgersxchange.com",
-        :domain			=>	"rutgersxchange.com",
-        :password		=>	"Notice me senpai!",
-        :authentication 	=>	"plain",
-        :ssl			=>	true,
-        :tls			=>	true,
-        :enable_startttls_auto	=>	true
-    }
-
   end
 end
