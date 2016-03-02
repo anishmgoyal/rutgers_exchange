@@ -97,7 +97,7 @@
 
 	var openMobileMenu = function(menu, mainPath, fullPath) {
 		mobileSetPage(mainPath, fullPath);
-		startExpand(menu, 150);
+		startExpand(menu, 100);
 	};
 
 	var closeMobileMenu = function(menu) {
@@ -105,7 +105,7 @@
 		if(openDropdown != undefined) {
 			closeMobileDropdown(menu, openDropdown);
 		}
-		startCollapse(menu, 150);
+		startCollapse(menu, 100);
 	};
 
 	var openMobileDropdown = function(menu, dropdown) {
