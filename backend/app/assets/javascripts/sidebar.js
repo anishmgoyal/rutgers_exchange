@@ -290,8 +290,8 @@
 		}
 		showElem["data-curr"] = hideElem["data-curr"] + 100;
 
-		slide(hideElem, -100);
-		slide(showElem, 0);
+		slide(hideElem, -100, false);
+		slide(showElem, 0, true);
 	};
 	var startRightSlide = function(showElem, hideElem) {
 		if(showElem["data-curr"] == undefined) {
@@ -299,10 +299,10 @@
 		}
 		hideElem["data-curr"] = showElem["data-curr"] + 100;
 
-		slide(showElem, 0);
-		slide(hideElem, 100);
+		slide(showElem, 0, false);
+		slide(hideElem, 100, true);
 	};
-	var slide = function(elem, target) {
+	var slide = function(elem, target, doWidth) {
 
 		if(elem["data-timeout-slide"]) {
 			clearTimeout(elem["data-timeout-slide"]);
@@ -313,14 +313,30 @@
 		var dir = (currSlide - target > 0)? -1 : 1;
 		var diff = Math.abs(currSlide - target);
 		var step = 4;
+		var width;
+		var widthSlide;
 
 		if(step > diff) {
-			elem.style.transform = "translate3d(" + target + "%, 0, 0)";
+			if(doWidth) {
+				width = 100 - target;
+				elem.style.width = width + "%";
+				widthSlide = Math.floor(100 / width * target);
+				elem.style.transform = "translate3d(" + widthSlide + "%, 0, 0)";
+			} else {
+				elem.style.transform = "translate3d(" + target + "%, 0, 0)";
+			}
 		} else {
 			currSlide = currSlide + (step * dir);
-			elem.style.transform = "translate3d(" + currSlide + "%, 0, 0)";
+			if(doWidth) {
+				width = 100 - currSlide;
+				elem.style.width = width + "%";
+				widthSlide = Math.floor(100 / width * currSlide);
+				elem.style.transform = "translate3d(" + widthSlide + "%, 0, 0)";
+			} else {
+				elem.style.transform = "translate3d(" + currSlide + "%, 0, 0)";
+			}
 			elem["data-curr"] = currSlide;
-			elem["data-timeout-slide"] = setTimeout(slide.bind(window, elem, target), 10);
+			elem["data-timeout-slide"] = setTimeout(slide.bind(window, elem, target, doWidth), 10);
 		}
 
 	};

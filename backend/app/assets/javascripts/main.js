@@ -105,6 +105,7 @@ function destroyMobileMenu(sidebar) {
 	sidebar.closeMobileMenu(pageLoader.getMainPath(), window.location.hash.substring(2));
 	$('.toggle-menu').show();
 	$('.toggle-menu-hide').hide();
+	$(window).trigger("resize");
 }
 
 function createMobileSearchBar(sidebar) {

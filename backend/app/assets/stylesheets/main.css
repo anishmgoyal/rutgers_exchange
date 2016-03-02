@@ -9,7 +9,6 @@ body {
 	font-family: "Open Sans" !important;
 	font-size: 0.9em;
 	overflow-y: scroll;
-	overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6, label {
@@ -127,41 +126,6 @@ nav li {
 .search::-ms-clear {
 	display: none;
 }
-
-/*.sidebar-container {
-	background-color: #3b3b3c;
-	height: 100%;
-	min-height: 100%;
-	padding: 10px 15px;
-}
-.sidebar-container.show-for-small {
-	box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
-}
-.sidebar a {
-	color: #a0d3e8;
-	display: block;
-	padding: 4px 10px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-decoration: none;
-	text-overflow: ellipsis;
-}
-.sidebar a:hover {
-	background-color: #2b2b2b;
-}
-.sidebar h6 {
-	color: #8b8b8b;
-	font-weight: bold;
-	font-size: 0.9em;
-	margin: 0;
-	padding: 0 10px;
-	text-transform: uppercase;
-}
-.sidebar hr {
-	color: #4f4f4f;
-	border-color: #4f4f4f;
-	background-color: #4f4f4f;
-}*/
 
 /* Ubiquitous styles */
 
