@@ -51,6 +51,9 @@
 		// Remove cookies for session
 		cookieManager.deleteAuth();
 
+		// End the session in the notification handler
+		NotificationApi.endSession();
+
 		linkHelper.loadState("STATE_UNAUTH");
 	};
 

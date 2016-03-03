@@ -5,28 +5,7 @@
 	NotificationApi.stem = "/notifications/";
 	NotificationApi.websock_stem = "/faye";
 
-	NotificationApi.tickShortPoll = function() {
-		var params = apiHandler.requireAuth();
-		apiHandler.skipIcon(params);
-		apiHandler.skipRegistry(params);
-		apiHandler.doRequest("get", NotificationApi.stem, params, function success(data) {
-
-			for(var i = 0; i < data.notifications.length; i++) {
-				if(data.notifications[i].type == "NOTIF_NEW_MESSAGE") {
-					handleNewMessage(data.notifications[i].value);
-				} else if(data.notifications[i].type == "NOTIF_NEW_PRODUCT") {
-					handleNewProduct(data.notifications[i].value);
-				}
-			}
-
-			var nextTick = data.tick_delay;
-			if(nextTick < 2) nextTick = 2;
-			setTimeout(NotificationApi.tick, data.tick_delay * 1000);
-			
-		}, function error(code) {
-			console.log(code);
-		});
-	};
+	NotificationApi.client = null;
 
 	NotificationApi.tick = function() {
 		var client = new Faye.Client(apiHandler.server + NotificationApi.websock_stem);
@@ -34,7 +13,6 @@
 			outgoing: function(message, callback) {
 				if(!message.hasOwnProperty("ext")) message.ext = {};
 				apiHandler.requireAuth(message.ext);
-
 				callback(message);
 			}
 		});
@@ -54,6 +32,15 @@
 				}
 			}).show();
 		});
+
+		NotificationApi.client = client;
+	};
+
+	NotificationApi.endSession = function() {
+		if(NotificationApi.client) {
+			NotificationApi.client.disconnect();
+			NotificationApi.client = null;
+		}
 	};
 
 	var handleNewMessage = function(notification) {
@@ -76,6 +63,33 @@
 			new_item.fadeIn();
 		}
 	}
+
+	// TODO: Plan of action for this code segment
+	// Legacy - should be determined if this is even useful
+	// If so: should be integrated with the backend again
+	// If not: should be removed
+	NotificationApi.tickShortPoll = function() {
+		var params = apiHandler.requireAuth();
+		apiHandler.skipIcon(params);
+		apiHandler.skipRegistry(params);
+		apiHandler.doRequest("get", NotificationApi.stem, params, function success(data) {
+
+			for(var i = 0; i < data.notifications.length; i++) {
+				if(data.notifications[i].type == "NOTIF_NEW_MESSAGE") {
+					handleNewMessage(data.notifications[i].value);
+				} else if(data.notifications[i].type == "NOTIF_NEW_PRODUCT") {
+					handleNewProduct(data.notifications[i].value);
+				}
+			}
+
+			var nextTick = data.tick_delay;
+			if(nextTick < 2) nextTick = 2;
+			setTimeout(NotificationApi.tick, data.tick_delay * 1000);
+			
+		}, function error(code) {
+			console.log(code);
+		});
+	};
 
 	window.NotificationApi = NotificationApi;
 
