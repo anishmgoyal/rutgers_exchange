@@ -201,20 +201,14 @@ $(document).ready(function() {
 	};
 
 	var handleNoConversations = function() {
-		messageTool.loadMessage(pageLoader.getWnd(), "No Conversations", "You do not have any chat conversations. Chat conversations are entered as part of the buying process on " + window.server.serviceName + "; either when you are buying a product, and your offer is accepted by the seller, or when you are selling a product, and accept an offer from a buyer.");
-		/*$.ajax({
-			url: "pages/messages/none.htm",
-			cache: false,
-			dataType: "html",
-			success: function(data) {
-				wnd.html(data);
-				pageLoader.notifyDone();
-			},
-			error: function() {
-				pageLoader.notifyDone();
-				pageLoader.loadHandler(404);
-			}
-		});*/
+		messageTool.loadMessage(pageLoader.getWnd(), 
+			"No Conversations", 
+			"You do not have any chat conversations. " + 
+			"Chat conversations are entered as part of the buying process on " + 
+			window.server.serviceName + 
+			"; either when you are buying a product, and your offer is accepted " + 
+			"by the seller, or when you are selling a product, and accept an offer from a buyer."
+		);
 	};
 
 	// ------------------------ Async updaters -------------------------

@@ -33,6 +33,8 @@ $(document).ready(function() {
 					wnd.html(data);
 					wnd.find(".show-for-edit").remove();
 
+					$("#product_name").focus();
+
 					var errors = pageLoader.getErrors();
 					for(var i = 0; i < errors.length; i++) {
 						$("#" + errors[i].field + "_error").html(errors[i].message);
@@ -167,9 +169,6 @@ $(document).ready(function() {
 
 				var product_user_id = product.user.user_id;
 				var current_user_id = pageLoader.getParam("user_id");
-
-				console.log(product_user_id);
-				console.log(current_user_id);
 				
 				wnd.find("#template_product_name").text(product.product_name);
 				wnd.find("#template_product_price").text(apiHandler.serverCurrencyToClient(product.price));
@@ -262,6 +261,8 @@ $(document).ready(function() {
 				success: function(wnd, product, id, data) {
 					wnd.html(data);
 					wnd.find(".show-for-new").remove();
+
+					$("#product_name").focus();
 					
 					if(product.is_published) {
 						wnd.find(".product-show-for-draft").remove();

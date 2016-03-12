@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   post '/users/:id' => 'user#update'
   delete '/users/:username' => 'user#logout'
   get '/session/verify' => 'user#verify_session'
+  post '/user/activate' => 'user#activate'
   
   # Products
   get '/products' => 'product#list'

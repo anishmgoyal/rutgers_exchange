@@ -37,6 +37,7 @@
 //= require pages/login
 //= require pages/logout
 //= require pages/register
+//= require pages/activate
 //= require pages/products
 //= require pages/profile
 //= require pages/offers

@@ -1,6 +1,8 @@
 class UserController < ApplicationController
 
     include SessionsHelper
+
+    require 'securerandom'
     
     before_filter :require_auth, only: [:update, :logout, :verify_session]
     before_filter :check_auth, only: [:read]
@@ -14,9 +16,9 @@ class UserController < ApplicationController
         user.password = params[:password]
         user.password_confirmation = params[:password_confirmation]
         user.email_address = params[:email_address]
-        user.phone_number = params[:phone_number]
         user.first_name = params[:first_name]
         user.last_name = params[:last_name]
+        user.activation = SecureRandom.hex 16
         
 		if user.save()
             UserMailer.activation_email(user).deliver_later
@@ -51,7 +53,6 @@ class UserController < ApplicationController
             }
 			if @current_user and @current_user.id == user.id
                 payload[:email_address] = user.email_address
-                payload[:phone_number] = user.phone_number
             end
             render status: 200, json: payload
 		else
@@ -104,8 +105,12 @@ class UserController < ApplicationController
         device_type = params[:device_type] if params[:device_type]
         device_type ||= :INCOMPAT_FOR_NOTIFS
         if user
-            session = create_session(user.id, device_type)
-            render status: 200, json: session
+            if user.activation == "ACTIVATION_ACTIVE"
+                session = create_session(user.id, device_type)
+                render status: 200, json: session
+            else
+                render status: 405, json: {error: true, message: "Your account has not yet been activated. Please check your emails for an activation link."}
+            end
         else
             render status: 403, json: {error: true, message: "Invalid username or password."}
         end
@@ -128,6 +133,18 @@ class UserController < ApplicationController
     # code of the response to see if the session is valid.
     def verify_session
         render status: 200, json: {error: false}
+    end
+
+    # This changes the activation status of a user from not active to active
+    def activate
+        user = User.find_by_username params[:username]
+        if user && user.activation == params[:activation]
+            user.activation = "ACTIVATION_ACTIVE"
+            user.save()
+            render status: 200, json: {error: false}
+        else
+            render status: 403, json: {error: true}
+        end
     end
 	
 end

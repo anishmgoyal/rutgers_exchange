@@ -1,0 +1,2 @@
+class PasswordRecoveryRequestController < ApplicationController
+end

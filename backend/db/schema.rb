@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160121190348) do
+ActiveRecord::Schema.define(version: 20160309222458) do
 
   create_table "conversations", force: :cascade do |t|
     t.integer  "seller_id",  limit: 4
@@ -46,6 +46,14 @@ ActiveRecord::Schema.define(version: 20160121190348) do
 
   add_index "offers", ["product_id"], name: "index_offers_on_product_id", using: :btree
   add_index "offers", ["user_id"], name: "index_offers_on_user_id", using: :btree
+
+  create_table "password_recovery_requests", force: :cascade do |t|
+    t.integer  "user_id",         limit: 4
+    t.string   "recovery_string", limit: 255
+    t.string   "recovery_code",   limit: 255
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
 
   create_table "product_images", force: :cascade do |t|
     t.string   "image_location", limit: 255
@@ -99,9 +107,9 @@ ActiveRecord::Schema.define(version: 20160121190348) do
     t.string   "first_name",         limit: 255
     t.string   "last_name",          limit: 255
     t.string   "email_address",      limit: 255
-    t.string   "phone_number",       limit: 255
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+    t.string   "activation",         limit: 255
   end
 
 end

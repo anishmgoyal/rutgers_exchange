@@ -7,6 +7,7 @@ $(document).ready(function() {
 			datatype: 'html',
 			success: function(data) {
 				wnd.html(data);
+				$("#username").focus();
 				$("#register-form").submit(function(e) {
 					UserApi.register();
 					if(e.preventDefault) e.preventDefault();

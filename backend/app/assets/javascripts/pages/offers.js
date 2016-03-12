@@ -251,6 +251,7 @@ $(document).ready(function() {
 			dataType: 'html',
 			success: function(data) {
 				wnd.html(data);
+				$("#offer_price").focus();
 				var price_str = apiHandler.serverCurrencyToClient(product.price);
 				$("#product_id").val(product.product_id);
 				$("#template_product_name").text(product.product_name);
@@ -291,6 +292,8 @@ $(document).ready(function() {
 			dataType: 'html',
 			success: function(data) {
 				wnd.html(data);
+
+				$("#offer_price").focus();
 
 				var price_str = apiHandler.serverCurrencyToClient(offer.product.price);
 				$("#product_id").val(offer.product.product_id);

@@ -7,6 +7,7 @@ $(document).ready(function() {
 			datatype: 'html',
 			success: function(data) {
 				wnd.html(data);
+				$("#username").focus();
 				$("#login-form").submit(function(e) {
 					UserApi.authenticate();
 					if(e.preventDefault) e.preventDefault();

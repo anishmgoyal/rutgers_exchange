@@ -4,6 +4,7 @@
 
 	UserApi.stem = "/users/";
 	UserApi.sessionStem = "/session/";
+	UserApi.activateStub = "/user/activate/";
 
 	UserApi.authenticate = function() {
 
@@ -27,7 +28,15 @@
 			linkHelper.loadState("STATE_AUTH");
 			NotificationApi.tick();
 		}, function error(code) {
-			pageLoader.addError({field: 'global', message: 'Invalid username or password'});
+			var message = "Invalid username or password";
+			switch(code) {
+				case 403: message = "Invalid username or password";
+						  break;
+				case 405: message = "Your account has not yet been activated";
+						  break;
+				default: break; 
+			}
+			pageLoader.addError({field: 'global', message: message});
 			pageLoader.loadPage("/login");
 		});
 	};
@@ -68,7 +77,7 @@
 
 	UserApi.register = function(username, email, phone, password, passwordConfirmation) {
 
-		var params = apiHandler.processForm("username", "first_name", "last_name", "email_address", "phone_number", "password", "password_confirmation");
+		var params = apiHandler.processForm("username", "first_name", "last_name", "email_address", "password", "password_confirmation");
 
 		apiHandler.doRequest("put", UserApi.stem, params, function success(data) {
 			if(data.error) {
@@ -116,7 +125,15 @@
 		};
 
 		apiHandler.doRequest("get", UserApi.stem + encodeURIComponent(otherUserId), params, successCallback, errorCallback);
-	};	
+	};
+
+	UserApi.activate = function(username, activation, successCallback, errorCallback) {
+		var params = {
+			username: username,
+			activation: activation
+		};
+		apiHandler.doRequest("post", UserApi.activateStub, params, successCallback, errorCallback);
+	};
 
 	window.UserApi = UserApi;
 
