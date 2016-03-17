@@ -16,18 +16,11 @@ class ProductController < ApplicationController
         product.product_type = params[:product_type]
         product.is_published = true if params[:is_published]
         product.sold_status = Product.SOLD_NOT_SOLD
+        product.condition = params[:condition]
         product.description = params[:description]
         product.user = @current_user
 
         if product.save()
-
-            notify("NOTIF_NEW_PRODUCT", {
-                product: {
-                    id: product.id,
-                    product_name: product.product_name,
-                    price: product.price
-                }
-            })
 
             payload = {
                 error: false,
@@ -126,6 +119,7 @@ class ProductController < ApplicationController
                 product_type: product.product_type,
                 price: product.price,
                 sold_status: product.sold_status,
+                condition: product.condition,
                 description: product.description,
 				created_at: product.created_at.strftime("%-m/%-d/%Y")
             }
@@ -147,6 +141,7 @@ class ProductController < ApplicationController
                 product.product_type = params[:product_type] if params[:product_type]
                 product.is_published = params[:is_published] if params[:is_published]
                 product.sold_status = params[:sold_status] if params[:sold_status]
+                product.condition = params[:condition] if params[:condition]
                 product.description = params[:description] if params[:description]
 
                 if product.save()

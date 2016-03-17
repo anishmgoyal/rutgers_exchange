@@ -3,6 +3,16 @@
 	var ProductApi = {};
 	
 	ProductApi.stem = "/products/";
+
+	ProductApi.condition = {
+		CONDITION_NA: "Not Applicable",
+		CONDITION_NEW: "New",
+		CONDITION_EXCELLENT: "Excellent",
+		CONDITION_GOOD: "Good",
+		CONDITION_FAIR: "Fair",
+		CONDITION_POOR: "Poor",
+		CONDITION_FORPARTS: "For Parts"
+	};
 	
 	ProductApi.getProductList = function(successCallback, errorCallback) {
 		var params = {products_per_page: 50};
@@ -34,7 +44,7 @@
 	
 	ProductApi.createProduct = function(isPublishNow, redirectAction) {
 
-		var params = apiHandler.processForm("product_name", "product_type", "product_price", "description");
+		var params = apiHandler.processForm("product_name", "product_type", "product_price", "condition", "description");
 		params['user_id'] = pageLoader.getParam("user_id");
 		params['session_token'] = pageLoader.getParam("session_token");
 		params['csrf_token'] = pageLoader.getParam("csrf_token");
@@ -48,9 +58,7 @@
 			priceAsNum = priceAsNum * 100;
 			priceAsNum = Math.floor(priceAsNum);
 			params.price = priceAsNum;
-			console.log(params.price);
 		} else {
-			console.log("PRICE_INVAL");
 			params.price = "PRICE_INVAL";
 		}
 		
@@ -94,7 +102,7 @@
 	
 	ProductApi.updateProduct = function(isPublishNow, isRetract, redirectAction) {
 	
-		var params = apiHandler.processForm("product_id", "product_name", "product_type", "product_price", "description");
+		var params = apiHandler.processForm("product_id", "product_name", "product_type", "product_price", "condition", "description");
 		params['user_id'] = pageLoader.getParam("user_id");
 		params['session_token'] = pageLoader.getParam("session_token");
 		params['csrf_token'] = pageLoader.getParam("csrf_token");

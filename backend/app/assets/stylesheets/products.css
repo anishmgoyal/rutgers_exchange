@@ -16,7 +16,7 @@
 	background: none;
 }
 
-.product-listing-name, .product-listing-price, .product-listing-description {
+.product-listing-name, .product-listing-price, .product-listing-condition, .product-listing-description {
 	width: 100%;
 }
 
@@ -24,7 +24,7 @@
 	font-size: 0.9em;
 }
 
-.product-listing-price, .product-listing-header {
+.product-listing-price, .product-listing-condition, .product-listing-header {
 	font-weight: bold;
 }
 

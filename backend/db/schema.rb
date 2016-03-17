@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160309222458) do
+ActiveRecord::Schema.define(version: 20160317185447) do
 
   create_table "conversations", force: :cascade do |t|
     t.integer  "seller_id",  limit: 4
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 20160309222458) do
     t.string   "sold_status",  limit: 255
     t.integer  "user_id",      limit: 4
     t.boolean  "is_published",               default: false
+    t.string   "condition",    limit: 255
   end
 
   add_index "products", ["user_id"], name: "index_products_on_user_id", using: :btree
