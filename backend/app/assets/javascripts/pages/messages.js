@@ -137,7 +137,6 @@ $(document).ready(function() {
 				} else {
 					switchActiveScreens(SWITCH_TYPE.CHATLIST);
 					loadConversation(conversations[0].id);
-					//pageLoader.redirect("/messages/" + conversations[0].id);
 				}
 			} else {
 				handleNoConversations();
@@ -192,6 +191,7 @@ $(document).ready(function() {
 
 				// Resize the scroll pane, go to bottom
 				messageApplication.conversationScrollbox.trigger("resize");
+				messageApplication.chatListScrollbox.trigger("resize");
 				messageApplication.conversationScrollbox.setScrollPosition({percentage: 1});
 				
 			}, function error(id, code) {
