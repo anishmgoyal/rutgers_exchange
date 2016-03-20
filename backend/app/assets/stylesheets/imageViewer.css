@@ -82,7 +82,7 @@
 }
 
 .image-viewer-lr-control-disabled {
-	opacity: 0.5;
+    visibility: hidden;
 }
 
 .image-viewer-lr-control-disabled:hover {
