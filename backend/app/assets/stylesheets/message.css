@@ -38,6 +38,10 @@
 	right: 0;
 }
 
+.message-contents {
+	word-break: break-all;
+}
+
 .message-control-buttons {
 	margin-bottom: 10px;
 }

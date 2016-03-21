@@ -17,8 +17,8 @@ $(document).ready(function() {
 			pageLoader.notifyDone();
 			var id = subpath.substring(1);
 			if(id.length > 0) {
-				loadConversation(id);
 				switchActiveScreens(SWITCH_TYPE.CONVERSATION);
+				loadConversation(id);
 			} else {
 				switchActiveScreens(SWITCH_TYPE.CHATLIST);
 			}
@@ -272,6 +272,7 @@ $(document).ready(function() {
 		}
 		messageApplication.chatListScrollbox.trigger("resize");
 		messageApplication.conversationScrollbox.trigger("resize");
+		messageApplication.conversationScrollbox.setScrollPosition({percentage: 1});
 	};
 
 	var completeTransaction = function(e) {
