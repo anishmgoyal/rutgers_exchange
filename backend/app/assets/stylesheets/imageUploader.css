@@ -237,11 +237,29 @@
 		font-size: 2.5em;
 	}
 }
-@media only screen and (min-width: 64.063em) {
+@media only screen and (min-width: 64.063em) and (max-width: 90em) {
 	.image-uploader-image-container {
 		width: 12.5%;
 	}
 	.image-uploader-image-container-large {
 		width: 16.6667%;
+	}
+}
+
+@media only screen and (min-width: 90.063em) and (max-width: 120em) {
+	.image-uploader-image-container {
+		width: 10%;
+	}
+	.image-uploader-image-container-large {
+		width: 12.5%;
+	}
+}
+
+@media only screen and (min-width: 120.063em) {
+	.image-uploader-image-container {
+		width: 10%;
+	}
+	.image-uploader-image-container-large {
+		width: 10%;
 	}
 }
