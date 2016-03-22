@@ -24,8 +24,12 @@
 	font-size: 0.9em;
 }
 
-.product-listing-price, .product-listing-condition, .product-listing-header {
+.product-listing-price, .product-listing-header {
 	font-weight: bold;
+}
+
+.product-listing-infoblock {
+	margin-bottom: 15px;
 }
 
 .product-listing-offer {
