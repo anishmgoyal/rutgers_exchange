@@ -181,6 +181,10 @@ $(document).ready(function() {
 					wnd.find(".product-listing-condition").remove();
 				}
 
+				if(product.description.length == 0) {
+					wnd.find(".product-listing-desc").remove();
+				}
+
 				// Images
 				var imageViewer = new ImageViewer({});
 				if(product.images.length == 0) {
