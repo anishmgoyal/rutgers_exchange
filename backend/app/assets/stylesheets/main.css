@@ -120,7 +120,7 @@ nav li {
 }
 
 .main-container .bump {
-    margin-left: 7px;
+    margin: 0 7px;
 }
 
 .main-container section.padded {
@@ -152,7 +152,7 @@ nav li {
 }
 
 .load-more-button {
-    background-color: #212123;
+    background-color: #212123 !important;
     color: white;
     font-size: 0.8em;
     font-weight: bold;
@@ -161,8 +161,12 @@ nav li {
     text-transform: uppercase;
 }
 
-.load-more-button:hover {
-    background-color: #1e1e20;
+.load-more-button.load-more-long {
+    width: 100%;
+}
+
+.load-more-button:hover, .load-more-button:active {
+    background-color: #1e1e20 !important;
 }
 
 /* Page styles */
@@ -175,7 +179,7 @@ nav li {
 
 @media only screen and (max-width: 40em) {
     .main-container .bump {
-        margin-left: 6px;
+        margin: 0 6px;
     }
 	.main-container section.padded {
 		padding: 0 10px;
@@ -187,7 +191,7 @@ nav li {
 
 @media only screen and (min-width: 40.063em) and (max-width: 64em) {
     .main-container .bump {
-        margin-left: 6px;
+        margin: 0 6px;
     }
 	.main-container section.padded {
 		padding: 0 15px;
@@ -199,7 +203,7 @@ nav li {
 
 @media only screen and (min-width: 64.063em) {
     .main-container .bump {
-        margin-left: 7px;
+        margin: 0 7px;
     }
 	.main-container section.padded {
 		padding: 0 20px;

@@ -128,30 +128,48 @@ $(document).ready(function() {
 	});
 	
 	var load_page_ = function(wnd) {
-		var itemTemplate = $('#template_product').html();
-		ProductApi.getUserProductList(pageLoader.getParam("username"), function success(data) {
-			if(data.products.length > 0) {
-				for(var i = 0; i < data.products.length; i++) {
-					var itemDiv = $(itemTemplate);
-					itemDiv.find(".template_image").text(" ").css("background-image", "url('" + ImageApi.serverThumbnailURL(data.products[i].thumbnail, ImageApi.PRODUCT) + "')");
-					itemDiv.find(".template_name").text(data.products[i].product_name);
-					if(!data.products[i].is_published) {
-						itemDiv.find(".template_name").prepend($('<strong style="color: white">(DRAFT) </strong>'));
-					}
-					itemDiv.find(".template_created_at").text("Listed on " + data.products[i].created_at);
-					itemDiv.find(".template_price").text("$" + apiHandler.serverCurrencyToClient(data.products[i].product_price));
-					itemDiv.click((function(id) { return function() {
-						pageLoader.redirect("/products/view/" + id);
-					} })(data.products[i].product_id));
-					$("#product_list_mine").append(itemDiv);
-				}
-			} else {
-				$("#product_list_mine").append("You have no listings currently.");
-			}
-			pageLoader.notifyDone();
-		}, function error(code) {
-		
-		});
+	    var itemTemplate = $('#template_product').html();
+
+	    var button = document.getElementById("template_lmb");
+	    var loadingIcon = $("#loadingIcon1").find("div")[0];
+	    loadingIcon.parentNode.removeChild(loadingIcon);
+
+	    var pager = new Pager({
+	        button: button,
+            pageList: "products",
+	        pageSize: 40,
+	        loadingIcon: loadingIcon,
+	        loadPageApi: ProductApi,
+	        loadPageFunction: ProductApi.getUserProductListPage,
+	        loadPageParameters: [pageLoader.getParam("username")],
+	        loadPageSuccess: function success(data) {
+	            if (data.products.length > 0) {
+	                $(".show-for-none").hide();
+	                for (var i = 0; i < data.products.length; i++) {
+	                    var itemDiv = $(itemTemplate);
+	                    itemDiv.find(".template_image").text(" ").css("background-image", "url('" + ImageApi.serverThumbnailURL(data.products[i].thumbnail, ImageApi.PRODUCT) + "')");
+	                    itemDiv.find(".template_name").text(data.products[i].product_name);
+	                    if (!data.products[i].is_published) {
+	                        itemDiv.find(".template_name").prepend($('<strong style="color: white">(DRAFT) </strong>'));
+	                    }
+	                    itemDiv.find(".template_created_at").text("Listed on " + data.products[i].created_at);
+	                    itemDiv.find(".template_price").text("$" + apiHandler.serverCurrencyToClient(data.products[i].product_price));
+	                    itemDiv.click((function (id) {
+	                        return function () {
+	                            pageLoader.redirect("/products/view/" + id);
+	                        }
+	                    })(data.products[i].product_id));
+	                    $("#product_list_mine").append(itemDiv);
+	                }
+	            }
+	            pageLoader.notifyChange();
+	        },
+	        loadPageError: function (code) {
+	            pageLoader.loadHandler(code);
+	        }
+	    });
+	    pager.nextPage();
+	    pageLoader.notifyDone();
 		$('.template').remove();
 	};
 	

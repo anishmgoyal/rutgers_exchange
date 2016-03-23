@@ -38,6 +38,19 @@
 		apiHandler.doRequest("get", ProductApi.stem, params, successCallback, errorCallback);
 	};
 
+	ProductApi.getUserProductListPage = function (username, page, pageSize, successCallback, errorCallback) {
+	    var params = {
+	        username: username,
+	        show_drafts: true,
+	        show_current_user: true,
+	        page: page,
+	        products_per_page: pageSize,
+            apiHandlerSkipIcon: true
+	    };
+	    apiHandler.requireAuth(params);
+	    apiHandler.doRequest("get", ProductApi.stem, params, successCallback, errorCallback);
+	};
+
 	ProductApi.getRecentUserProductListWithSold = function(username, successCallback, errorCallback) {
 		var params = {
 			username: username,

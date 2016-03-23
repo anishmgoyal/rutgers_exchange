@@ -89,6 +89,7 @@
                 if (settings.button != null) {
                     settings.loadingIcon.parentNode.removeChild(settings.loadingIcon);
                     settings.button.style.display = "inline-block";
+                    pageLoader.notifyChange();
                 }
             }.bind(this, settings);
 
