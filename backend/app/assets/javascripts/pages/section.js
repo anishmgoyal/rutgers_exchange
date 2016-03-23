@@ -48,7 +48,7 @@
                             productElem.find(".template_name").text(product.product_name);
                             productElem.find(".template_price").text("$" + apiHandler.serverCurrencyToClient(product.product_price));
                             productElem.find(".template_image").attr("src", ImageApi.serverImageURL(product.thumbnail, ImageApi.PRODUCT));
-                            productElem.click(pageLoader.redirect.bind(pageLoader, "/product/view/" + product.product_id));
+                            productElem.click(pageLoader.redirect.bind(pageLoader, "/products/view/" + product.product_id));
                             target.append(productElem);
                         }
                         pageLoader.notifyChange();
