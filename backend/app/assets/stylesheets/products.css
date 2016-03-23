@@ -179,6 +179,9 @@
 }
 
 @media only screen and (max-width: 40em) {
+    .product-row-container {
+        padding: 3px;
+    }
 	.product-row {
 		min-height: 70px;
 	}
@@ -192,6 +195,9 @@
 }
 
 @media only screen and (min-width: 40.063em) and (max-width: 64em) {
+    .product-row-container {
+        padding: 3px;
+    }
 	.product-row {
 		min-height: 100px;
 	}
@@ -205,6 +211,9 @@
 }
 
 @media only screen and (min-width: 64.063em) {
+    .product-row-container {
+        padding: 4px;
+    }
 	.product-row {
 		min-height: 120px;
 	}
