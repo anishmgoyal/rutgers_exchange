@@ -34,7 +34,7 @@
                 var pager = new Pager({
                     button: button,
                     pageList: "products",
-                    pageSize: 50,
+                    pageSize: 24,
                     loadingIcon: loadingIcon,
                     loadPageApi: ProductApi,
                     loadPageParameters: [section.section_code],
