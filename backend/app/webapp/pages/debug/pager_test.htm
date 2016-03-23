@@ -1,0 +1,69 @@
+﻿<section class="padded">
+
+    <div id="list" class="block-list-pane">
+        <section class="padded">
+            <h4 class="template_title">Textbooks</h4>
+            <div class="template_list"></div>
+        </section>
+    </div>
+    <div class="small-12 columns" style="text-align:center; margin-top: 20px;">
+        <button class="load-more-button" id="template_lmb">Load More</button>
+    </div>
+
+</section>
+
+<section id="productTemplate1" class="template">
+    <div class="image-uploader-image-container-large">
+        <div class="image-uploader-image-block">
+            <div class="image-uploader-image-padding">
+                <div class="image-uploader-image-inner-no-border">
+                    <img class="template_image image-uploader-image" />
+                </div>
+            </div>
+        </div>
+        <div class="image-uploader-image-text">
+            <div class="template_name product-name"></div>
+            <div class="template_price product-price"></div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+
+    var template = $("#productTemplate1").html();
+
+    var loadingIcon = document.createElement("div");
+    loadingIcon.style.textAlign = "center";
+    var loadingImage = document.createElement("img");
+    loadingImage.src = "/assets/load.gif";
+    loadingImage.style.height = "25px";
+    loadingImage.style.width = "25px";
+    loadingIcon.appendChild(loadingImage);
+
+    var pgr = new Pager({
+        button: document.getElementById("template_lmb"),
+        pageSize: 2,
+        loadingIcon: loadingIcon,
+        loadPageApi: ProductApi,
+        loadPageParameters: ["TEXTBOOK"],
+        loadPageFunction: ProductApi.getProductListSect,
+        loadPageSuccess: function (data) {
+            var outPlace = $("#list .template_list");
+            for (var i = 0; i < data.products.length; i++) {
+                var item = $(template);
+                item.find(".template_name").text(data.products[i].product_name);
+                item.find(".template_price").text("$" + apiHandler.serverCurrencyToClient(data.products[i].product_price));
+                item.find(".template_image").attr("src", ImageApi.serverImageURL(data.products[i].thumbnail, ImageApi.PRODUCT));
+                outPlace.append(item);
+            }
+            pageLoader.notifyChange();
+        },
+        loadPageError: function (code) {
+            console.log(code);
+        },
+        pageList: "products"
+    });
+
+    pgr.nextPage();
+
+</script>

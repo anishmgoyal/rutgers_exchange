@@ -44,6 +44,7 @@
 //= require pages/messages
 //= require pages/debug
 //= require pages/search
+//= require pages/section
 
 // Tools
 
@@ -64,11 +65,12 @@
 //= require animHelper
 //= require cookieManager
 //= require dialog
-//= require loadingIcon
-//= require switchPane
-//= require scrollZone
 //= require imageUploader
 //= require imageViewer
+//= require loadingIcon
+//= require pager
+//= require scrollZone
+//= require switchPane
 
 // Main Script
 

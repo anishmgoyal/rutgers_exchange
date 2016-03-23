@@ -19,6 +19,14 @@
 		apiHandler.requireAuth(params);
 		apiHandler.doRequest("get", ProductApi.stem, params, successCallback, errorCallback);
 	};
+
+	ProductApi.getProductListSect = function (section, page, itemsPerPage, successCallback, errorCallback) {
+	    console.log(arguments);
+	    var params = { product_type: section, page: page, products_per_page: itemsPerPage, apiHandlerSkipIcon: true };
+	    if (section == null) delete params.product_type;
+	    apiHandler.requireAuth(params);
+	    apiHandler.doRequest("get", ProductApi.stem, params, successCallback, errorCallback);
+	};
 	
 	ProductApi.getUserProductList = function(username, successCallback, errorCallback) {
 		var params = {

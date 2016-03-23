@@ -180,7 +180,7 @@
 
 		if(!set) {
 			set = linkMap[mainPath];
-			if(!set.dropdown) set = null;
+			if(set && !set.dropdown) set = null;
 		} else {
 			link = set.link;
 		}

@@ -61,6 +61,8 @@ class ProductController < ApplicationController
             criteria[:user_id] ||= 0
 		end
 
+		criteria[:product_type] = params[:product_type] if params[:product_type]
+
         criteriaNot[:user_id] = @current_user.id if @current_user and !params[:show_current_user]
 
         products = scope.where(criteria).where.not(criteriaNot).order(created_at: :desc).limit(params[:products_per_page].to_i).offset(offset).all
