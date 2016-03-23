@@ -96,8 +96,8 @@
 	// CONTROL FUNCTIONS
 
 	var openMobileMenu = function(menu, mainPath, fullPath) {
-		mobileSetPage(mainPath, fullPath);
-		startExpand(menu, 100);
+	    mobileSetPage(mainPath, fullPath);
+	    menu.style.height = "auto";
 	};
 
 	var closeMobileMenu = function(menu) {
@@ -105,21 +105,23 @@
 		if(openDropdown != undefined) {
 			closeMobileDropdown(menu, openDropdown);
 		}
-		startCollapse(menu, 100);
+		menu.style.height = "0";
 	};
 
-	var openMobileDropdown = function(menu, dropdown) {
-		startLeftSlide(menu, dropdown);
+	var openMobileDropdown = function (menu, dropdown) {
+	    menu.style.height = "0";
+	    dropdown.style.width = "100%";
 		eachByClass("mobile_menu_dropdown_open", forceCloseMobileDropdown.bind(window));
 		setActiveClass(dropdown, "mobile_menu_dropdown_open");
 	};
 
-	var forceCloseMobileDropdown = function(dropdown) {
-		slide(dropdown, 100);
+	var forceCloseMobileDropdown = function (dropdown) {
+	    dropdown.style.width = "100%";
 	};
 
-	var closeMobileDropdown = function(menu, dropdown) {
-		startRightSlide(menu, dropdown);
+	var closeMobileDropdown = function (menu, dropdown) {
+	    menu.style.height = "auto";
+	    dropdown.style.width = "0";
 		removeClass("mobile_menu_dropdown_open", dropdown);
 	};
 
