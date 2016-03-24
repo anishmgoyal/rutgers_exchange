@@ -46,21 +46,4 @@ class SearchController < ApplicationController
 		render status: 200, json: payload
 	end
 
-	def test_search_stopwords
-
-		search_service = ApplicationService.get :SearchService
-
-		test_words = "hey what dude when why how true isnt that awesome bag trust"
-		test_word_list = get_word_list test_words
-
-		words = []
-
-		test_word_list.each do |word| 
-			words << word unless search_service.is_stop_word word
-		end
-
-		render text: words.join(", ")
-
-	end
-
 end
