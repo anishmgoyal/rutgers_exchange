@@ -390,11 +390,11 @@ class OfferController < ApplicationController
                     conversation = offer.conversation
                     conversation.destroy
 
-                    SearchEntry.destroy_index(offer.product)
-
                     product = offer.product
                     product.sold_status = Product.SOLD_SOLD
                     product.save
+
+                    SearchEntry.destroy_index product
                     
                     offer.offer_status = Offer.OFFER_COMPLETED
                     offer.save
