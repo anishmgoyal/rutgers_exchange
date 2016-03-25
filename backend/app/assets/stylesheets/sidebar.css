@@ -26,11 +26,11 @@
 	letter-spacing: 0.05em;
 }
 
-.sidebar a:hover, .mobile_menu a:hover {
+.sidebar a:hover {
 	background-color: #1e1e1e;
 }
 
-.sidebar a.active, .mobile_menu a.mobile_active, .mobile_menu a.mobile_ddactive {
+.sidebar a.active {
 	background-color: #1e1e1e;
 }
 
@@ -47,12 +47,12 @@
 	background-color: #822;
 }
 
-.dropdown_contents a.dropdown_active, .dropdown_contents a:hover {
+.dropdown_contents a.dropdown_active, .dropdown_contents a:hover, .mobile_menu a.mobile_active, .mobile_menu a.mobile_ddactive, .mobile_menu a:hover  {
 	background-color: #9e2222;
 }
 
 .mobile_menu {
-	background-color: #222;
+	background-color: #822;
 	height: 0;
 	margin: 0;
 	overflow: hidden;
