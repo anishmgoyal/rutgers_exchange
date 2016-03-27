@@ -186,6 +186,7 @@ $(document).ready(function() {
 				wnd.html(data);
 
 				var product_user_id = product.user.user_id;
+				var product_username = product.user.username;
 				var current_user_id = pageLoader.getParam("user_id");
 				
 				wnd.find("#template_product_name").text(product.product_name);
@@ -266,7 +267,8 @@ $(document).ready(function() {
 					var instance = $(this);
 					var curr_attr = instance.attr("href");
 					var final_attr = curr_attr.replace(/:user_id/g, product_user_id)
-										 .replace(/:product_id/g, id);
+										 .replace(/:product_id/g, id)
+										 .replace(/:username/g, product_username);
 					instance.attr("href", final_attr);
 				});
 				pageLoader.notifyDone();
