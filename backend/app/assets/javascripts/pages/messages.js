@@ -52,12 +52,12 @@ $(document).ready(function() {
 					messageApplication.chatListScrollbox = new ScrollZone({
 						elem: wnd.find('.message-sidebar').first(),
 						fg: '#666',
-						scrollbarWidth: 7
+						scrollbarWidth: 1
 					});
 					messageApplication.conversationScrollbox = new ScrollZone({
 						elem: wnd.find('.message-message-pane-inner').first(),
 						fg: '#666',
-						scrollbarWidth: 7
+						scrollbarWidth: 1
 					});
 
 					messageApplication.htmlElements.convoBox.container = wnd.find("#message-conversation-list");
