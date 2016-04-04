@@ -42,15 +42,18 @@
                     loadPageSuccess: function (data) {
                         var target = $("#main-list");
                         var products = data.products;
-                        for (var i = 0; i < products.length; i++) {
-                            var product = products[i];
-                            var productElem = $(itemTemplate);
-                            productElem.find(".template_name").text(product.product_name);
-                            productElem.find(".template_price").text("$" + apiHandler.serverCurrencyToClient(product.product_price));
-                            productElem.find(".template_image").attr("src", ImageApi.serverImageURL(product.thumbnail, ImageApi.PRODUCT));
-                            productElem.click(pageLoader.redirect.bind(pageLoader, "/products/view/" + product.product_id));
-                            target.append(productElem);
-                        }
+			if(products.length > 0) {
+			    $(".show-for-none").remove();
+			    for (var i = 0; i < products.length; i++) {
+			        var product = products[i];
+			        var productElem = $(itemTemplate);
+			        productElem.find(".template_name").text(product.product_name);
+			        productElem.find(".template_price").text("$" + apiHandler.serverCurrencyToClient(product.product_price));
+			        productElem.find(".template_image").attr("src", ImageApi.serverImageURL(product.thumbnail, ImageApi.PRODUCT));
+			        productElem.click(pageLoader.redirect.bind(pageLoader, "/products/view/" + product.product_id));
+			        target.append(productElem);
+			    }
+			}
                         pageLoader.notifyChange();
                     },
                     loadPageError: function (code) {
