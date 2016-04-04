@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" type="image/png" href="img/favicon2.png?v=8" />
 	<script type="text/javascript">
 		
@@ -105,6 +106,10 @@
 				var entry = document.createElement("div");
 				entry.id = "subject-done-" + subject.code;
 				entry.className = "subject auto-caps";
+				entry.style.cursor = "pointer";
+				entry.onclick = function(subject) {
+					window.location.hash = "course_anchor_" + subject.code;
+				}.bind(window, subject);
 
 				var title = subject.description.toLowerCase();
 				entry.appendChild(document.createTextNode(title));
@@ -131,6 +136,9 @@
 				target = document.createElement("div");
 				target.id = "loaded-courses-" + subject.code;
 				target.className = "subjectCourseList";
+				var targetAnchor = document.createElement("a");
+				targetAnchor.id = "course_anchor_" + subject.code;
+				target.appendChild(targetAnchor);
 				var targetTitle = document.createElement("div");
 				targetTitle.className = "subjectTitle auto-caps";
 				targetTitle.appendChild(document.createTextNode(subject.description.toLowerCase()));
@@ -400,6 +408,7 @@
 		
 		.popup_content {
 			border-radius: 2px;
+			box-sizing: border-box;
 			color: black;
 			background-color: white;
 			width: 90%;
@@ -743,9 +752,10 @@
 				Should I Use This?
 				<br /><br />
 				<div style="font-weight: normal">
-					This tool is slow because it gets an up to date list of courses, finding sections which are open which you can register for.
+					This tool takes a while to sort through all available courses because it gets an up to date list on every search, finding sections which are open in order to help you register now.
+					It gives you a link which you can use to register for a section.
 					It also gives you the option to search for courses in a semester of your choice.
-					If you just want a list of courses that fulfill a core requirement, check out <a style="color: blue" href="http://coresearch.herokuapp.com">coresearch.herokuapp.com</a>.
+					If you just want a list of courses that fulfill a core requirement, open or not, check out <a style="color: blue" href="http://coresearch.herokuapp.com">coresearch.herokuapp.com</a>.
 				</div>
 				<br /><br />
 				<div style="text-align: right; padding-right: 20px">
