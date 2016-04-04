@@ -39,7 +39,7 @@ class Product < ActiveRecord::Base
     before_destroy :delete_offers
 
     def index_product
-        SearchEntry.build_index self
+        SearchEntry.build_index self if self.is_published
     end
 
     def delete_index
