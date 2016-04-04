@@ -234,27 +234,31 @@
 				ajax("get", api.url, params, function success(subject, data) {
 					var courseList = JSON.parse(data);
 					var num_matches = 0;
-					for(var i = 0, l = courseList.length; i < l; i++) {
-						var course = courseList[i];
-						var coreCodes = course.coreCodes;
-						for(var j = 0; j < coreCodes.length; j++) {
-							if(coreCodes[j].code && coreCodes[j].code.toLowerCase() == window.coreSearchCode) {
-								results.push(course);
-								var sections = course.sections;
-								for(var k = 0; k < sections.length; k++) {
-									if(sections[k].openStatus) {
-										console.log(course);
-										num_matches ++;
+					if(courseList == null || isNaN(parseInt(courseList.length))) {
+						finishLoadingSubject(subject, 0);
+					} else {
+						for(var i = 0, l = courseList.length; i < l; i++) {
+							var course = courseList[i];
+							var coreCodes = course.coreCodes;
+							for(var j = 0; j < coreCodes.length; j++) {
+								if(coreCodes[j].code && coreCodes[j].code.toLowerCase() == window.coreSearchCode) {
+									results.push(course);
+									var sections = course.sections;
+									for(var k = 0; k < sections.length; k++) {
+										if(sections[k].openStatus) {
+											console.log(course);
+											num_matches ++;
 
-										addCourseToSubject(course, subject);
-										break;
+											addCourseToSubject(course, subject);
+											break;
+										}
 									}
+									break;
 								}
-								break;
 							}
 						}
+						finishLoadingSubject(subject, num_matches);
 					}
-					finishLoadingSubject(subject, num_matches);
 				}.bind(window, subject), function error(data, code) {
 					console.log("Server error " + code + ", response: " + data);
 				}, "api")
