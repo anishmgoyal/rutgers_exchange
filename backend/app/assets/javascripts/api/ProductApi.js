@@ -22,8 +22,9 @@
 
 	ProductApi.getProductListSect = function (section, page, itemsPerPage, successCallback, errorCallback) {
 	    console.log(arguments);
-	    var params = { product_type: section, page: page, products_per_page: itemsPerPage, apiHandlerSkipIcon: true };
+	    var params = { product_type: section, page: page, products_per_page: itemsPerPage };
 	    if (section == null) delete params.product_type;
+	    apiHandler.skipIcon(params);
 	    apiHandler.doRequest("get", ProductApi.stem, params, successCallback, errorCallback);
 	};
 	
@@ -44,10 +45,10 @@
 	        show_drafts: true,
 	        show_current_user: true,
 	        page: page,
-	        products_per_page: pageSize,
-            apiHandlerSkipIcon: true
+	        products_per_page: pageSize
 	    };
 	    apiHandler.requireAuth(params);
+	    apiHandler.skipIcon(params);
 	    apiHandler.doRequest("get", ProductApi.stem, params, successCallback, errorCallback);
 	};
 

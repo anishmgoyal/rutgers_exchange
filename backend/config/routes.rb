@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
   # Webapp
   get '/' => 'webapp#get_index'
+  get '/api' => 'webapp#network_request'
+  get '/core' => 'webapp#core_search'
   get '/css/*all' => 'webapp#get'
   get '/js/*all' => 'webapp#get'
   get '/pages/*all' => 'webapp#get'

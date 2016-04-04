@@ -14,9 +14,26 @@ class WebappController < ApplicationController
 			render status: 404, text: fpath
 		end
 	end
+	
+	def core_search
+		# gets the core search application
+	end
 
 	def get_index
 		# send_file Rails.root.join("app", "webapp", "index.html"), disposition: "inline"
+	end
+	
+	require 'net/http'
+	
+	def network_request
+
+		url = URI.parse(params[:url])
+
+		req = Net::HTTP::Get.new(url.to_s)
+		res = Net::HTTP.start(url.host, url.port) { |http| http.request(req) }
+
+		render text: res.body, status: 200
+
 	end
 
 end
