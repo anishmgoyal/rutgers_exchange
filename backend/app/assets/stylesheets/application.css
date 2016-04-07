@@ -22,6 +22,7 @@
  *= require scrollZone
  *= require imageUploader
  *= require imageViewer
+ *= require info
  *
  *= require_self
  */

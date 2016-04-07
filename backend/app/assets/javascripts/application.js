@@ -45,6 +45,8 @@
 //= require pages/debug
 //= require pages/search
 //= require pages/section
+//= require pages/core
+//= require pages/info
 
 // Tools
 
