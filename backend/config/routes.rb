@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get '/js/*all' => 'webapp#get'
   get '/pages/*all' => 'webapp#get'
   get '/img/*all' => 'webapp#get'
+  get '/views/views' => 'webapp#view_views'
 
   # User accounts
   put '/users' => 'user#create'
@@ -54,6 +55,12 @@ Rails.application.routes.draw do
 
   # Search
   get '/search' => 'search#search'
+
+  # Password Recovery
+  put '/recover' => 'password_recovery_request#create'
+  get '/recover/:string/:user_id' => 'password_recovery_request#check'
+  post '/recover/:string/:user_id' => 'password_recovery_request#apply'
+  delete '/recover/:string/:user_id' => 'password_recovery_request#delete'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
