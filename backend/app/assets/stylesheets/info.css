@@ -1,0 +1,20 @@
+ol {
+	list-style-position: inside;
+	margin: 0;
+}
+
+ol li {
+	font-size: 0.8em;
+	margin: 25px 0;
+	text-align: justify;
+	text-transform: uppercase;
+}
+
+.info-not-padded {
+	padding: 0 !important;
+}
+
+.info-text p {
+	font-size: 1em;
+	margin: 0 0 15px;
+}
