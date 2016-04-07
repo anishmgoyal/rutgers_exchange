@@ -54,7 +54,7 @@ $(document).ready(function() {
 		if(pageLoader.hasParam("username")) {
 			ProductApi.getUserProductList(pageLoader.getParam("username"), function success(wnd, sectionTemplate, itemTemplate, data) {
 				var products = data.products;
-				if(products.length > 0) {
+				if(products.length > 0 && pageLoader.getMainPath() == "/index") {
 					var myListQuickView = $('<section />').html(sectionTemplate);
 					myListQuickView.find('.template_title').text("My Products");
 					var mlqvList = myListQuickView.find('.template_list');
