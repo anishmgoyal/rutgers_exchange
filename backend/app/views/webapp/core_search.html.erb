@@ -56,6 +56,14 @@
 
 		var results = [];
 
+		var subjectNumbGlob = 0;
+		var subjectListGlob;
+
+		function nextSubj() {
+			if(subjectNumbGlob < subjectListGlob.length)
+				api.getSubjectCourses(subjectListGlob[subjectNumbGlob++]);
+		}
+
 		window.onload = function() {
 
 			ajax("get", "/pages/ext/subjects.json", null, function success(data) {
@@ -68,11 +76,14 @@
 					
 					var popup = _id("popup");
 					popup.parentNode.removeChild(popup);
+
+					subjectListGlob = subjectList;
 					
 					for(var i = 0; i < subjectList.length; i++) {
-						api.getSubjectCourses(subjectList[i]);
 						addLoadingSubject(subjectList[i]);
 					}
+
+					nextSubj();
 					
 				}.bind(window, subjectList);
 				_id("submit_btn").style.display = "inline-block";
@@ -127,6 +138,8 @@
 			if(application.subjects_loading == 0) {
 				_id("loading-list").style["display"] = "none";
 			}
+
+			nextSubj();
 
 		};
 
