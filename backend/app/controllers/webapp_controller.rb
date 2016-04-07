@@ -3,6 +3,8 @@ class WebappController < ApplicationController
 	caches_page :get
 	caches_page :get_index
 
+	@@page_view_count = 0
+
 	def get
 		uri = request.fullpath
 		index = nil
@@ -17,6 +19,11 @@ class WebappController < ApplicationController
 	
 	def core_search
 		# gets the core search application
+		@@page_view_count = @@page_view_count + 1 # Not too concerned with accuracy, no mutex here. Just wanna see if it's used at all
+	end
+
+	def view_views
+		render status: 200, text: "Views: #{@@page_view_count}"
 	end
 
 	def get_index
