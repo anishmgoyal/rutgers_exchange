@@ -26,6 +26,20 @@ $(document).ready(function() {
 			}, function error(code) {
 				pageLoader.loadHandler(code);
 			});
+		},
+		_buying: function(wnd) {
+			OfferApi.getOfferList(true, false, null, function success(data) {
+				load_page_buying(wnd, data.offers);
+			}, function error(code) {
+				pageLoader.loadHandler(code);
+			});
+ 		},
+		_selling: function(wnd) {
+			OfferApi.getOfferList(false, true, null, function success(data) {
+				load_page_selling(wnd, data.offers);
+			}, function error(code) {
+				pageLoader.loadHandler(code);
+			});
 		}
 	};
 
@@ -35,6 +49,14 @@ $(document).ready(function() {
 			case "":
 			case "/":
 				offers._(wnd);
+				break;
+			case "/buying":
+			case "/buying/":
+				offers._buying(wnd);
+				break;
+			case "/selling":
+			case "/selling/":
+				offers._selling(wnd);
 				break;
 			default:
 				if (subpath.indexOf("/new") == 0)
@@ -242,6 +264,53 @@ $(document).ready(function() {
 				pageLoader.loadHandler(404);
 			}
 		})
+	};
+
+	var load_page_buying = function(wnd, offers) {
+		pageLoader.getTemplate("offers/buying", function(wnd) {
+
+			var target = wnd.find("#offer_list");
+			var template_offer = wnd.find("#template_product_header").html();
+
+			var revokeFn = function(offer_id) {
+				new Dialog({
+					confirm: true,
+					content: 'Are you sure you want to revoke this offer? This cannot be undone.',
+					deleteOnHide: true,
+					title: 'Confirm',
+					wnd: pageLoader.getWnd(),
+					onconfirm: function() {
+						OfferApi.deleteOffer(offer_id);
+					},
+					offsets: {top: $('#nav')}
+				}).show();
+			};
+	
+			for(var i = 0; i < offers.length; i++) {
+				var offer = offers[i];
+				var offerElem = $(template_offer);
+				offerElem.find(".template_image").text(" ").css("background-image", "url('" + ImageApi.serverThumbnailURL(offer.product.thumbnail, ImageApi.PRODUCT) + "')");
+				offerElem.find(".template_name").text(offer.product.product_name);
+				offerElem.find(".template_price").text(apiHandler.serverCurrencyToClient(offer.product.product_price));
+				offerElem.find(".template_offer_price").text(apiHandler.serverCurrencyToClient(offer.price));
+				offerElem.find(".template_revoke_link").click(revokeFn.bind(window, offer.offer_id));
+				offerElem.find(".template_link").each(function() {
+					var instance = $(this);
+					var curr_attr = instance.attr("href");
+					var final_attr = curr_attr.replace(/:offer_id/g, offer.offer_id)
+								  .replace(/:product_id/g, offer.product.product_id);
+					instance.attr("href", final_attr);
+				});
+				target.append(offerElem);
+			}	
+
+		});
+	};
+
+	var load_page_selling = function(wnd, offers) {
+		pageLoader.getTemplate("offers/selling", function(wnd) {
+
+		});
 	};
 
 	var load_page_new = function(wnd, product, id, pref) {

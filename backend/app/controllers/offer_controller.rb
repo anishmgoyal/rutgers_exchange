@@ -74,7 +74,7 @@ class OfferController < ApplicationController
         if params[:product_id]
             product = Product.find(params[:product_id])
             if product && (product.sold_status != Product.SOLD_SOLD || params[:allow_sold])
-                if product.user.id == @current_user.id && params[:include_offers_made_by_other_users]
+                if product.user.id == @current_user.id && params[:include_offers_made_by_other_users] == "true"
                     product.offers.each do |offer|
                         offers << {
                             offer_id: offer.id,
@@ -99,7 +99,7 @@ class OfferController < ApplicationController
                             created_at: offer.created_at.strftime("%-m/%-d/%Y")
                         }
                     end
-                elsif product.user.id != @current_user.id && params[:include_offers_made_by_current_user]
+                elsif product.user.id != @current_user.id && params[:include_offers_made_by_current_user] == "true"
                     offer = Offer.find_by(product_id: product.id, user_id: @current_user.id)
                     if offer
                         offers << {
@@ -130,7 +130,7 @@ class OfferController < ApplicationController
                 render status: 404, json: {error: true}
             end
         else
-            if params[:include_offers_made_by_current_user]
+            if params[:include_offers_made_by_current_user] == "true"
                 @current_user.offers.each do |offer|
                     if (offer.product.sold_status != Product.SOLD_SOLD || params[:allow_sold])
                         offers << {
@@ -158,7 +158,7 @@ class OfferController < ApplicationController
                     end
                 end
             end
-            if params[:include_offers_made_by_other_users]
+            if params[:include_offers_made_by_other_users] == "true"
                 @current_user.products.each do |product|
                     if (product.sold_status != Product.SOLD_SOLD || params[:allow_sold])
                         product.offers.each do |offer|

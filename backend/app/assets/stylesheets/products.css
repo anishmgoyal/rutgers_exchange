@@ -69,7 +69,6 @@
 
 .product-row-offer {
 	cursor: auto;
-	margin: 5px 0;
 }
 
 .product-row-container {
@@ -176,6 +175,10 @@
 
 .product-control-button-constructive, .product-control-button-constructive a {
 	color: #080;
+}
+
+.product-offer-page-title {
+	margin-bottom: 7px;
 }
 
 @media only screen and (max-width: 40em) {
