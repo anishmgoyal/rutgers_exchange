@@ -1,0 +1,38 @@
+<section class="padded">
+	<h4>Buying</h4>
+	<div id="offer_list"></div>
+</section>
+
+<section class="template" id="template_product_header">
+	<div class="product-row-container">
+		<div class="product-row product-row-offer">
+			<div class="product-row-left">
+				<a href="#!/products/view/:product_id" class="plain-link template_link">
+					<div class="template_image product-row-image"></div>
+				</a>
+			</div>
+			<div class="product-row-right">
+				<a href="#!/products/view/:product_id" class="plain-link template_link">
+					<div class="template_name product-row-name product-row-offer-name"></div>
+				</a>
+
+				<div>
+					<div class="product-control-button">
+						<a href="#!/offers/edit/:offer_id" class="plain-link template_link">
+							<i class="fi-pencil"></i>
+							Edit
+						</a>
+					</div>
+					<div class="product-control-button product-control-button-destructive template_revoke_link">
+							<i class="fi-trash"></i>
+							Revoke
+					</div>
+				</div>
+			
+				<div class="product-row-price product-important">
+					You offered $<span class="template_offer_price"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
