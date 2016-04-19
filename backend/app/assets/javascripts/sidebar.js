@@ -59,6 +59,14 @@
 				{name: "misc", type: "link", text: "Miscellaneous", path: "/sect/misc"}
 			]
 		},
+		{name: "offers", type: "dropdown", text: "Offers", path: "/offers/buying",
+			children: [
+				{name: "buying", type: "link", text: "Buying", path: "/offers/buying"},
+				{name: "selling", type: "link", text: "Selling", path: "/offers/selling"}
+			]
+		},
+		{name: "messages", type: "parentlink", text: "Messages", path: "/messages"},
+		{name: "manage", type: "link", text: "My Listings", path: "/products"},
 		{name: "unauth", type: "section", enable: true,
 			children: [
 				{name: "login", type: "link", text: "Login", path: "/login"},
@@ -67,14 +75,6 @@
 		},
 		{name: "auth", type: "section", enable: false,
 			children: [
-				{name: "messages", type: "parentlink", text: "Messages", path: "/messages"},
-				{name: "offers", type: "link", text: "Offers", path: "/offers",
-					children: [
-						{name: "buying", type: "link", text: "Buying", path: "/offers/buying"},
-						{name: "selling", type: "link", text: "Selling", path: "/offers/selling"}
-					]
-				},
-				{name: "manage", type: "link", text: "My Listings", path: "/products"},
 				{name: "profile", type: "link", text: "My Profile", path: "/profile/me"},
 				{name: "logout", type: "link", text: "Logout", path: "/logout"}
 			]
@@ -341,7 +341,7 @@
 
 	// UTILITY FUNCTIONS
 	var each = function(elems, callback) {
-		for(var i = 0, l = elems.length; i < l; i++) {
+		for(var i = 0; i < elems.length; i++) {
 			if(callback != undefined) callback.call(window, elems[i], i);
 		}
 		return elems;

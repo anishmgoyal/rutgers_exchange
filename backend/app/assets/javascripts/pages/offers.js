@@ -2,8 +2,13 @@ $(document).ready(function() {
 
 	var offers = {
 		_: function(wnd) {
-			OfferApi.getOfferList(true, true, null, function success(data) {
-				load_page_(wnd, data.offers);
+			//OfferApi.getOfferList(true, true, null, function success(data) {
+			//	load_page_(wnd, data.offers);
+			//}, function error(code) {
+			//	pageLoader.loadHandler(code);
+			//});
+			OfferApi.getOfferList(true, false, null, function success(data) {
+				load_page_buying(wnd, data.offers);
 			}, function error(code) {
 				pageLoader.loadHandler(code);
 			});
@@ -360,7 +365,7 @@ $(document).ready(function() {
 					"You have not received any offers yet. " + 
 					"This may be because you have not listed anything yet, " + 
 					"you have not received any offers for your listings yet, " + 
-					"or offers which you have previously received were revoked (taken back) by the buyer."
+					"or offers which you have previously received were taken back by the buyer."
 				);
 			} else {
 				var offerElems = {};
