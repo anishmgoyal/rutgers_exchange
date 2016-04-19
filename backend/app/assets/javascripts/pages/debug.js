@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	
 	if(window.server.configuration.indexOf("development") > -1) {
-		pageLoader.mountPage("/debug", function(wnd) {
+		pageLoader.mountPage("/debug", false, function(wnd) {
 			var subpath = pageLoader.getSubPath();
 			if(subpath == "" || subpath == "/") subpath = "/index";
 			subpath += ".htm";

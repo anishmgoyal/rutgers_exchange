@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	pageLoader.mountPage("/register", function(wnd) {
+	pageLoader.mountPage("/register", false, function(wnd) {
 		$.ajax({
 			url: 'pages/register.htm',
 			cache: false,
@@ -24,5 +24,7 @@ $(document).ready(function() {
 			}
 		});
 	});
+
+	pageLoader.unauthOnly("/register");
 
 });

@@ -1,6 +1,6 @@
 (function( $ ) {
 	
-	pageLoader.mountPage("/search", function(wnd) {
+	pageLoader.mountPage("/search", false, function(wnd) {
 		var query = decodeURIComponent(pageLoader.getSubPath().substring(1));
 		SearchApi.getResults(query, function success(data) {
 			pageLoader.getTemplate("search/index", function(data, wnd) {

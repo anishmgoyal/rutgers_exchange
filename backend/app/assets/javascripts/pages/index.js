@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	pageLoader.mountPage("/index", function(wnd) {
+	pageLoader.mountPage("/index", false, function(wnd) {
 		var instance = this;
 		ProductApi.getProductList(
 			function success(apiResponse) {

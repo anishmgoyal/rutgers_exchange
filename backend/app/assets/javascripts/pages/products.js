@@ -25,84 +25,70 @@ $(document).ready(function() {
 			});
 		},
 		_new: function(wnd) {
-			$.ajax({
-				url: "pages/products/new.htm",
-				cache: false,
-				dataType: 'html',
-				success: function(data) {
-					wnd.html(data);
-					wnd.find(".show-for-edit").remove();
+			if(pageLoader.isAuth()) {
+				$.ajax({
+					url: "pages/products/new.htm",
+					cache: false,
+					dataType: 'html',
+					success: function(data) {
+						wnd.html(data);
+						wnd.find(".show-for-edit").remove();
 
-					$("#product_name").focus();
+						$("#product_name").focus();
 
-					var errors = pageLoader.getErrors();
-					for(var i = 0; i < errors.length; i++) {
-						$("#" + errors[i].field + "_error").html(errors[i].message);
+						var errors = pageLoader.getErrors();
+						for(var i = 0; i < errors.length; i++) {
+							$("#" + errors[i].field + "_error").html(errors[i].message);
+						}
+						$('.product-listing-form').submit(function(e) {
+							var isPublishNow = (this.goal == "publish-now");
+							var redirectAction = (this.goal == "image-upload")? "/products/images/:id" : "/products/view/:id";
+							ProductApi.createProduct(isPublishNow, redirectAction);
+							if(e.preventDefault) e.preventDefault();
+							return false;
+						});
+						pageLoader.notifyDone();
+					},
+					error: function() {
+						instance.loadHandler(404);
 					}
-					$('.product-listing-form').submit(function(e) {
-						var isPublishNow = (this.goal == "publish-now");
-						var redirectAction = (this.goal == "image-upload")? "/products/images/:id" : "/products/view/:id";
-						ProductApi.createProduct(isPublishNow, redirectAction);
-						if(e.preventDefault) e.preventDefault();
-						return false;
-					});
-					pageLoader.notifyDone();
-				},
-				error: function() {
-					instance.loadHandler(404);
-				}
-			})
+				});
+			} else {
+				pageLoader.requireAuth();
+				return;
+			}
 		},
 		_edit: function(wnd, subpath) {
-			var id = subpath.substring(subpath.indexOf("/edit") + "/edit".length + 1);
-			ProductApi.getProduct(id, function success(product) {
-				load_page_edit(wnd, product, id);
-			}, function error(code) {
-				pageLoader.notifyDone();
-				pageLoader.loadHandler(code);
-			})
-		},
-		_delete: function(wnd, subpath) {
-			var id = subpath.substring(subpath.indexOf("/delete") + "/delete".length + 1);
-			var showDeleteConfirmation = false;
-			if(subpath.indexOf("/commit") > 0) {
-				// Committed? Check for the confirmation boolean
-				id = subpath.substring(subpath.indexOf("/commit") + "/commit".length + 1);
-				if(pageLoader.getParam("deleteCommit") == id) {
-					ProductApi.deleteProduct(id, function success(data) {
-						pageLoader.redirect("/products");
-					}, function error(code) {
-						pageLoader.notifyDone();
-						pageLoader.loadHandler(code);
-					});
-				} else {
-					showDeleteConfirmation = true;
-				}
-			} else {
-				showDeleteConfirmation = true;
-			}
-
-			if(showDeleteConfirmation) {
+			if(pageLoader.isAuth()) {
+				var id = subpath.substring(subpath.indexOf("/edit") + "/edit".length + 1);
 				ProductApi.getProduct(id, function success(product) {
-					load_page_delete(wnd, product, id);
+					load_page_edit(wnd, product, id);
 				}, function error(code) {
 					pageLoader.notifyDone();
 					pageLoader.loadHandler(code);
 				});
+			} else {
+				pageLoader.requireAuth();
+				return;
 			}
 		},
 		_images: function(wnd, subpath) {
-			var id = subpath.substring(subpath.indexOf("/images") + "/images".length + 1);
-			ProductApi.getProduct(id, function success(product) {
-				load_page_images(wnd, product, id);
-			}, function error(code) {
-				pageLoader.notifyDone();
-				pageLoader.loadHandler(code);
-			});
+			if(pageLoader.isAuth()) {
+				var id = subpath.substring(subpath.indexOf("/images") + "/images".length + 1);
+				ProductApi.getProduct(id, function success(product) {
+					load_page_images(wnd, product, id);
+				}, function error(code) {
+					pageLoader.notifyDone();
+					pageLoader.loadHandler(code);
+				});
+			} else {
+				pageLoader.requireAuth();
+				return;
+			}
 		}
 	};
 
-	pageLoader.mountPage("/products", function(wnd) {
+	pageLoader.mountPage("/products", false, function(wnd) {
 		var subpath = pageLoader.getSubPath();
 		switch(subpath) {
 			case "":
@@ -136,7 +122,7 @@ $(document).ready(function() {
 
 	    var pager = new Pager({
 	        button: button,
-            pageList: "products",
+                pageList: "products",
 	        pageSize: 40,
 	        loadingIcon: loadingIcon,
 	        loadPageApi: ProductApi,
@@ -259,6 +245,7 @@ $(document).ready(function() {
 				}
 				// Buyer view
 				else {
+					wnd.find(".product-show-for-draft").remove();
 					wnd.find(".template_show_seller").remove();
 					wnd.find("#template_bv_product_usrlink").text(product.user.first_name + " " + product.user.last_name);
 				}

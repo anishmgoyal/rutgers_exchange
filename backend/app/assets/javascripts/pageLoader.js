@@ -6,6 +6,7 @@
 		if(this === window) return new PageLoader();
 		this.session = {};
 		this.pages = {};
+		this.authDetails = {};
 		this.handlers = {};
 		this.errors = [];
 		this.beforeChangeHandlers = [];
@@ -35,8 +36,18 @@
 			$(wndSelector).html("This browser is not supported. Please upgrade to the newest version of IE, Edge, Firefox, Chrome, or Safari.");
 		}
 	};
-	PageLoader.prototype.mountPage = function(path, pageScript) {
+	PageLoader.prototype.mountPage = function(path, authOnly, pageScript) {
 		this.pages[path] = pageScript;
+		this.authDetails[path] = (authOnly)? "AUTH_ONLY" : "ANYONE";
+	};
+	PageLoader.prototype.unauthOnly = function(path) {
+		this.authDetails[path] = "UNAUTH_ONLY";
+	};
+	PageLoader.prototype.isAuth = function() {
+		return this.hasParam("username");
+	};
+	PageLoader.prototype.requireAuth = function() {
+		this.loadHandler(403);
 	};
 	PageLoader.prototype.addAlias = function(path, mainPath) {
 		this.pages[path] = this.pages[mainPath];
@@ -57,9 +68,16 @@
 		}
 		
 		if(this.pages.hasOwnProperty(path)) {
-			this.pages[path].call(this, wnd);
+			var auth = this.authDetails[path];
+			if(auth == "AUTH_ONLY" && !this.isAuth()) {
+				this.loadHandler(403);
+			} else if(auth == "UNAUTH_ONLY" && this.isAuth()) {
+				this.loadHandler("reset");
+			} else {
+				this.pages[path].call(this, wnd);
+			}
 		} else if(this.handlers.hasOwnProperty(404)) {
-			this.handlers[404].call(this, wnd);
+			this.loadHandler(404);
 		}
 	};
 	PageLoader.prototype.redirect = function(path) {

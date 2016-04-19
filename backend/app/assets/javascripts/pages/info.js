@@ -1,6 +1,6 @@
 (function() {
 
-	pageLoader.mountPage("/info", function(wnd) {
+	pageLoader.mountPage("/info", false, function(wnd) {
 
 		var subpath = pageLoader.getSubPath();
 

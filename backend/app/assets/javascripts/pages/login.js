@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	pageLoader.mountPage("/login", function(wnd) {
+	pageLoader.mountPage("/login", false, function(wnd) {
 		$.ajax({
 			url: 'pages/login.htm',
 			cache: false,
@@ -27,5 +27,7 @@ $(document).ready(function() {
 			}
 		});
 	});
+
+	pageLoader.unauthOnly("/login");
 
 });

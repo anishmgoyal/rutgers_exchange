@@ -1,6 +1,6 @@
 (function( $ ) {
 	
-	pageLoader.mountPage("/activate", function(wnd) {
+	pageLoader.mountPage("/activate", false, function(wnd) {
 		var subpath = pageLoader.getSubPath().substring(1);
 		subpath = subpath.split("/");
 		var username = subpath[0];

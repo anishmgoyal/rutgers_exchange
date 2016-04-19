@@ -8,7 +8,7 @@ $(document).ready(function() {
 		}
 	});
 
-	pageLoader.mountPage("/messages", function(wnd) {
+	pageLoader.mountPage("/messages", true, function(wnd) {
 		var subpath = pageLoader.getSubPath();
 		var messageApplication = pageLoader.getParam("messageApplication");
 

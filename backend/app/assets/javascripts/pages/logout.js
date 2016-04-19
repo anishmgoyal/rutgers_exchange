@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	pageLoader.mountPage("/logout", function(wnd) {
+	pageLoader.mountPage("/logout", true, function(wnd) {
 		UserApi.dethenticate();
 		pageLoader.ev.onload = loadLogoutMessage;
 		pageLoader.notifyDoneWithoutAjax();

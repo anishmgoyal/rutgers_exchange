@@ -15,7 +15,7 @@
         }
     };
 
-    pageLoader.mountPage("/sect", function (wnd) {
+    pageLoader.mountPage("/sect", false, function (wnd) {
         pageLoader.getTemplate("section/index", function(wnd) {
             var section = sectionList[pageLoader.getSubPath().substring(1)];
             if (section === undefined) {

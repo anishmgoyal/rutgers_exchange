@@ -1,13 +1,18 @@
 (function( $ ) {
 	
-	pageLoader.mountPage("/profile", function(wnd) {
+	pageLoader.mountPage("/profile", false, function(wnd) {
 
 		var subpath = pageLoader.getSubPath();
 		var username = subpath.substring(1);
 
 		if(username == "me") {
-			var current = pageLoader.getParam("username");
-			if(current) username = current;
+			if(pageLoader.isAuth()) {
+				var current = pageLoader.getParam("username");
+				if(current) username = current;
+			} else {
+				pageLoader.requireAuth();
+				return;
+			}
 		}
 
 		pageLoader.getTemplate("profile/index", function(wnd) {

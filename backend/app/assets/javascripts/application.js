@@ -29,7 +29,9 @@
 
 // Handlers
 
+//= require pages/handlers/403
 //= require pages/handlers/404
+//= require pages/handlers/reset
 
 // Pages
 
