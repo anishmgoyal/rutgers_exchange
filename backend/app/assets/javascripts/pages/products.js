@@ -107,8 +107,6 @@ $(document).ready(function() {
 					products._view(wnd, subpath);
 				else if(subpath.indexOf("/edit") == 0)
 					products._edit(wnd, subpath);
-				else if(subpath.indexOf("/delete") == 0)
-					products._delete(wnd, subpath);
 				else if (subpath.indexOf("/images") == 0)
 					products._images(wnd, subpath);
 				else 
@@ -350,41 +348,6 @@ $(document).ready(function() {
 			pageLoader.loadHandler(473);
 		}
 
-	};
-
-	var load_page_delete = function(wnd, product, id) {
-		var current_user_id = pageLoader.getParam("user_id");
-		var product_user_id = product.user.user_id;
-		if(current_user_id == product_user_id) {
-			$.ajax({
-				url: "pages/products/delete.htm",
-				cache: false,
-				dataType: "html",
-				success: function(data) {
-					wnd.html(data);
-					$("#template_product_name").text(product.product_name);
-
-					$(".template_link").each(function() {
-						var instance = $(this);
-						var curr_attr = instance.attr("href");
-						var final_attr = curr_attr.replace(/:user_id/g, product_user_id)
-											 .replace(/:product_id/g, id);
-						instance.attr("href", final_attr);
-					});
-
-					$("#commit_link").click(function() {
-						pageLoader.setParam("deleteCommit", id);
-					});
-
-					pageLoader.notifyDone();
-				},
-				error: function() {
-					pageLoader.loadHandler(404);
-				}
-			});
-		} else {
-			pageLoader.loadHandler(473);
-		}
 	};
 
 	var load_page_images = function(wnd, product, id) {

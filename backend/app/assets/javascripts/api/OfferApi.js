@@ -29,7 +29,30 @@
 				pageLoader.redirect("/offers");
 			}
 		}, function error(code) {
-			pageLoader.loadHandler(code);
+			if(code == 471) {
+				OfferApi.getOfferList(true, false, product_id, function success(data) {
+					var offer = data.offers[0];
+					if(offer) {
+						new Dialog({
+							title: "Offer Exists",
+							confirm: true,
+							content: "You have already placed an offer of $" + price + " for this listing. " +
+									 "Would you like to update that offer to $" + price + "?",
+							wnd: pageLoader.getWnd(),
+							offsets: {top: $("#nav")},
+							onconfirm: function() {
+								OfferApi.editOffer(offer.offer_id, params.offer_price);
+							}
+						}).show();
+					} else {
+						pageLoader.loadHandler(404);
+					}
+				}, function error(code) {
+					pageLoader.loadHandler(code);
+				});
+			} else {
+				pageLoader.loadHandler(code);
+			}
 		});
 	};
 
@@ -92,6 +115,23 @@
 		apiHandler.doRequest("delete", OfferApi.stem + encodeURIComponent(id), params, successCallback, function error(code) {
 			pageLoader.loadHandler(code);
 		});
+	};
+
+	OfferApi.editOffer = function(offer_id, offer_price, successCallback, errorCallback) {
+		var params = {
+			offer_price: apiHandler.clientCurrencyToServer(offer_price)
+		};
+		apiHandler.requireAuth(params);
+		apiHandler.doRequest("post", OfferApi.stem + encodeURIComponent(id), params, function success(data) {
+			if(data.error) {
+				pageLoader.addErrors(data.errors);
+				pageLoader.reloadForm(params);
+			} else {
+				pageLoader.redirect("/offers");
+			}
+		}, function error(code) {
+			pageLoader.loadHandler(code);
+		})
 	};
 
 	OfferApi.updateOffer = function(id) {
