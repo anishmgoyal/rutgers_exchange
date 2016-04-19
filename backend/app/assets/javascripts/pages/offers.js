@@ -312,7 +312,8 @@ $(document).ready(function() {
 						instance.attr("href", final_attr);
 					});
 					target.append(offerElem);
-				}	
+				}
+				pageLoader.notifyDone();
 			}
 
 		});
@@ -388,12 +389,12 @@ $(document).ready(function() {
 						offerElem.find(".num_offers").text("1");
 						offerElem.find(".template_offer_max_price").text(apiHandler.serverCurrencyToClient(offer.price));
 					} else {
-						view_all = seller_prod_pane.view_all;
+						view_all = offerElem.view_all;
 						offerElem.num_offers++;
-						if(offer.price > seller_prod_pane.max) {
+						if(offer.price > offerElem.max) {
 							offerElem.id = offer.offer_id;
 							offerElem.max = offer.price;
-							offerElem.pane.find(".num_offers").text(seller_prod_pane.num_offers);
+							offerElem.pane.find(".num_offers").text(offerElem.num_offers);
 							offerElem.pane.find(".num_offers_plural").text("s");
 							offerElem.pane.find(".template_offer_max_price").text(apiHandler.serverCurrencyToClient(offer.price));
 						}
@@ -418,9 +419,15 @@ $(document).ready(function() {
 							instance.attr("href", final_attr);
 						});
 					} else {
-						view_all_row.find('.template_accept_link').click(acceptFn.bind(window, offer.offer_id, apiHandler.serverToClientCurrency(offer.price)));
+						view_all_row.find('.template_accept_link').click(acceptFn.bind(window, offer.offer_id, apiHandler.serverCurrencyToClient(offer.price)));
 					}
 					view_all_row.find('.template_reject_link').click(rejectFn.bind(window, offer.offer_id));
+					view_all_row.find('.template_link').each(function() {
+						var instance = $(this);
+						var curr_attr = instance.attr("href");
+						var final_attr = curr_attr.replace(/:username/g, offer.user.username);
+						instance.attr("href", final_attr);
+					});
 					view_all.append(view_all_row);
 
 					offerElem.find('.template_link').each(function() {
@@ -428,6 +435,7 @@ $(document).ready(function() {
 						var curr_attr = instance.attr("href");
 						var final_attr = curr_attr.replace(/:offer_id/g, offer.offer_id)
 									  .replace(/:product_id/g, offer.product.product_id)
+									  .replace(/:username/g, offer.user.username)
 									  .replace(/:user_id/g, offer.user.user_id);
 						instance.attr("href", final_attr);
 					});
@@ -457,6 +465,7 @@ $(document).ready(function() {
 						offerElem.pane.find(".template_viewall_link").click(listFn);
 					}
 				}
+				pageLoader.notifyDone();
 			}
 
 		});

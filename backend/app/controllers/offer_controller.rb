@@ -90,6 +90,7 @@ class OfferController < ApplicationController
                             product_name: product.product_name,
                             user: {
                                 user_id: offer.user.id,
+				username: offer.user.username,
                                 first_name: offer.user.first_name,
                                 last_name: offer.user.last_name
                             },
@@ -106,7 +107,8 @@ class OfferController < ApplicationController
                             offer_id: offer.id,
                             product: {
                                 user: {
-                                    user_id: product.user.id
+                                    user_id: product.user.id,
+				    username: product.user.username
                                 },
                                 thumbnail: product.thumbnail,
                                 product_id: product.id,
@@ -116,6 +118,7 @@ class OfferController < ApplicationController
                             product_name: product.product_name,
                             user: {
                                 user_id: offer.user.id,
+				username: offer.user.username,
                                 first_name: offer.user.first_name,
                                 last_name: offer.user.last_name
                             },
@@ -137,7 +140,8 @@ class OfferController < ApplicationController
                             offer_id: offer.id,
                             product: {
                                 user: {
-                                    user_id: offer.product.user.id
+                                    user_id: offer.product.user.id,
+				    username: offer.product.user.username
                                 },
                                 thumbnail: offer.product.thumbnail,
                                 product_id: offer.product.id,
@@ -147,6 +151,7 @@ class OfferController < ApplicationController
                             product_name: offer.product.product_name,
                             user: {
                                 user_id: offer.user.id,
+				username: offer.user.username,
                                 first_name: offer.user.first_name,
                                 last_name: offer.user.last_name
                             },
@@ -166,7 +171,8 @@ class OfferController < ApplicationController
                                 offer_id: offer.id,
                                 product: {
                                     user: {
-                                        user_id: product.user.id
+                                        user_id: product.user.id,
+					username: product.user.username
                                     },
                                     thumbnail: product.thumbnail,
                                     product_id: product.id,
@@ -176,6 +182,7 @@ class OfferController < ApplicationController
                                 product_name: product.product_name,
                                 user: {
                                     user_id: offer.user.id,
+				    username: offer.user.username,
                                     first_name: offer.user.first_name,
                                     last_name: offer.user.last_name
                                 },
