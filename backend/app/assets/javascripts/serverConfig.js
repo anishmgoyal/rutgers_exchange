@@ -2,7 +2,7 @@ window.server = {
 	mode: "integrated",
 	configuration: "development",
 	version: "1.0a",
-	serviceName: "Rutgers Exchange"
+	serviceName: "Rutgers Exchange",
 	supportEmail: "support@rutgersxchange.com"
 };
 
