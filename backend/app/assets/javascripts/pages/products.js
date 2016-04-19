@@ -2,18 +2,22 @@ $(document).ready(function() {
 
 	var products = {
 		_: function(wnd) {
-			$.ajax({
-				url: "pages/products/index.htm",
-				cache: false,
-				dataType: 'html',
-				success: function(data) {
-					wnd.html(data);
-					load_page_(wnd);
-				},
-				error: function() {
-					instance.loadHandler(404);
-				}
-			});
+			if(pageLoader.isAuth()) {
+				$.ajax({
+					url: "pages/products/index.htm",
+					cache: false,
+					dataType: 'html',
+					success: function(data) {
+						wnd.html(data);
+						load_page_(wnd);
+					},
+					error: function() {
+						instance.loadHandler(404);
+					}
+				});
+			} else {
+				pageLoader.requireAuth();
+			}
 		},
 		_view: function(wnd, subpath) {
 			var id = subpath.substring(subpath.indexOf("/view") + "/view".length + 1);
