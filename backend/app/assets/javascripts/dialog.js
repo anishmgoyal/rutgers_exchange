@@ -57,8 +57,11 @@
 		this.titlebar = $('<div class="dialog-title" />')
 			.html(params.title);
 
-		this.pane = $('<div class="dialog-pane" />')
-			.html(params.content);
+		this.pane = $('<div class="dialog-pane" />');
+		if(params.contentIsElem)
+			this.pane.append(params.content.clone(true, true));
+		else
+			this.pane.html(params.content);
 
 		this.dialog.append(this.titlebar).append(this.pane);
 
@@ -111,14 +114,6 @@
 		$(document.body).append(this.container);
 		this.container.hide();
 
-		// ScrollZone integration
-		this.scrollZone = new ScrollZone({
-			autoResize: false,
-			elem: this.pane,
-			fg: '#777',
-			scrollbarWidth: 7
-		});
-		
 		this.pane.find("a, .dialog-closer").click(this.hide.bind(this));
 
 		return this;
@@ -211,9 +206,6 @@
 		if(this.isConfirm) paneHeight -= this.buttonbar.outerHeight();
 		this.pane.css("height", (paneHeight) + "px");
 
-		// ScrollZone integration
-		this.scrollZone.applyCSS({height: paneHeight + "px"});
-		this.scrollZone.trigger("resize");
 	};
 	Dialog.prototype.submit = function() {
 		if(typeof this.onsubmit !== "undefined") {

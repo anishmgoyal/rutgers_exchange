@@ -285,30 +285,179 @@ $(document).ready(function() {
 					offsets: {top: $('#nav')}
 				}).show();
 			};
-	
-			for(var i = 0; i < offers.length; i++) {
-				var offer = offers[i];
-				var offerElem = $(template_offer);
-				offerElem.find(".template_image").text(" ").css("background-image", "url('" + ImageApi.serverThumbnailURL(offer.product.thumbnail, ImageApi.PRODUCT) + "')");
-				offerElem.find(".template_name").text(offer.product.product_name);
-				offerElem.find(".template_price").text(apiHandler.serverCurrencyToClient(offer.product.product_price));
-				offerElem.find(".template_offer_price").text(apiHandler.serverCurrencyToClient(offer.price));
-				offerElem.find(".template_revoke_link").click(revokeFn.bind(window, offer.offer_id));
-				offerElem.find(".template_link").each(function() {
-					var instance = $(this);
-					var curr_attr = instance.attr("href");
-					var final_attr = curr_attr.replace(/:offer_id/g, offer.offer_id)
-								  .replace(/:product_id/g, offer.product.product_id);
-					instance.attr("href", final_attr);
-				});
-				target.append(offerElem);
-			}	
+
+			if(offers.length == 0) {
+				messageTool.loadMessage(pageLoader.getWnd(), 
+					"No Offers", 
+					"You have not made any offers yet. " + 
+					"If you find something you wish to buy on " + 
+					window.server.serviceName + 
+					", you can make an offer to buy it by clicking on the item, then " + 
+					"using the \"Make an Offer\" button at the top of the page."
+				);
+			} else {
+				for(var i = 0; i < offers.length; i++) {
+					var offer = offers[i];
+					var offerElem = $(template_offer);
+					offerElem.find(".template_image").text(" ").css("background-image", "url('" + ImageApi.serverThumbnailURL(offer.product.thumbnail, ImageApi.PRODUCT) + "')");
+					offerElem.find(".template_name").text(offer.product.product_name);
+					offerElem.find(".template_price").text(apiHandler.serverCurrencyToClient(offer.product.product_price));
+					offerElem.find(".template_offer_price").text(apiHandler.serverCurrencyToClient(offer.price));
+					offerElem.find(".template_revoke_link").click(revokeFn.bind(window, offer.offer_id));
+					offerElem.find(".template_link").each(function() {
+						var instance = $(this);
+						var curr_attr = instance.attr("href");
+						var final_attr = curr_attr.replace(/:offer_id/g, offer.offer_id)
+									  .replace(/:product_id/g, offer.product.product_id);
+						instance.attr("href", final_attr);
+					});
+					target.append(offerElem);
+				}	
+			}
 
 		});
 	};
 
 	var load_page_selling = function(wnd, offers) {
 		pageLoader.getTemplate("offers/selling", function(wnd) {
+
+			var target = wnd.find("#offer_list");
+			var template_offer = wnd.find("#template_product_header").html();
+			var template_offer_row = wnd.find("#template_offer_row").html();
+
+			var rejectFn = function(offer_id) {
+				new Dialog({
+					confirm: true,
+					content: 'Are you sure you want to reject this offer? This cannot be undone.',
+					deleteOnHide: true,
+					title: 'Confirm',
+					wnd: pageLoader.getWnd(),
+					onconfirm: function() {
+						OfferApi.deleteOffer(offer_id);
+					},
+					offsets: {top: $('#nav')}
+				}).show();
+			};
+
+			var acceptFn = function(offer_id, offer_price) {
+				new Dialog({
+					confirm: true,
+					content: 'Are you sure you would like to accept the offer of $' + offer_price + '?',
+					deleteOnHide: true,
+					title: 'Confirm',
+					wnd: pageLoader.getWnd(),
+					onconfirm: function() {
+						OfferApi.acceptOffer(offer_id);
+					},
+					offsets: {top: $('#nav')}
+				}).show();
+			};
+
+			if(offers.length == 0) {
+				messageTool.loadMessage(pageLoader.getWnd(), 
+					"No Offers", 
+					"You have not received any offers yet. " + 
+					"This may be because you have not listed anything yet, " + 
+					"you have not received any offers for your listings yet, " + 
+					"or offers which you have previously received were revoked (taken back) by the buyer."
+				);
+			} else {
+				var offerElems = {};
+				for(var i = 0; i < offers.length; i++) {
+					var offer = offers[i];
+					var offerElem = offerElems[offer.product.product_id];
+					var view_all = null;
+
+					if(typeof offerElem === "undefined") {
+						offerElem = $(template_offer);
+						offerElem.find(".template_image").text(" ").css("background-image", "url('" + ImageApi.serverThumbnailURL(offer.product.thumbnail, ImageApi.PRODUCT) + "')");
+						offerElem.find(".template_name").text(offer.product.product_name);
+						offerElem.find(".template_price").text(apiHandler.serverCurrencyToClient(offer.product.product_price));
+						offerElem.find(".show_for_buyer").remove();
+						target.append(offerElem);
+
+						view_all = $("<div />");
+
+						offerElems[offer.product.product_id] = {
+							pane: offerElem,
+							max: offer.price,
+							num_offers: 1,
+							id: offer.offer_id,
+							view_all: view_all
+						};
+						offerElem.find(".num_offers").text("1");
+						offerElem.find(".template_offer_max_price").text(apiHandler.serverCurrencyToClient(offer.price));
+					} else {
+						view_all = seller_prod_pane.view_all;
+						offerElem.num_offers++;
+						if(offer.price > seller_prod_pane.max) {
+							offerElem.id = offer.offer_id;
+							offerElem.max = offer.price;
+							offerElem.pane.find(".num_offers").text(seller_prod_pane.num_offers);
+							offerElem.pane.find(".num_offers_plural").text("s");
+							offerElem.pane.find(".template_offer_max_price").text(apiHandler.serverCurrencyToClient(offer.price));
+						}
+						offerElem = offerElem.pane;
+					}
+
+					if(offer.offer_status == OfferApi.status.OFFER_ACCEPTED) {
+						offerElem.find('.hide-for-accepted').hide();
+					}
+
+					var view_all_row = $(template_offer_row);
+					view_all_row.find(".template_offer_price").text(apiHandler.serverCurrencyToClient(offer.price));
+					view_all_row.find(".template_seller_name").text(offer.user.first_name + " " + offer.user.last_name);
+					view_all_row.find(".template_offer_date").text(offer.created_at);
+					if(offer.offer_status != OfferApi.status.OFFER_OFFERED) {
+						view_all_row.find('.template_accept_link').remove();
+						view_all_row.find('.template_conversation_link').css("display", "inline-block");
+						view_all_row.find('.template_link').each(function() {
+							var instance = $(this);
+							var curr_attr = instance.attr("href");
+							var final_attr = curr_attr.replace(/:conversation_id/g, offer.conversation.id);
+							instance.attr("href", final_attr);
+						});
+					} else {
+						view_all_row.find('.template_accept_link').click(acceptFn.bind(window, offer.offer_id, apiHandler.serverToClientCurrency(offer.price)));
+					}
+					view_all_row.find('.template_reject_link').click(rejectFn.bind(window, offer.offer_id));
+					view_all.append(view_all_row);
+
+					offerElem.find('.template_link').each(function() {
+						var instance = $(this);
+						var curr_attr = instance.attr("href");
+						var final_attr = curr_attr.replace(/:offer_id/g, offer.offer_id)
+									  .replace(/:product_id/g, offer.product.product_id)
+									  .replace(/:user_id/g, offer.user.user_id);
+						instance.attr("href", final_attr);
+					});
+
+				}	
+
+				for(var param in offerElems) {
+					if(offerElems.hasOwnProperty(param)) {
+						var offerElem = offerElems[param];
+						
+						var acceptTopFn = acceptFn.bind(window, offerElem.id, apiHandler.serverCurrencyToClient(offerElem.max));
+
+						offerElem.pane.find(".template_accept_link").click(acceptTopFn);
+
+						var listFn = function() {
+							new Dialog({
+								content: view_all,
+								contentIsElem: true,
+								deleteOnHide: true,
+								height: 500,
+								title: 'View Offers',
+								wnd: pageLoader.getWnd(),
+								offsets: {top: $('#nav')}
+							}).show();
+						};
+
+						offerElem.pane.find(".template_viewall_link").click(listFn);
+					}
+				}
+			}
 
 		});
 	};
