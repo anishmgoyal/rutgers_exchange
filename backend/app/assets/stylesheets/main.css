@@ -17,13 +17,16 @@ h1, h2, h3, h4, h5, h6, label {
 }
 
 a, a:visited {
-	color: #a0d3e8;
-	text-decoration: underline;
+	color: #ff8080;
 }
 
 a:active, a:hover {
-	color: #a0d3e8;
+	color: #ff6465;
 	text-decoration: none;
+}
+
+a.hover-red:hover, a.hover-red:hover h4, a.hover-red h4:hover {
+	color: #ff6465 !important;
 }
 
 label {

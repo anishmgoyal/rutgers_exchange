@@ -122,12 +122,7 @@
 	};
 
 	UserApi.getUserInformation = function(otherUserId, successCallback, errorCallback) {
-		var params = {
-			user_id: pageLoader.getParam("user_id"),
-			session_token: pageLoader.getParam("session_token"),
-			csrf_token: pageLoader.getParam("csrf_token")
-		};
-
+		var params = (pageLoader.isAuth())? apiHandler.requireAuth() : {};
 		apiHandler.doRequest("get", UserApi.stem + encodeURIComponent(otherUserId), params, successCallback, errorCallback);
 	};
 

@@ -31,6 +31,12 @@ $(document).ready(function() {
 
 		var recentAdded = $('<section />').html(sectionTemplate);
 		recentAdded.find('.template_title').text("Recently Added");
+		recentAdded.find('.template_link').each(function() {
+			var instance = $(this);
+			var curr_attr = instance.attr("href");
+			var final_attr = curr_attr.replace(/:url/g, "/sect/");
+			instance.attr("href", final_attr);
+		});
 		var recentAddedList = recentAdded.find('.template_list');
 		if(products.length == 0) {
 			recentAddedList.text("There are currently no items available that have not been sold.");
@@ -57,6 +63,12 @@ $(document).ready(function() {
 				if(products.length > 0 && pageLoader.getMainPath() == "/index") {
 					var myListQuickView = $('<section />').html(sectionTemplate);
 					myListQuickView.find('.template_title').text("My Products");
+					myListQuickView.find('.template_link').each(function() {
+						var instance = $(this);
+						var curr_attr = instance.attr("href");
+						var final_attr = curr_attr.replace(/:url/g, "/products");
+						instance.attr("href", final_attr);
+					});
 					var mlqvList = myListQuickView.find('.template_list');
 					for(var i = 0; i < products.length; i++) {
 						var item = $(itemTemplate);
