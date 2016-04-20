@@ -1,6 +1,8 @@
 (function() {
 
-	pageLoader.redirect("/index");
-	pageLoader.mountPage("/core", false, function() { window.location = "/core"; });
+	pageLoader.mountPage("/core", false, function() { 
+		pageLoader.redirect("/index");
+		window.location = "/core";
+	});
 
 })();
