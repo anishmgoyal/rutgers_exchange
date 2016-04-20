@@ -9,6 +9,30 @@
             section_title: "Textbooks",
             section_code: "TEXTBOOK"
         },
+	electronics: {
+		section_title: "Electronics",
+		section_code: "ELECTRONICS"
+	},
+	housing: {
+		section_title: "Housing",
+		section_code: "HOUSING"
+	},
+	homegoods: {
+		section_title: "Home Goods & Furniture",
+		section_code: "HOMEGOODS"
+	},
+	automotive: {
+		section_title: "Automotive",
+		section_code: "AUTOMOTIVE"
+	},
+	clothing: {
+		section_title: "Clothing",
+		section_code: "CLOTHING"
+	},
+	athletic: {
+		section_title: "Athletic Equipment",
+		section_code: "ATHLETIC"
+	},
         misc: {
             section_title: "Miscellaneous",
             section_code: "MISC"

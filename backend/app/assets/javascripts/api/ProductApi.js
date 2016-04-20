@@ -13,6 +13,17 @@
 		CONDITION_POOR: "Poor",
 		CONDITION_FORPARTS: "For Parts"
 	};
+
+	ProductApi.section = {
+		SECTION_MISC: "Miscellaneous",
+		SECTION_TEXTBOOK: "Textbooks",
+		SECTION_ELECTRONICS: "Electronics",
+		SECTION_HOUSING: "Housing",
+		SECTION_HOMEGOODS: "Home Goods & Furniture",
+		SECTION_AUTOMOTIVE: "Automotive",
+		SECTION_CLOTHING: "Clothing",
+		SECTION_ATHLETIC: "Athletic Equipment"
+	};
 	
 	ProductApi.getProductList = function(successCallback, errorCallback) {
 		var params = {products_per_page: 50};
@@ -126,7 +137,6 @@
 		params['user_id'] = pageLoader.getParam("user_id");
 		params['session_token'] = pageLoader.getParam("session_token");
 		params['csrf_token'] = pageLoader.getParam("csrf_token");
-		params['product_type'] = 'TEXTBOOK';
 		if(isPublishNow) params['is_published'] = true;
 		else if(isRetract) params['is_published'] = false;
 

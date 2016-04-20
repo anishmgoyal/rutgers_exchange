@@ -56,6 +56,11 @@
 			children: [
 				{name: "all", ddactive: true, type: "link", text: "All", path: "/sect"},
 				{name: "textbook", type: "link", text: "Textbooks", path: "/sect/textbook"},
+				{name: "electronics", type: "link", text: "Electronics", path: "/sect/electronics"},
+				{name: "homegoods", type: "link", text: "Home Goods", path: "/sect/homegoods"},
+				{name: "automotive", type: "link", text: "Automotive", path: "/sect/automotive"},
+				{name: "clothing", type: "link", text: "Clothing", path: "/sect/clothing"},
+				{name: "athletic", type: "link", text: "Athletic Equipment", path: "/sect/athletic"},
 				{name: "misc", type: "link", text: "Miscellaneous", path: "/sect/misc"}
 			]
 		},

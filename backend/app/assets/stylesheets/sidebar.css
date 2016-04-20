@@ -24,6 +24,10 @@
 	font-size: 0.8em;
 	padding: 12px 30px;
 	letter-spacing: 0.05em;
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .sidebar a:hover {
@@ -51,8 +55,12 @@
 	background-color: #9e2222;
 }
 
+.mobile_menu a.mobile_active, .movile_menu a.mobile_ddactive, .mobile_menu a:hover {
+	background-color: rgba(158,34,34,0.8);
+}
+
 .mobile_menu {
-	background-color: #822;
+	background-color: rgba(136,34,34,0.8);
 	height: 0;
 	margin: 0;
 	overflow: hidden;

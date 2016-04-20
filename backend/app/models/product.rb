@@ -20,14 +20,24 @@ class Product < ActiveRecord::Base
     @@CONDITION_FAIR = "CONDITION_FAIR"
     @@CONDITION_POOR = "CONDITION_POOR"
     @@CONDITION_FORPARTS = "CONDITION_FORPARTS"
+
+    @@SECTION_MISC = "MISC"
+    @@SECTION_TEXTBOOK = "TEXTBOOK"
+    @@SECTION_HOMEGOODS = "HOMEGOODS"
+    @@SECTION_HOUSING = "HOUSING"
+    @@SECTION_AUTOMOTIVE = "AUTOMOTIVE"
+    @@SECTION_ELECTRONICS = "ELECTRONICS"
+    @@SECTION_CLOTHING = "CLOTHING"
+    @@SECTION_ATHLETIC = "ATHLETIC"
     
     @@SOLD_STATUS = [@@SOLD_NOT_SOLD, @@SOLD_IN_TRANSACTION, @@SOLD_SOLD]
     @@CONDITION = [@@CONDITION_NA, @@CONDITION_NEW, @@CONDITION_EXCELLENT, @@CONDITION_GOOD, @@CONDITION_FAIR, @@CONDITION_POOR, @@CONDITION_FORPARTS]
+    @@SECTION = [@@SECTION_MISC, @@SECTION_TEXTBOOK, @@SECTION_HOMEGOODS, @@SECTION_AUTOMOTIVE, @@SECTION_ELECTRONICS, @@SECTION_CLOTHING, @@SECTION_ATHLETIC]
     
     # Validation
     @@PRICE_REGEX = /\A[0-9]+\z/
     validates :product_name, presence: true
-    validates :product_type, presence: true
+    validates :product_type, presence: true, inclusion: { in: @@SECTION }
     validates :price, presence: true, format: @@PRICE_REGEX, numericality: {greater_than_or_equal_to: 0}
     validates :sold_status, presence: true, inclusion: { in: @@SOLD_STATUS }
     validates :condition, presence: true, inclusion: { in: @@CONDITION }
