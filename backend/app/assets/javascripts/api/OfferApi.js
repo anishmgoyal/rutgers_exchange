@@ -26,23 +26,25 @@
 				pageLoader.addErrors(data.errors);
 				pageLoader.reloadForm(params);
 			} else {
-				pageLoader.redirect("/offers");
+				pageLoader.redirect("/offers/buying");
 			}
 		}, function error(code) {
 			if(code == 471) {
-				OfferApi.getOfferList(true, false, product_id, function success(data) {
+				$("#offer_price").blur();
+				OfferApi.getOfferList(true, false, params.product_id, function success(data) {
 					var offer = data.offers[0];
 					if(offer) {
+						var price = apiHandler.serverCurrencyToClient(offer.price);
 						new Dialog({
 							title: "Offer Exists",
 							confirm: true,
 							content: "You have already placed an offer of $" + price + " for this listing. " +
-									 "Would you like to update that offer to $" + price + "?",
+									 "Would you like to update that offer?",
 							wnd: pageLoader.getWnd(),
 							offsets: {top: $("#nav")},
-							onconfirm: function() {
-								OfferApi.editOffer(offer.offer_id, params.offer_price);
-							}
+							onconfirm: function(id, price) {
+								OfferApi.editOffer(id, price);
+							}.bind(window, offer.offer_id, params.offer_price)
 						}).show();
 					} else {
 						pageLoader.loadHandler(404);
@@ -68,10 +70,9 @@
 		var params = {
 			include_offers_made_by_current_user: include_current_user,
 			include_offers_made_by_other_users: include_other_users,
-			product_id: product_id
 		};
-		if(product_id == null) {
-			delete params.product_id;
+		if(product_id != null) {
+			params.product_id = product_id;
 		}
 		apiHandler.requireAuth(params);
 		apiHandler.doRequest("get", OfferApi.stem, params, successCallback, errorCallback);
@@ -117,9 +118,9 @@
 		});
 	};
 
-	OfferApi.editOffer = function(offer_id, offer_price, successCallback, errorCallback) {
+	OfferApi.editOffer = function(id, offer_price, successCallback, errorCallback) {
 		var params = {
-			offer_price: apiHandler.clientCurrencyToServer(offer_price)
+			price: apiHandler.clientCurrencyToServer(offer_price)
 		};
 		apiHandler.requireAuth(params);
 		apiHandler.doRequest("post", OfferApi.stem + encodeURIComponent(id), params, function success(data) {
@@ -127,11 +128,11 @@
 				pageLoader.addErrors(data.errors);
 				pageLoader.reloadForm(params);
 			} else {
-				pageLoader.redirect("/offers");
+				pageLoader.redirect("/offers/buying");
 			}
 		}, function error(code) {
 			pageLoader.loadHandler(code);
-		})
+		});
 	};
 
 	OfferApi.updateOffer = function(id) {
@@ -143,7 +144,7 @@
 				pageLoader.addErrors(data.errors);
 				pageLoader.reloadForm(params);
 			} else {
-				pageLoader.redirect("/offers");
+				pageLoader.redirect("/offers/buying");
 			}
 		}, function error(code) {
 			pageLoader.loadHandler(code);
