@@ -46,6 +46,8 @@ module SessionsHelper
             redirect_to "#{params[:redirect]}?status=403&#{payload.to_query}" if params[:redirect]
             render status: 403, json: payload unless params[:redirect]
             false
+        else
+            true
         end
     end
 

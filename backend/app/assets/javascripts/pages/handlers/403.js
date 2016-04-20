@@ -12,7 +12,7 @@ $(document).ready(function() {
 			}, function error(code) {
 				// Seems like the user was logged out due to inactivity; invalidate the session
 				UserApi.dethenticate();
-				pageLoader.loadPage("/login");
+				pageLoader.reloadPage(); // We'll come back to this handler if auth is required
 			});
 			pageLoader.notifyDone();
 		} else {

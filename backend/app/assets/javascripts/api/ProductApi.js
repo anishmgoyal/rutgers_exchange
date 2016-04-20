@@ -16,12 +16,11 @@
 	
 	ProductApi.getProductList = function(successCallback, errorCallback) {
 		var params = {products_per_page: 50};
-		apiHandler.requireAuth(params);
+		if(pageLoader.isAuth()) apiHandler.requireAuth(params);
 		apiHandler.doRequest("get", ProductApi.stem, params, successCallback, errorCallback);
 	};
 
 	ProductApi.getProductListSect = function (section, page, itemsPerPage, successCallback, errorCallback) {
-	    console.log(arguments);
 	    var params = { product_type: section, page: page, products_per_page: itemsPerPage };
 	    if (section == null) delete params.product_type;
 	    apiHandler.skipIcon(params);
@@ -35,7 +34,7 @@
 			show_current_user: true,
 			products_per_page: 50
 		};
-		apiHandler.requireAuth(params);
+		if(pageLoader.isAuth()) apiHandler.requireAuth(params);
 		apiHandler.doRequest("get", ProductApi.stem, params, successCallback, errorCallback);
 	};
 
@@ -47,7 +46,7 @@
 	        page: page,
 	        products_per_page: pageSize
 	    };
-	    apiHandler.requireAuth(params);
+	    if(pageLoader.isAuth()) apiHandler.requireAuth(params);
 	    apiHandler.skipIcon(params);
 	    apiHandler.doRequest("get", ProductApi.stem, params, successCallback, errorCallback);
 	};
@@ -59,7 +58,7 @@
 			show_current_user: true,
 			products_per_page: 25
 		};
-		apiHandler.requireAuth(params);
+		if(pageLoader.isAuth()) apiHandler.requireAuth(params);
 		apiHandler.doRequest("get", ProductApi.stem, params, successCallback, errorCallback);
 	};
 	
@@ -117,7 +116,7 @@
 	};
 	
 	ProductApi.getProduct = function(id, successCallback, errorCallback) {
-		var params = apiHandler.requireAuth();
+		var params = (pageLoader.isAuth())? apiHandler.requireAuth() : {};
 		apiHandler.doRequest("get", ProductApi.stem + encodeURIComponent(id), params, successCallback, errorCallback);
 	};
 	
