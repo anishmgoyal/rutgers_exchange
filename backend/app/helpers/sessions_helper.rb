@@ -38,9 +38,15 @@ module SessionsHelper
         
         if session_status == :SESSION_VALID
             @current_user = User.find(user_id)
+            true
+        elsif params[:user_id]
+            # Provided with a user, but the session is invalid!
+            payload = {}
+            payload[:error] = session_status.to_s
+            redirect_to "#{params[:redirect]}?status=403&#{payload.to_query}" if params[:redirect]
+            render status: 403, json: payload unless params[:redirect]
+            false
         end
-
-        true
     end
 
     def faye_auth(user_id, session_token, csrf_token)
