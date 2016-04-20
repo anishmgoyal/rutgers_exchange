@@ -24,7 +24,11 @@
 			// Persistent cookies for session
 			cookieManager.saveAuth(data["user_id"], params.username, data["session_token"], data["csrf_token"]);
 
-			pageLoader.redirect("/index");
+			if(pageLoader.getMainPath() == "/login")
+				pageLoader.redirect("/index");
+			else
+				pageLoader.reloadPage();
+			
 			linkHelper.loadState("STATE_AUTH");
 			NotificationApi.tick();
 		}, function error(code) {
