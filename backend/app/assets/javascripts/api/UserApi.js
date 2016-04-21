@@ -9,6 +9,7 @@
 	UserApi.authenticate = function() {
 
 		var params = apiHandler.processForm("username", "password");
+		params.username = params.username.toLowerCase();
 
 		if(params.username.length == 0) params.username = "?";
 		params.device_type = "WEB_SOCKET";
@@ -83,6 +84,8 @@
 
 		var params = apiHandler.processForm("username", "first_name", "last_name", "email_address", "password", "password_confirmation");
 
+		params.username = params.username.toLowerCase();
+
 		apiHandler.doRequest("put", UserApi.stem, params, function success(data) {
 			if(data.error) {
 				for(var i = 0; i < data.errors.length; i++) {
@@ -123,6 +126,7 @@
 
 	UserApi.getUserInformation = function(otherUserId, successCallback, errorCallback) {
 		var params = (pageLoader.isAuth())? apiHandler.requireAuth() : {};
+		otherUserId = otherUserId.toLowerCase();
 		apiHandler.doRequest("get", UserApi.stem + encodeURIComponent(otherUserId), params, successCallback, errorCallback);
 	};
 
@@ -131,6 +135,7 @@
 			username: username,
 			activation: activation
 		};
+		params.username = params.username.toLowerCase();
 		apiHandler.doRequest("post", UserApi.activateStub, params, successCallback, errorCallback);
 	};
 

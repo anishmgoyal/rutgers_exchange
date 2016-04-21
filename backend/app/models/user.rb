@@ -20,11 +20,17 @@ class User < ActiveRecord::Base
     validates_presence_of :password_confirmation, :unless => lambda { |user| user.password.blank? }
 	
     # Saving protocols
+    before_save :username_lower
     before_save :encrypt_password
     after_save :clear_password
 
     # Static Fields
     @@ACTIVATION_CONSTANT = "ACTIVATION_ACTIVE"
+
+    def username_lower
+        self.username.downcase!
+        true
+    end
 
     def encrypt_password
         if password.present?
