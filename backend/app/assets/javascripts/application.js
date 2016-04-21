@@ -49,6 +49,7 @@
 //= require pages/section
 //= require pages/core
 //= require pages/info
+//= require pages/recover
 
 // Tools
 
@@ -63,6 +64,7 @@
 //= require api/NotificationApi
 //= require api/ImageApi
 //= require api/SearchApi
+//= require api/RecoveryApi
 
 // Miscellaneous
 

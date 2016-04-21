@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160317185447) do
+ActiveRecord::Schema.define(version: 20160421190043) do
 
   create_table "conversations", force: :cascade do |t|
     t.integer  "seller_id",  limit: 4
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 20160317185447) do
     t.string   "recovery_code",   limit: 255
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+    t.integer  "is_valid",        limit: 4
   end
 
   create_table "product_images", force: :cascade do |t|

@@ -11,8 +11,8 @@ class PasswordRecoveryRequest < ActiveRecord::Base
 	before_save :set_info
 
 	def set_info
-		self.recovery_string = SecureRandom.hex(32)
-		self.recovery_code = SecureRandom.hex(6).to_s.upcase
+		self.recovery_string = SecureRandom.base64(48)
+		self.recovery_code = SecureRandom.hex(3).to_s.upcase
 	end
 
 end
