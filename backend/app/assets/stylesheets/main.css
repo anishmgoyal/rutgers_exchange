@@ -170,6 +170,7 @@ nav li {
 
 .load-more-button:hover, .load-more-button:active {
     background-color: #1e1e20 !important;
+    color: #ff4444 !important;
 }
 
 /* Page styles */
