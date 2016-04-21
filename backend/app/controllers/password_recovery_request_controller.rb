@@ -60,14 +60,13 @@ class PasswordRecoveryRequestController < ApplicationController
 
 			valid = (valid && recovery_request.is_valid == 1)
 
-			recovery_request.destroy
-
 			user = User.find_by_id params[:user_id]
 			if valid && user
 				user.encrypted_password = nil
 				user.password = params[:password]
 				user.password_confirmation = params[:password_confirmation]
 				if user.save
+					recovery_request.destroy
 					payload = {
 						error: false,
 						id: user.id
