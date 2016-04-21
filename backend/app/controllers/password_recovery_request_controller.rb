@@ -56,15 +56,11 @@ class PasswordRecoveryRequestController < ApplicationController
 			cutoff = recovery_request.updated_at + 7.days
 			valid = (cutoff >= Date.today)
 
-			puts "Cutoff is good" if valid
-
 			valid = (valid && recovery_request.recovery_code.to_s == params[:recovery_code])
 
-			puts "Code is good" if valid
-			puts params[:recovery_code] unless valid
-			puts recovery_request.recovery_code.to_s unless valid
-
 			valid = (valid && recovery_request.is_valid == 1)
+
+			recovery_request.destroy
 
 			user = User.find_by_id params[:user_id]
 			if valid && user
