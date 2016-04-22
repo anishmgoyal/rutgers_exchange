@@ -34,7 +34,7 @@ $(document).ready(function() {
 		recentAdded.find('.template_link').each(function() {
 			var instance = $(this);
 			var curr_attr = instance.attr("href");
-			var final_attr = curr_attr.replace(/:url/g, "/sect/");
+			var final_attr = curr_attr.replace(/:url/g, "/sect");
 			instance.attr("href", final_attr);
 		});
 		var recentAddedList = recentAdded.find('.template_list');
