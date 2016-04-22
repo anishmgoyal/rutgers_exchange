@@ -51,7 +51,7 @@
 				new Dialog({
 					confirm: true,
 					title: "Logged Out",
-					content: "Your session on " + window.serviceName + " has expired. Would you like to log back in? " +
+					content: "Your session on " + window.server.serviceName + " has expired. Would you like to log back in? " +
 							 "Any unsaved changes will be lost.",
 					wnd: pageLoader.getWnd(),
 					offsets: {top: $("#nav")},
