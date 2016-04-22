@@ -290,12 +290,14 @@ $(document).ready(function() {
 					}
 
 					var product_name_field = $("#product_name");
+					var product_type_field = $("#product_type");
 					var product_price_field = $("#product_price");
 					var product_condition_field = $("#condition");
 					var product_description_field = $("#description");
 
 					if(product_name_field.val().length == 0 && product_price_field.val().length == 0 && product_condition_field.val().length == 0 && product_description_field.val().length == 0) {
 						product_name_field.val(product.product_name);
+						product_type_field.val(product.product_type);
 						product_price_field.val(((product.price / 100).toFixed(2)));
 						product_condition_field.val(product.condition);
 						product_description_field.val(product.description);
