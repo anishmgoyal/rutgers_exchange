@@ -37,7 +37,6 @@
 		});
 
 		client.subscribe("/session/" + pageLoader.getParam("session_token"), function(message) {
-			console.log("MESSAGE");
 			if(message.type == "SESSION_END_NOTICE") {
 				if(!NotificationApi.checkForDisconnect) return;
 
@@ -63,15 +62,8 @@
 			}
 		}).then(function success(message) {
 			// Do nothing, just be happy.
-			console.log("SUCCESSFUL CONNECTION");
 		}, function error(message) {
 			// Do nothing, just be sad.
-			new Dialog({
-				title: "Failed",
-				content: "Failed to connect!!!!!!",
-				offsets: {top: $("#nav")},
-				wnd: pageLoader.getWnd()
-			}).show();
 		});
 
 		client.on('transport:down', function() {
