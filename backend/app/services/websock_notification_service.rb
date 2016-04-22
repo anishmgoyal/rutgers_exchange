@@ -51,6 +51,19 @@ class WebsockNotificationService
 		end
 	end
 
+	def add_session_notification(session_id, notification_type, notification_value)
+
+		puts "Sending in websock service"
+
+		if @client
+			puts "Session notified"
+			pbl = @client.publish "/session/#{session_id}", {"type" => notification_type, "value" => notification_value}
+			puts pbl.to_s
+		end
+		true
+
+	end
+
 	def broadcast(notification_type, notification_value)
 		if @client
 			pbl = @client.publish "/broadcast", {"type" => notification_type, "value" => notification_value, "special" => "BROADCAST"}

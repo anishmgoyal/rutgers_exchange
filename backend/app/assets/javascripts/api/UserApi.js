@@ -71,6 +71,11 @@
 		linkHelper.loadState("STATE_UNAUTH");
 	};
 
+	UserApi.asyncVerifySession = function(successCallback, errorCallback) {
+		var params = apiHandler.requireAuth();
+		apiHandler.doRequest("get", UserApi.sessionStem + encodeURIComponent("verify"), params, successCallback, errorCallback);
+	};
+
 	UserApi.verifySession = function(user_id, session_token, csrf_token, successCallback, errorCallback) {
 		var params = apiHandler.blockingCall({
 			user_id: user_id,
@@ -138,6 +143,33 @@
 		params.username = params.username.toLowerCase();
 		apiHandler.doRequest("post", UserApi.activateStub, params, successCallback, errorCallback);
 	};
+
+	$(window).focus(function() {
+		var auth = cookieManager.checkAuth();
+		if(auth.logged_in) {
+			if(!pageLoader.isAuth() || (auth.user_id != pageLoader.getParam("user_id"))) {
+				// Something about the current authentication has changed.
+				var auth = cookieManager.checkAuth();
+				UserApi.verifySession(auth.user_id, auth.session_token, auth.csrf_token, function success(auth, data) {
+					pageLoader.setParam("user_id", auth.user_id);
+					pageLoader.setParam("username", auth.username);
+					pageLoader.setParam("session_token", auth.session_token);
+					pageLoader.setParam("csrf_token", auth.csrf_token);
+					linkHelper.loadState("STATE_AUTH");
+					NotificationApi.tick();
+					pageLoader.reloadPage();
+				}.bind(pageLoader, auth), function error(code) {
+					pageLoader.removeParam("user_id");
+					pageLoader.removeParam("username");
+					pageLoader.removeParam("session_token");
+					pageLoader.removeParam("csrf_token");
+					NotificationApi.endSession();
+					linkHelper.loadState("STATE_UNAUTH");
+					cookieManager.deleteAuth();
+				});
+			}
+		}
+	});
 
 	window.UserApi = UserApi;
 

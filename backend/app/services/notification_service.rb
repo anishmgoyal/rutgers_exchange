@@ -58,6 +58,11 @@ class NotificationService
 		end
 	end
 
+	def add_session_notification(session_id, notification_type, notification_value)
+		session_queue = @session_map[session_id]
+		session_queue << {type: notification_type, value: notification_value} if session_queue
+	end
+
 	def broadcast(notification_type, notification_value)
 		@session_map.each do |session_id, session|
 			session_queue = session[:session_queue]

@@ -1,6 +1,7 @@
 class UserController < ApplicationController
 
     include SessionsHelper
+    include NotificationHelper
 
     require 'securerandom'
     
@@ -121,6 +122,7 @@ class UserController < ApplicationController
     def logout
         payload = delete_session(params[:user_id], params[:session_token], params[:csrf_token])
         if payload == :SESSION_DELETED
+            notify_session("SESSION_END_NOTICE", {reason: "LOGOUT"}, params[:session_token])
             render status: 200, json: {error: false}
         elsif payload == :SESSION_NO_AUTH
             render status: 403, json: {error: true}
