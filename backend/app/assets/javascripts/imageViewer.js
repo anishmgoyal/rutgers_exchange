@@ -25,6 +25,8 @@
 		this.settings.slider = this.settings.container.find(".image-viewer-slider");
 		this.settings.controls = this.settings.container.find(".image-viewer-lr-control");
 
+		this.settings.slider.parent().css("display", "none"); // Hide until we have more than one image
+
 		this.fields = {
 			delta: 0,
 			updating: false,
@@ -317,7 +319,6 @@
 	// Functions related to changing the state of the image viewer
 
 	ImageViewer.prototype.addImage = function(id) {
-		console.log("Image being added");
 		var img = $(this.settings.imageTemplate);
 		var imageTag = img.find("img");
 		imageTag.attr("src", ImageApi.serverThumbnailURL(id, ImageApi.PRODUCT)).on('load', this.handleImageLoad.bind(this, imageTag));
@@ -329,6 +330,10 @@
 			this.settings.controls.filter(".image-viewer-right-control").removeClass("image-viewer-lr-control-disabled");
 		}
 		this.images.push(id);
+
+		if(this.images.length > 1) {
+			this.settings.slider.parent().css("display", "block");
+		}
 
 		this.settings.slider.append(img);
 

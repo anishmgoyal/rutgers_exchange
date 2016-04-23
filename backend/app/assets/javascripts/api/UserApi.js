@@ -72,7 +72,7 @@
 	};
 
 	UserApi.asyncVerifySession = function(successCallback, errorCallback) {
-		var params = apiHandler.requireAuth();
+		var params = apiHandler.skipIcon(apiHandler.requireAuth());
 		apiHandler.doRequest("get", UserApi.sessionStem + encodeURIComponent("verify"), params, successCallback, errorCallback);
 	};
 
