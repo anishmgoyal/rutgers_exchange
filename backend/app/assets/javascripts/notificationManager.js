@@ -16,8 +16,6 @@
 		if(this.notificationList.length == 0) return;
 		if(this.timeout != null) return;
 
-		console.log("Showing a notification");
-
 		var notification = this.notificationList.shift();
 		
 		var notifElem = $(this.notificationTemplate);
