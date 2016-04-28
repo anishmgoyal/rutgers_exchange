@@ -30,6 +30,7 @@
 .notif .notif-message {
 	font-size: 0.9em;
 	margin: 7px 0;
+	word-wrap: break-word;
 }
 .notif .notif-time {
 	font-size: 0.7em;

@@ -137,7 +137,7 @@
 				if(messageText.length >= 100) messageText = messageText.substring(0, 97) + "...";
 
 				var timeString = notification.message.created_at;
-				timeString = timeString.substring(timeString.indexOf("at" + 3));
+				timeString = timeString.substring(timeString.indexOf("at") + 3).toUpperCase();
 
 				var messageTitle = notification.product.product_name;
 
