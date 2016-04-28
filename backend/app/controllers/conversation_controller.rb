@@ -137,8 +137,19 @@ class ConversationController < ApplicationController
                     # Notify the other user if they are online
                     notify("NOTIF_NEW_MESSAGE", {
                         conversation: conversation.id,
+                        product: {
+                            id: conversation.offer.product.id,
+                            product_name: conversation.offer.product.product_name,
+                            price: conversation.offer.product.price
+                        },
                         message: { 
                             user_id: message.user_id,
+                            user: {
+                                id: message.user.id,
+                                username: message.user.username,
+                                first_name: message.user.first_name,
+                                last_name: message.user.last_name
+                            },
                             message: message.message,
                             created_at: message.created_at.strftime('on %-m/%-d/%Y at %-l:%M%P')
                         }

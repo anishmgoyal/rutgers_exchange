@@ -62,7 +62,29 @@
 	};
 
 	NotificationManager.prototype.injectLinks = function(str) {
-		var matches = str.match(/(\{.+?\})/g);
+		var ret = "";
+		var wrapper = $("<span />");
+
+		var index;
+		var stub;
+
+		while((index = str.indexOf("{")) > -1) {
+			wrapper.text(str.substring(0, index));
+			ret += this.decodeString(wrapper.html());
+			str = str.substring(index);
+
+			stub = str.substring(1, str.indexOf("}"));
+			ret += this.generateLink(stub.split(":"));
+			str = str.substring(str.indexOf("}") + 1);
+		}
+
+		wrapper.text(str);
+		ret += this.decodeString(wrapper.html());
+
+		return ret;
+
+
+		/*var matches = str.match(/(\{.+?\})/g);
 		var ret = $("<span />").text(str).html();
 		var swapped = {};
 
@@ -78,35 +100,28 @@
 			var link = this.generateLink(matchParts);
 			ret = ret.replace(matches[i], link[0].outerHTML);
 		}
-		return ret;
+		return ret;*/
 	};
 	NotificationManager.prototype.generateLink = function(params) {
 		if(params.length > 0) {
-			if(params[0] == "u") {
+			if(params[0] == "u" || params[0] == "p" || params[0] == "m") {
 				if(params.length == 3) {
-					var username = this.decodeString(params[1]);
-					var name = this.decodeString(params[2]);
+					var reference = this.decodeString(params[1]);
+					var text = this.decodeString(params[2]);
+					var uri = (params[0] == "u")? "#!/profile/:reference"
+							: (params[0] == "p")? "#!/products/view/:reference"
+							: (params[0] == "m")? "#!/messages/:reference" : "";
+					uri = uri.replace(":reference", encodeURIComponent(reference));
 					var link = $("<a />")
 							   .addClass("auto-cap")
 							   .addClass("notif-a")
-							   .attr("href", "#!/profile/" + encodeURIComponent(username))
-							   .text(name);
-					return link;
-				}
-			} else if(params[0] == "p") {
-				if(params.length == 3) {
-					var product_id = this.decodeString(params[1]);
-					var product_name = this.decodeString(params[2]);
-					var link = $("<a />")
-							   .addClass("auto-cap")
-							   .addClass("notif-a")
-							   .attr("href", "#!/products/view/" + encodeURIComponent(product_id))
-							   .text(product_name);
-					return link;
+							   .attr("href", uri)
+							   .text(text);
+					return link[0].outerHTML;
 				}
 			}
 		}
-		return $('<a href="javascript:void(null);"></a>');
+		return '<a href="javascript:void(null);"></a>';
 	};
 
 	// Utilities for users and some methods within notificationManager

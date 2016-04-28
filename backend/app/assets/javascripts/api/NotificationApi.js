@@ -10,6 +10,11 @@
 	NotificationApi.checkForDisconnect = false;
 
 	NotificationApi.tick = function() {
+
+		if(this.client != null) {
+			this.endSession();
+		}
+
 		var client = new Faye.Client(apiHandler.server + NotificationApi.websock_stem);
 		client.addExtension({
 			outgoing: function(message, callback) {
@@ -23,7 +28,6 @@
 				handleNewMessage(message.value);
 			}
 		}).then(function success(message) {
-			// Start watching for any disconnects.
 			NotificationApi.checkForDisconnect = true;
 		}, function error(message) {
 			new Dialog({
@@ -40,13 +44,7 @@
 			if(message.type == "SESSION_END_NOTICE") {
 				if(!NotificationApi.checkForDisconnect) return;
 
-				NotificationApi.endSession();
-				pageLoader.removeParam("user_id");
-				pageLoader.removeParam("username");
-				pageLoader.removeParam("session_token");
-				pageLoader.removeParam("csrf_token");
-				linkHelper.loadState("STATE_UNAUTH");
-				cookieManager.deleteAuth();
+				UserApi.dethenticate();
 
 				new Dialog({
 					confirm: true,
@@ -71,6 +69,35 @@
 
 			NotificationApi.endSession();
 			NotificationApi.checkForDisconnect = false;
+
+			NotificationApi.tryReconnect(1);
+		});
+
+		NotificationApi.client = client;
+	};
+
+	NotificationApi.endSession = function() {
+		NotificationApi.checkForDisconnect = false;
+		if(NotificationApi.client) {
+			NotificationApi.client.disconnect();
+			NotificationApi.client = null;
+		}
+	};
+
+	NotificationApi.tryReconnect = function(attempts) {
+		if(attempts > 5) {
+			new Dialog({
+				confirm: true,
+				title: "Disconnected from " + window.server.serviceName,
+				content: "It seems like you've been disconnected from the server. This means you will not be " +
+						 "able to receive notifications or messages. Would you like to reload the page and try again?",
+				wnd: pageLoader.getWnd(),
+				offsets: {top: $("#nav")},
+				onconfirm: function() {
+					window.location.reload();
+				}
+			}).show();
+		} else {
 			UserApi.asyncVerifySession(function success(data) {
 				NotificationApi.checkForDisconnect = true;
 				NotificationApi.tick();
@@ -88,29 +115,9 @@
 						}
 					}).show();
 				} else {
-					new Dialog({
-						confirm: true,
-						title: "Disconnected from " + window.server.serviceName,
-						content: "It seems like you've been disconnected from the server. This means you will not be " +
-								 "able to receive notifications or messages. Would you like to reload the page and try again?",
-						wnd: pageLoader.getWnd(),
-						offsets: {top: $("#nav")},
-						onconfirm: function() {
-							window.location.reload();
-						}
-					}).show();
+					NotificationApi.tryReconnect(attempts + 1);
 				}
 			});
-		});
-
-		NotificationApi.client = client;
-	};
-
-	NotificationApi.endSession = function() {
-		NotificationApi.checkForDisconnect = false;
-		if(NotificationApi.client) {
-			NotificationApi.client.disconnect();
-			NotificationApi.client = null;
 		}
 	};
 
@@ -118,6 +125,30 @@
 		if(pageLoader.getMainPath() == "/messages") {
 			var messageApplication = pageLoader.getParam("messageApplication");
 			messageApplication.processChatNotification.call(messageApplication, notification);
+		} else {
+			if(notification.message.user.id != pageLoader.getParam("user_id")) {
+				var usernameStub = "{m:" +
+									notificationManager.encodeString(notification.conversation.toString()) +
+									":" +
+									notificationManager.encodeString(notification.message.user.first_name) +
+									"}";
+
+				var messageText = notification.message.message;
+				if(messageText.length >= 100) messageText = messageText.substring(0, 97) + "...";
+
+				var timeString = notification.message.created_at;
+				timeString = timeString.substring(timeString.indexOf("at" + 3));
+
+				var messageTitle = notification.product.product_name;
+
+				notificationManager.addNotification({
+					tool: messageTitle,
+					link: "/messages/" + encodeURIComponent(notification.conversation),
+					icon: "mail",
+					text: usernameStub + notificationManager.encodeString(": " + messageText),
+					time: timeString
+				});
+			}
 		}
 	};
 
@@ -134,33 +165,6 @@
 			new_item.fadeIn();
 		}
 	}
-
-	// TODO: Plan of action for this code segment
-	// Legacy - should be determined if this is even useful
-	// If so: should be integrated with the backend again
-	// If not: should be removed
-	NotificationApi.tickShortPoll = function() {
-		var params = apiHandler.requireAuth();
-		apiHandler.skipIcon(params);
-		apiHandler.skipRegistry(params);
-		apiHandler.doRequest("get", NotificationApi.stem, params, function success(data) {
-
-			for(var i = 0; i < data.notifications.length; i++) {
-				if(data.notifications[i].type == "NOTIF_NEW_MESSAGE") {
-					handleNewMessage(data.notifications[i].value);
-				} else if(data.notifications[i].type == "NOTIF_NEW_PRODUCT") {
-					handleNewProduct(data.notifications[i].value);
-				}
-			}
-
-			var nextTick = data.tick_delay;
-			if(nextTick < 2) nextTick = 2;
-			setTimeout(NotificationApi.tick, data.tick_delay * 1000);
-			
-		}, function error(code) {
-			console.log(code);
-		});
-	};
 
 	window.NotificationApi = NotificationApi;
 

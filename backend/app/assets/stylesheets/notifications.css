@@ -1,5 +1,5 @@
 .notif {
-	background-color: rgba(221, 68, 68, 0.9);
+	background-color: rgba(221, 48, 48, 0.95);
 	border: 2px solid rgba(0, 0, 0, 0.4);
 	color: white;
 	display: inline-block;
@@ -44,8 +44,12 @@
 	font-size: 0.7em;
 }
 .notif .notif-top {
-	color: black;
+	color: white;
 	font-weight: bold;
+
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 .notif .notif-top .notif-a {
 	text-decoration: none;
