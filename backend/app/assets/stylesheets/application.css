@@ -23,6 +23,7 @@
  *= require imageUploader
  *= require imageViewer
  *= require info
+ *= require notifications
  *
  *= require_self
  */

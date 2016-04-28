@@ -26,8 +26,8 @@ class WebappController < ApplicationController
 		render status: 200, text: "Views: #{@@page_view_count}"
 	end
 
-	def get_index
-		# send_file Rails.root.join("app", "webapp", "index.html"), disposition: "inline"
+	def index
+		# Empty wrapper which loads the index view
 	end
 	
 	require 'net/http'

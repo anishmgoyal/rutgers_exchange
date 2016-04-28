@@ -14,7 +14,35 @@
 
 	</head>
 	<body>
+		<!-- Overlays and global templates -->
+		
+		<!-- Loading Icon - currently just a fading string saying "LOADING" -->
 		<div id="loadingIcon">LOADING</div>
+
+
+		<!-- Notification Template - for desktop view notifications -->
+		<div class="template" id="notificationTemplate">
+			<div class="notif">
+				<div class="notif-close template_notif_close">&times;</div>
+				<div class="notif-top">
+					<a class="notif-a template_link" href="#!:tool_link">
+						<i class="notif-icon template_notif_icon"></i>
+						<span class="template_notif_tool_name"></span>
+					</a>
+				</div>
+				<div class="notif-time template_notif_time"></div>
+				<div class="notif-message template_notif_text"></div>
+				<div class="notif-instr">
+					<a class="notif-a template_block_notifications">
+						Block Notifications
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- Layout of webapp -->
+
+		<!-- Fixed topbar with logo, on desktop: search bar, on mobile: shortcuts and menu button -->
 		<div class="fixed">
 			<nav id="nav">
 				<div class="xsmall-4 small-5 medium-3 large-2 columns">
@@ -44,14 +72,20 @@
 				</div>
 			</nav>
 		</div>
+
+		<!-- Sidebar navigation for desktop -->
 		<div class="hide-for-small medium-3 large-2 columns sidebar-container">
 			<div class="sidebar front-item" id="sidebar">
 			</div>
 		</div>
+
+		<!-- Sidebar navigation for mobile -->
 		<div class="show-for-small mobile-menu-container">
 			<div class="mobile_menu mobile_menu_base" id="mobile_menu">
 			</div>
 		</div>
+
+		<!-- So-called "wnd", the pageLoader's window and render target -->
 		<div class="small-12 medium-9 large-10 columns main-container front-item"></div>
 	</body>
 </html>

@@ -1,0 +1,36 @@
+<section class="padded">
+	<script type="text/javascript">
+
+		// Test of the notification api by adding 3 notifications
+
+		var notificationTemplate = $("#notificationTemplate").html();
+		var notificationList = [
+			{
+				tool: "Messages",
+				icon: "mail",
+				link: "/messages",
+				text: "You received a message from {u:amg380:Anish Goyal} about {p:96:asdf}.",
+				time: notificationManager.currentTimeString()
+			},
+			{
+				tool: "Buying", 
+				icon: "price-tag", 
+				link: "/offers/buying", 
+				text: "Your offer for {p:96:asdf} was accepted by {u:anishmgoyal:Anish Goyal}.", 
+				time: notificationManager.currentTimeString()
+			},
+			{
+				tool: "Selling", 
+				icon: "price-tag", 
+				link: "/offers/selling", 
+				text: "You received an offer of $23.44 from {u:amg380:Anish Goyal} for {p:96:asdf}.", 
+				time: notificationManager.currentTimeString()
+			}
+		];
+
+		notificationManager.addNotification(notificationList[0]);
+		notificationManager.addNotification(notificationList[1]);
+		notificationManager.addNotification(notificationList[2]);
+
+	</script>
+</section>

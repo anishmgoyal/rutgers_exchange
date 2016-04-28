@@ -74,6 +74,7 @@
 //= require imageUploader
 //= require imageViewer
 //= require loadingIcon
+//= require notificationManager
 //= require pager
 //= require scrollZone
 //= require switchPane

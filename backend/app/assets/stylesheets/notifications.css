@@ -1,0 +1,59 @@
+.notif {
+	background-color: rgba(221, 68, 68, 0.9);
+	border: 2px solid rgba(0, 0, 0, 0.4);
+	color: white;
+	display: inline-block;
+	padding: 5px 10px 10px;
+
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+
+	width: 300px;
+
+	z-index: 99999999;
+
+	user-select: none;
+	-ms-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	-webkit-user-select: none;
+}
+
+.notif .notif-a {
+	color: white;
+	text-decoration: underline;
+}
+.notif .notif-a:hover {
+	text-decoration: none;
+}
+.notif .notif-message {
+	font-size: 0.9em;
+	margin: 7px 0;
+}
+.notif .notif-time {
+	font-size: 0.7em;
+	color: #cce;
+}
+.notif .notif-close {
+	cursor: pointer;
+	font-size: 1.2em;
+	float: right;
+}
+.notif .notif-instr {
+	font-size: 0.7em;
+}
+.notif .notif-top {
+	color: black;
+	font-weight: bold;
+}
+.notif .notif-top .notif-a {
+	text-decoration: none;
+}
+.notif .notif-icon {
+	margin-right: 4px;
+}
+
+@media only screen and (max-width: 40em) {
+	.notif { display: none; } /* For mobile, must use mobile notification drawer */
+}
