@@ -164,11 +164,15 @@
 
 	var handleNewConversation = function(notification) {
 		if(pageLoader.getMainPath() == "/messages") {
-
+			notification.conversation.other_user = notification.user;
+			notification.conversation.offer = notification.offer;
+			notification.conversation.product = notification.product;
+			var messageApplication = pageLoader.getParam("messageApplication");
+			messageApplication.processNewConversation.call(messageApplication, notification);
 		} 
 
 		var stubs = offerStubs(notification);
-		stubs.conversation = "{m:" + notification.conversation + ":here}";
+		stubs.conversation = "{m:" + notification.conversation.id + ":here}";
 
 		var message = "Your offer of $" + apiHandler.serverCurrencyToClient(notification.offer.price) +
 					  " for " + stubs.product + " was accepted by " + stubs.username + ". You may now chat " +
@@ -177,7 +181,7 @@
 		notificationManager.addNotification({
 			tool: "Messages",
 			icon: "mail",
-			link: "/messages/" + encodeURIComponent(notification.conversation),
+			link: "/messages/" + encodeURIComponent(notification.conversation.id),
 			text: message,
 			time: notificationManager.currentTimeString()
 		});
@@ -200,6 +204,11 @@
 			pageLoader.reloadPage();
 		}
 
+		if(pageLoader.getMainPath().indexOf("/messages") > -1 && notification.conversation != null) {
+			var messageApplication = pageLoader.getParam("messageApplication");
+			messageApplication.processEndConversation.call(messageApplication, notification);
+		}
+
 		var stubs = offerStubs(notification);
 		var message = stubs.username + "'s offer of $" + apiHandler.serverCurrencyToClient(notification.offer.price) +
 					  " for your listing " + stubs.product + " was revoked.";
@@ -211,6 +220,11 @@
 			pageLoader.reloadPage();
 		}
 
+		if(pageLoader.getMainPath().indexOf("/messages") > -1 && notification.conversation != null) {
+			var messageApplication = pageLoader.getParam("messageApplication");
+			messageApplication.processEndConversation.call(messageApplication, notification);
+		}
+
 		var stubs = offerStubs(notification);
 		var message = stubs.username + " rejected your offer of $" + apiHandler.serverCurrencyToClient(notification.offer.price) +
 					  " for the listing " + stubs.product + ".";
@@ -219,7 +233,8 @@
 
 	var handleTransactionFinished = function(notification) {
 		if(pageLoader.getMainPath() == "/messages") {
-
+			var messageApplication = pageLoader.getParam("messageApplication");
+			messageApplication.processEndConversation.call(messageApplication, notification);
 		}
 
 		var stubs = offerStubs(notification);

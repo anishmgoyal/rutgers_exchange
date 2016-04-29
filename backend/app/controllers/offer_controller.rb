@@ -308,7 +308,11 @@ class OfferController < ApplicationController
                     offer.product.save()
 
                     notify("NOTIF_NEW_CONVERSATION", {
-                        conversation: conversation.id,
+                        conversation: {
+                            id: conversation.id,
+                            is_seller: false,
+                            prev_message: nil
+                        },
                         user: {
                             id: @current_user.id,
                             username: @current_user.username,
@@ -321,7 +325,8 @@ class OfferController < ApplicationController
                         },
                         product: {
                             id: offer.product.id,
-                            product_name: offer.product.product_name
+                            product_name: offer.product.product_name,
+                            price: offer.product.price
                         }
                     }, offer.user_id)
                     
@@ -347,6 +352,7 @@ class OfferController < ApplicationController
 
                     if offer.user.id == @current_user.id
                         notify("NOTIF_OFFER_REVOKE", {
+                            conversation: offer.conversation ? offer.conversation.id : nil,
                             user: {
                                 id: offer.user.id,
                                 username: offer.user.username,
@@ -363,6 +369,7 @@ class OfferController < ApplicationController
                         }, offer.product.user_id)
                     else
                         notify("NOTIF_OFFER_REJECT", {
+                            conversation: offer.conversation ? offer.conversation.id : nil,
                             user: {
                                 id: offer.product.user.id,
                                 username: offer.product.user.username,
@@ -401,6 +408,7 @@ class OfferController < ApplicationController
             if offer.product.user_id == @current_user.id
                 if offer.offer_status != Offer.OFFER_COMPLETED
                     conversation = offer.conversation
+                    conversation_id = conversation.id
                     conversation.destroy
 
                     product = offer.product
@@ -413,6 +421,7 @@ class OfferController < ApplicationController
                     offer.save
 
                     notify("NOTIF_TRANSACTION_FINISHED", {
+                        conversation: conversation_id,
                         user: {
                             id: @current_user.id,
                             username: @current_user.username,

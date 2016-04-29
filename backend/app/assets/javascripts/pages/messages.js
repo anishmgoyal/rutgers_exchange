@@ -44,7 +44,9 @@ $(document).ready(function() {
 							send: {},
 							showFor: {}
 						},
-						processChatNotification: processChatNotification
+						processChatNotification: processChatNotification,
+						processNewConversation: processNewConversation,
+						processEndConversation: processEndConversation
 					};
 
 					pageLoader.setParam("messageApplication", messageApplication);
@@ -249,7 +251,43 @@ $(document).ready(function() {
 			this.conversationScrollbox.trigger("resize");
 			this.conversationScrollbox.setScrollPosition({percentage: 1});
 		}
-	}
+	};
+
+	var processNewConversation = function(notification) {
+		if(Object.keys(this.conversationList).length == 0) {
+			pageLoader.removeParam("messageApplication");
+			pageLoader.reloadPage();
+		} else {
+			var conversation = notification.conversation;
+			this.conversationList[conversation.id] = conversation;
+
+			var chatEntry = $(this.htmlElements.convoBox.template);
+			chatEntry.attr("id", "conversation-skinny-" + conversation.id);
+			chatEntry.find(".template_product_name").text(conversation.product.product_name);
+			chatEntry.find(".template_user_name").text(conversation.other_user.first_name + " " + conversation.other_user.last_name);
+			chatEntry.find(".template_offer_price").text(apiHandler.serverCurrencyToClient(conversation.offer.price));
+
+			if(conversation.prev_message != null) {
+				var prevIsCurrent = (conversation.prev_message.user_id == currentUserId);
+				var previousContainer = chatEntry.find(".message-convo-previous");
+				previousContainer.html('<i class="fi-' + ((prevIsCurrent)? "arrow-left" : "arrow-right") + '"></i>&nbsp;&nbsp;');
+				previousContainer.append(document.createTextNode(conversation.prev_message.message));
+			} else {
+				chatEntry.find(".message-convo-previous").hide();
+			}
+
+			chatEntry.on("click", function(id, e) {
+				pageLoader.redirect("/messages/" + id);
+			}.bind(this, conversation.id));
+
+			this.htmlElements.convoBox.container.append(chatEntry);
+			this.chatListScrollbox.trigger("resize");
+		}
+	};
+
+	var processEndConversation = function(notification) {
+		removeConversation(notification.conversation);
+	};
 
 	// ------------------------ Button handlers ------------------------
 
