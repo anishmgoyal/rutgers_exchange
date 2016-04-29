@@ -26,12 +26,14 @@ class OfferController < ApplicationController
                             notify("NOTIF_NEW_OFFER", {
                                 user: {
                                     id: @current_user.id,
+                                    username: @current_user.username,
                                     first_name: @current_user.first_name,
                                     last_name: @current_user.last_name,
                                 },
                                 offer: {
                                     id: offer.id,
-                                    price: offer.price
+                                    price: offer.price,
+                                    created_at: offer.created_at.strftime('%-l:%M%P')
                                 },
                                 product: {
                                     id: product.id,
@@ -90,7 +92,7 @@ class OfferController < ApplicationController
                             product_name: product.product_name,
                             user: {
                                 user_id: offer.user.id,
-				username: offer.user.username,
+				                username: offer.user.username,
                                 first_name: offer.user.first_name,
                                 last_name: offer.user.last_name
                             },
@@ -108,7 +110,7 @@ class OfferController < ApplicationController
                             product: {
                                 user: {
                                     user_id: product.user.id,
-				    username: product.user.username
+				                    username: product.user.username
                                 },
                                 thumbnail: product.thumbnail,
                                 product_id: product.id,
@@ -118,7 +120,7 @@ class OfferController < ApplicationController
                             product_name: product.product_name,
                             user: {
                                 user_id: offer.user.id,
-				username: offer.user.username,
+				                username: offer.user.username,
                                 first_name: offer.user.first_name,
                                 last_name: offer.user.last_name
                             },
@@ -141,7 +143,7 @@ class OfferController < ApplicationController
                             product: {
                                 user: {
                                     user_id: offer.product.user.id,
-				    username: offer.product.user.username
+				                    username: offer.product.user.username
                                 },
                                 thumbnail: offer.product.thumbnail,
                                 product_id: offer.product.id,
@@ -151,7 +153,7 @@ class OfferController < ApplicationController
                             product_name: offer.product.product_name,
                             user: {
                                 user_id: offer.user.id,
-				username: offer.user.username,
+				                username: offer.user.username,
                                 first_name: offer.user.first_name,
                                 last_name: offer.user.last_name
                             },
@@ -172,7 +174,7 @@ class OfferController < ApplicationController
                                 product: {
                                     user: {
                                         user_id: product.user.id,
-					username: product.user.username
+                                        username: product.user.username
                                     },
                                     thumbnail: product.thumbnail,
                                     product_id: product.id,
@@ -182,7 +184,7 @@ class OfferController < ApplicationController
                                 product_name: product.product_name,
                                 user: {
                                     user_id: offer.user.id,
-				    username: offer.user.username,
+				                    username: offer.user.username,
                                     first_name: offer.user.first_name,
                                     last_name: offer.user.last_name
                                 },
@@ -240,9 +242,10 @@ class OfferController < ApplicationController
                     offer.price = params[:price] if params[:price]
                     if offer.save()
 
-                        notify("NOTIF_UPDATED_OFFER", {
+                        notify("NOTIF_OFFER_UPDATED", {
                             user: {
                                 id: offer.user.id,
+                                username: offer.user.username,
                                 first_name: offer.user.first_name,
                                 last_name: offer.user.last_name
                             },
@@ -305,9 +308,10 @@ class OfferController < ApplicationController
                     offer.product.save()
 
                     notify("NOTIF_NEW_CONVERSATION", {
-                        conversation_id: conversation.id,
+                        conversation: conversation.id,
                         user: {
                             id: @current_user.id,
+                            username: @current_user.username,
                             first_name: @current_user.first_name,
                             last_name: @current_user.last_name
                         },
@@ -345,6 +349,7 @@ class OfferController < ApplicationController
                         notify("NOTIF_OFFER_REVOKE", {
                             user: {
                                 id: offer.user.id,
+                                username: offer.user.username,
                                 first_name: offer.user.first_name,
                                 last_name: offer.user.last_name
                             },
@@ -360,6 +365,7 @@ class OfferController < ApplicationController
                         notify("NOTIF_OFFER_REJECT", {
                             user: {
                                 id: offer.product.user.id,
+                                username: offer.product.user.username,
                                 first_name: offer.product.user.first_name,
                                 last_name: offer.product.user.last_name
                             },
@@ -409,6 +415,7 @@ class OfferController < ApplicationController
                     notify("NOTIF_TRANSACTION_FINISHED", {
                         user: {
                             id: @current_user.id,
+                            username: @current_user.username,
                             first_name: @current_user.first_name,
                             last_name: @current_user.last_name
                         },

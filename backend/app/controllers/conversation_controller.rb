@@ -151,7 +151,7 @@ class ConversationController < ApplicationController
                                 last_name: message.user.last_name
                             },
                             message: message.message,
-                            created_at: message.created_at.strftime('on %-m/%-d/%Y at %-l:%M%P')
+                            created_at: message.created_at.strftime('%-l:%M%P')
                         }
                     }, conversation.buyer_id, conversation.seller_id)
                     

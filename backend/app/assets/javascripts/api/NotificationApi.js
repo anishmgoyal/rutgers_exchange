@@ -24,8 +24,8 @@
 			}
 		});
 		client.subscribe("/user/" + pageLoader.getParam("username"), function(message) {
-			if(message.type == "NOTIF_NEW_MESSAGE") {
-				handleNewMessage(message.value);
+			if(NotificationApi.handlers.hasOwnProperty(message.type)) {
+				NotificationApi.handlers[message.type](message.value);
 			}
 		}).then(function success(message) {
 			NotificationApi.checkForDisconnect = true;
@@ -137,7 +137,6 @@
 				if(messageText.length >= 100) messageText = messageText.substring(0, 97) + "...";
 
 				var timeString = notification.message.created_at;
-				timeString = timeString.substring(timeString.indexOf("at") + 3).toUpperCase();
 
 				var messageTitle = notification.product.product_name;
 
@@ -152,19 +151,126 @@
 		}
 	};
 
-	var handleNewProduct = function(notification) {
-		if(pageLoader.getMainPath() == "/index") {
-			var list = $('.template_list');
-			var template = list.find('.template_item').first();
-			var new_item = $(template.clone());
-			new_item.find('.template_name').text(notification.product.product_name);
-			new_item.find('.template_price').text(apiHandler.serverCurrencyToClient(notification.product.price));
-			new_item.click(function(id) {pageLoader.redirect("/products/view/" + id); }.bind(this, notification.product.id));
-			new_item.hide();
-			list.prepend(new_item);
-			new_item.fadeIn();
+	var handleNewOffer = function(notification) {
+		if(pageLoader.getMainPath() == "/offers" && pageLoader.getSubPath().indexOf("/selling") > -1) {
+			pageLoader.reloadPage();
 		}
-	}
+		
+		var stubs = offerStubs(notification);
+		var message = "You received an offer of $" + apiHandler.serverCurrencyToClient(notification.offer.price) +
+					  " for your listing " + stubs.product + " from " + stubs.username + ".";
+		offerNotif(notification, "Selling", message);
+	};
+
+	var handleNewConversation = function(notification) {
+		if(pageLoader.getMainPath() == "/messages") {
+
+		} 
+
+		var stubs = offerStubs(notification);
+		stubs.conversation = "{m:" + notification.conversation + ":here}";
+
+		var message = "Your offer of $" + apiHandler.serverCurrencyToClient(notification.offer.price) +
+					  " for " + stubs.product + " was accepted by " + stubs.username + ". You may now chat " +
+					  "with them " + stubs.conversation + ".";
+
+		notificationManager.addNotification({
+			tool: "Messages",
+			icon: "mail",
+			link: "/messages/" + encodeURIComponent(notification.conversation),
+			text: message,
+			time: notificationManager.currentTimeString()
+		});
+	};
+
+	var handleUpdatedOffer = function(notification) {
+		if(pageLoader.getMainPath() == "/offers" && pageLoader.getSubPath().indexOf("/selling") > -1) {
+			pageLoader.reloadPage();
+		}
+
+		var stubs = offerStubs(notification);
+		var message = stubs.username + "'s offer of $" + apiHandler.serverCurrencyToClient(notification.offer.prev_price) +
+				      " for your listing " + stubs.product + " was changed to " +
+					  "$" + apiHandler.serverCurrencyToClient(notification.offer.price) + ".";
+		offerNotif(notification, "Selling", message);
+	};
+
+	var handleRevokedOffer = function(notification) {
+		if(pageLoader.getMainPath() == "/offers" && pageLoader.getSubPath().indexOf("/selling") > -1) {
+			pageLoader.reloadPage();
+		}
+
+		var stubs = offerStubs(notification);
+		var message = stubs.username + "'s offer of $" + apiHandler.serverCurrencyToClient(notification.offer.price) +
+					  " for your listing " + stubs.product + " was revoked.";
+		offerNotif(notification, "Selling", message);
+	};
+
+	var handleRejectedOffer = function(notification) {
+		if(pageLoader.getMainPath() == "/offers" && pageLoader.getSubPath().indexOf("/buying") > -1) {
+			pageLoader.reloadPage();
+		}
+
+		var stubs = offerStubs(notification);
+		var message = stubs.username + " rejected your offer of $" + apiHandler.serverCurrencyToClient(notification.offer.price) +
+					  " for the listing " + stubs.product + ".";
+		offerNotif(notification, "Buying", message);
+	};
+
+	var handleTransactionFinished = function(notification) {
+		if(pageLoader.getMainPath() == "/messages") {
+
+		}
+
+		var stubs = offerStubs(notification);
+
+		var message = stubs.username + " marked the listing " + stubs.product +
+					  " as sold to you.";
+					  
+		notificationManager.addNotification({
+			tool: "Messages",
+			icon: "mail",
+			link: "/messages",
+			text: message,
+			time: notificationManager.currentTimeString()
+		});
+	};
+
+	NotificationApi.handlers = {
+		NOTIF_NEW_MESSAGE: handleNewMessage,
+		NOTIF_NEW_OFFER: handleNewOffer,
+		NOTIF_NEW_CONVERSATION: handleNewConversation,
+		NOTIF_OFFER_UPDATED: handleUpdatedOffer,
+		NOTIF_OFFER_REVOKE: handleRevokedOffer,
+		NOTIF_OFFER_REJECT: handleRejectedOffer,
+		NOTIF_TRANSACTION_FINISHED: handleTransactionFinished
+	};
+
+	var offerStubs = function(notification) {
+		var usernameStub = "{u:" +
+							notificationManager.encodeString(notification.user.username) +
+							":" +
+							notificationManager.encodeString(notification.user.first_name + " " + notification.user.last_name) +
+							"}";
+
+		var productStub = "{p:" +
+						  notificationManager.encodeString(notification.product.id.toString()) +
+						  ":" +
+						  notificationManager.encodeString(notification.product.product_name) +
+						  "}";
+
+		return {username: usernameStub, product: productStub};
+	};
+
+	var offerNotif = function(notification, page, message) {
+		notificationManager.addNotification({
+			tool: page,
+			link: "/offers/" + page.toLowerCase(),
+			icon: "price-tag",
+			text: message,
+			time: notification.offer.created_at
+		});
+	};
 
 	window.NotificationApi = NotificationApi;
 

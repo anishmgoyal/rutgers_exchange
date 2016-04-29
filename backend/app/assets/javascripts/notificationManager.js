@@ -174,7 +174,7 @@
 	$(document).ready(function() {
 		window.notificationManager = new NotificationManager({
 			notificationTemplate: $("#notificationTemplate").html(),
-			timeToShow: 4
+			timeToShow: 7
 		});
 		$("#notificationTemplate").remove();
 	});
