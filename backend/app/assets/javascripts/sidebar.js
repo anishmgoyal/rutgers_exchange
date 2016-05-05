@@ -1,5 +1,4 @@
-(function() {
-	
+(function() { 
 	var Sidebar = function sidebar_constructor(elem, mobileElem, altParams) {
 		if(!this.constructor == sidebar_constructor) return new sidebar_constructor(elem, mobileElem);
 
@@ -283,6 +282,10 @@
 
 		if(step > diff) {
 			elem.style.height = target + "px";
+			
+			// REQUIRES PATH TO TRIGGER RESIZE
+			pageLoader.notifyChange();
+			// THIS WILL HAVE TO DO. SIDEBAR NOW DEPENDS ON PAGELOADER
 		} else {
 			currHeight = currHeight + (step * dir);
 			elem.style.height = currHeight + "px";
