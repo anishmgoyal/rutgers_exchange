@@ -183,6 +183,19 @@ function checkLoginState() {
 			pageLoader.setParam("session_token", auth.session_token);
 			pageLoader.setParam("csrf_token", auth.csrf_token);
 			linkHelper.loadState("STATE_AUTH");
+
+			ConversationApi.getCounter(function success(data) {
+				if(data.unread_count != 0) {
+					notificationManager.addNotification({
+						tool: "Messages",
+						link: "/messages/",
+						icon: "mail",
+						text: notificationManager.encodeString("You have " + data.unread_count + " unread message" + ((data.unread_count == 1)? "" : "s") + "."),
+						time: notificationManager.currentTimeString()
+					});
+				}
+			});
+
 			NotificationApi.tick();
 		}.bind(pageLoader, auth), function error(code) {
 			linkHelper.loadState("STATE_UNAUTH");
