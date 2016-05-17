@@ -5,6 +5,8 @@ class UserMailer < ApplicationMailer
 	require 'cgi'
 
 	def activation_email(user)
+		@image_url = "#{@@DEFAULT_WEBAPP_URL}/assets/logo-main.png"
+
 		@user = user
 		@url = "#{@@DEFAULT_WEBAPP_URL}/#!/activate/#{user.username}/#{user.activation}"
 		@app_name = @@APPLICATION_BACKEND_NAME
@@ -12,6 +14,8 @@ class UserMailer < ApplicationMailer
 	end
 
 	def password_recovery_email(user, recovery_request)
+		@image_url = "#{@@DEFAULT_WEBAPP_URL}/assets/logo-main.png"
+		
 		@user = user
 		@code = recovery_request.recovery_code
 		recovery_string = encodeURIComponent recovery_request.recovery_string

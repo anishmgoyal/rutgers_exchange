@@ -11,6 +11,8 @@ class OfferMailer < ApplicationMailer
 	end
 
 	def new_offer_email(user, offer, product, offerer)
+		@image_url = "#{@@DEFAULT_WEBAPP_URL}/assets/logo-main.png"
+
 		@offerer_link = "#{@@DEFAULT_WEBAPP_URL}/#!/profile/#{offerer.username}"
 		@offerer_name = "#{offerer.first_name} #{offerer.last_name}"
 		@offer_price = priceToFixed(offer.price)
@@ -26,6 +28,8 @@ class OfferMailer < ApplicationMailer
 	end
 
 	def offer_accepted_email(user, offer, product, poster, conversation)
+		@image_url = "#{@@DEFAULT_WEBAPP_URL}/assets/logo-main.png"
+		
 		@offer_price = priceToFixed(offer.price)
 		
 		@product_link = "#{@@DEFAULT_WEBAPP_URL}/#!/products/view/#{product.id}"

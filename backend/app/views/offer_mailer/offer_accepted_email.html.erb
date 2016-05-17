@@ -1,19 +1,21 @@
-<h4>Offer Accepted</h4>
-<p style="margin: 3px 0;">
+<div style="background-color: #555; padding: 10px 5px 7px; margin: 0;">
+    <img src="<%= @image_url %>" style="height: 30px; max-height: 30px;" height="30">
+</div>
+<h4 style="background-color: #34343b; color: white; padding: 15px; margin: 0 0 10px;">Offer Accepted</h4>
+<p style="margin: 15px 0;">
 	Your offer of $<%= @offer_price %> for 
 	<a href="<%= @product_link %>"><%= @product_name %></a> 
 	was accepted by
 	<a href="<%= @poster_profile_link %>"><%= @poster_name %></a>.
 </p>
-<p style="margin: 3px 0;">
+<p style="margin: 15px 0;">
 	You can now chat with <%= @poster_fname %> to discuss when and where you want to exchange
 	the item.
 </p>
-<p style="margin: 3px 0;">
+<p style="margin: 15px 0;">
 	To view this conversation, click on the following link:
 	<a style="word-wrap: break-word" href="<%= @conversation_url %>"><%= @conversation_url %></a>
 </p>
-<br />
-<p style="margin: 3px 0;">
+<p style="background-color: #d44; color: white; padding: 15px;">
 	As always, remember: <%= @app_name %> will never ask you to send your password to us in an email.
 </p>
