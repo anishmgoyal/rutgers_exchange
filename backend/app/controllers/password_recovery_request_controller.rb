@@ -22,7 +22,7 @@ class PasswordRecoveryRequestController < ApplicationController
 				recovery_request.is_valid = 1
 				recovery_request.save
 				begin
-					UserMailer.password_recovery_email(user, recovery_request).deliver_later
+					UserMailer.password_recovery_email(user, recovery_request).deliver_later!
 				rescue
 					recovery_request.destroy
 					render status: 500, json: {error: true}

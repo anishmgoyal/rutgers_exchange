@@ -16,7 +16,7 @@
 					if(!pageLoader.isAuth())
 						load_page_apply(wnd, subpath);
 					else
-						pageLaoder.redirect("/index");
+						pageLoader.redirect("/index");
 				} else if(subpath.indexOf("/remove") == 0) {
 					load_page_remove(wnd, subpath);
 				} else {

@@ -22,7 +22,7 @@ class UserController < ApplicationController
         user.activation = SecureRandom.hex 16
         
 		if user.save()
-            UserMailer.activation_email(user).deliver_later
+            UserMailer.activation_email(user).deliver_later!
 			payload = {
 				error: false,
 				id: user.id
