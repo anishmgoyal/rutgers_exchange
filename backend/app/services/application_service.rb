@@ -6,7 +6,7 @@ class ApplicationService
 	@@mutex = Mutex.new
 
 	@@bayeux = nil
-	
+
 	def self.set(service_name, service_class)
 		@@mutex.synchronize do
 			bean = service_class.new
