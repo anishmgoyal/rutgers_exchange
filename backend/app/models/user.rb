@@ -10,8 +10,9 @@ class User < ActiveRecord::Base
     has_many :conversations
     
     # Validation
-    EMAIL_REGEX = /\A[A-Z0-9._%+-]+@([a-zA-Z0-9_]+\.)?rutgers\.edu\z/i
-    validates :username, :presence => true, :uniqueness => true, :length => { :in => 5..20 }
+    EMAIL_REGEX = /\A[A-Z0-9._%+-]+@([A-Z0-9_]+\.)?rutgers\.edu\z/i
+    USERNAME_REGEX = /\A[A-Z0-9._ ]{5,20}\z/i
+    validates :username, :presence => true, :uniqueness => true, :length => { :in => 5..20 }, :format => USERNAME_REGEX
     validates :email_address, :presence => true, :uniqueness => true, :format => EMAIL_REGEX
     validates :password, :length => { :in => 7..20 }, :confirmation => true, :unless => :encrypted_password?
     validates :first_name, presence: true, :length => { :in => 2..40 }

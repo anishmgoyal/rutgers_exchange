@@ -1,0 +1,14 @@
+<h4>New Offer Received</h4>
+<p style="margin: 3px 0;">
+	You received a new offer from <a href="<%= @offerer_link %>"><%= @offerer_name %><a>
+	of $<%= @offer_price %> for your 
+	listing, <a href="<%= @product_link %>"><%= @product_name %></a>.
+</p>
+<p style="margin: 3px 0;">
+	To view this offer and others, click on the following link: <br />
+	<a style="word-wrap: break-word" href="<%= @app_offer_seller_link %>"><%= @app_offer_seller_link %></a>
+</p>
+<br />
+<p style="margin: 3px 0;">
+	As always, remember: <%= @app_name %> will never ask you to send your password to us in an email.
+</p>

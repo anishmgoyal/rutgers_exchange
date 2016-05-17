@@ -1,0 +1,19 @@
+<h4>Offer Accepted</h4>
+<p style="margin: 3px 0;">
+	Your offer of $<%= @offer_price %> for 
+	<a href="<%= @product_link %>"><%= @product_name %></a> 
+	was accepted by
+	<a href="<%= @poster_profile_link %>"><%= @poster_name %></a>.
+</p>
+<p style="margin: 3px 0;">
+	You can now chat with <%= @poster_fname %> to discuss when and where you want to exchange
+	the item.
+</p>
+<p style="margin: 3px 0;">
+	To view this conversation, click on the following link:
+	<a style="word-wrap: break-word" href="<%= @conversation_url %>"><%= @conversation_url %></a>
+</p>
+<br />
+<p style="margin: 3px 0;">
+	As always, remember: <%= @app_name %> will never ask you to send your password to us in an email.
+</p>

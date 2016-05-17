@@ -41,6 +41,8 @@ class OfferController < ApplicationController
                                 }
                             }, product.user_id)
 
+                            OfferMailer.new_offer_email(product.user, offer, product, @current_user).deliver_later
+
                             payload = {
                                 error: false,
                                 id: offer.id
@@ -329,6 +331,8 @@ class OfferController < ApplicationController
                             price: offer.product.price
                         }
                     }, offer.user_id)
+
+                    OfferMailer.offer_accepted_email(offer.user, offer, offer.product, offer.product.user, conversation).deliver_later
                     
                     render status: 200, json: {conversation_id: conversation.id}
                 else
