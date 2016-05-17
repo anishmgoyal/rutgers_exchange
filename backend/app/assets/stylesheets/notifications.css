@@ -32,9 +32,19 @@
 	margin: 7px 0;
 	word-wrap: break-word;
 }
+.product-popup-offer-row .notif-message {
+	font-size: 0.9em;
+	margin: 3px 0;
+	word-wrap: break-word;
+}
 .notif .notif-time {
 	font-size: 0.7em;
 	color: #cce;
+}
+.product-popup-offer-row .notif-time {
+	padding: 0;
+	font-size: 0.7em;
+	color: #444;
 }
 .notif .notif-close {
 	cursor: pointer;
@@ -52,11 +62,41 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
-.notif .notif-top .notif-a {
+.product-popup-offer-row.popup-row-first {
+	padding-top: 0;
+}
+.product-popup-offer-row .notif-top {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.notif .notif-top .notif-a, .product-popup-offer-row .notif-top .notif-a {
 	text-decoration: none;
 }
 .notif .notif-icon {
 	margin-right: 4px;
+}
+
+.popup-row-unread .notif-top {
+	font-weight: bold;
+}
+
+.popup-row-unread .notif-title-modifier {
+	font-size: 0.7em;
+	display: inline-block;
+	padding: 2px 3px;
+	color: #d44;
+	font-weight: normal;
+}
+
+.notif-megahorn-badge {
+	background-color: rgba(255, 0, 0, 0.7);
+	border-radius: 999px;
+	color: white;
+	font-size: 0.5em;
+	font-style: normal;
+	padding: 0 3px;
+	position: absolute; top: 0; right: -6px;
 }
 
 @media only screen and (max-width: 40em) {

@@ -172,7 +172,7 @@
 		} 
 
 		var stubs = offerStubs(notification);
-		stubs.conversation = "{m:" + notification.conversation.id + ":here}";
+		stubs.conversation = "{m_:" + notification.conversation.id + ":here}";
 
 		var message = "Your offer of $" + apiHandler.serverCurrencyToClient(notification.offer.price) +
 					  " for " + stubs.product + " was accepted by " + stubs.username + ". You may now chat " +
@@ -278,12 +278,13 @@
 	};
 
 	var offerNotif = function(notification, page, message) {
+		var time = (notification.offer)? (notification.offer.created_at)? notification.offer.created_at : notificationManager.currentTimeString() : notificationManager.currentTimeString();
 		notificationManager.addNotification({
 			tool: page,
 			link: "/offers/" + page.toLowerCase(),
 			icon: "price-tag",
 			text: message,
-			time: notification.offer.created_at
+			time: time
 		});
 	};
 

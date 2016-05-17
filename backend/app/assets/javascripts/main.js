@@ -17,8 +17,12 @@ $(document).ready(function() {
 	// Make mobile buttons work
 	$('.toggle-menu').click(createMobileMenu.bind(window, sidebar));
 	$('.toggle-menu-hide').click(destroyMobileMenu.bind(window, sidebar));
+	$('.toggle-notif').click(createMobileNotifications.bind(window, sidebar));
+	$('.toggle-notif-hide').click(destroyMobileNotifications.bind(window, sidebar));
 	$('.toggle-search').click(createMobileSearchBar.bind(window, sidebar));
 	$('.toggle-search-hide').click(destroyMobileSearchBar.bind(window, sidebar));
+
+	notificationManager.setMobileCloseHandler(handleMobileNotificationClose);
 
 	// Bind the search form(s) to the correct handler
 	var bigSearchForm = $(".bigSearchForm");
@@ -38,6 +42,7 @@ $(document).ready(function() {
 	// Start-up configuration the pageLoader framework
 	pageLoader.beforeChange(apiHandler.cancelRunning.bind(apiHandler));
 	pageLoader.pageChange(destroyMobileMenu.bind(window, sidebar));
+	pageLoader.pageChange(destroyMobileNotifications.bind(window, sidebar));
 	pageLoader.pageChange(destroyMobileSearchBar.bind(window, sidebar));
 	pageLoader.pageChange(function() {
 		linkHelper.setPage(pageLoader.getMainPath(), window.location.hash.substring(2));
@@ -82,6 +87,7 @@ function vcenter() {
 
 function createMobileMenu(sidebar) {
 	destroyMobileSearchBar();
+	destroyMobileNotifications();
 
 	sidebar.openMobileMenu(pageLoader.getMainPath(), window.location.hash.substring(2));
 
@@ -108,8 +114,30 @@ function destroyMobileMenu(sidebar) {
 	$(window).trigger("resize");
 }
 
+function createMobileNotifications(sidebar) {
+	destroyMobileMenu(sidebar);
+	destroyMobileSearchBar();
+	notificationManager.renderMobileNotifications();
+	$(".toggle-notif").hide();
+	$(".toggle-notif-hide").show();
+}
+
+function destroyMobileNotifications(sidebar) {
+	notificationManager.forceCloseMobileNotifications();
+	$(".toggle-notif").show();
+	$(".toggle-notif-hide").hide();
+	$(window).trigger("resize");
+}
+
+function handleMobileNotificationClose() {
+	$(".toggle-notif").show();
+	$(".toggle-notif-hide").hide();
+	$(window).trigger("resize");
+}
+
 function createMobileSearchBar(sidebar) {
 	destroyMobileMenu(sidebar);
+	destroyMobileNotifications();
 	$(".toggle-search").hide();
 	$(".toggle-search-hide").show();
 
@@ -117,7 +145,7 @@ function createMobileSearchBar(sidebar) {
 			.css("position", "fixed")
 			.css("top", 0)
 			.css("padding-top", "75px")
-			.css("background-color", "#3b3b3c")
+			.css("background-color", "#d33")
 			.css("box-shadow", "0 0 10px #222");
 	var queryForm = $('<form class="search" />');
 	var queryInput = $('<input type="text" id="mobile_query" name="query" placeholder="Search for..." />');

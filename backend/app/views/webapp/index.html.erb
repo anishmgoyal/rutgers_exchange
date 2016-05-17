@@ -5,7 +5,7 @@
 		<title>Exchange on the Banks, Easy on the Bank.</title>
 
 		<!-- Favorite Icon -->
-		<link rel="shortcut icon" type="image/png" href="assets/favicon.png?v=9" />
+		<link rel="shortcut icon" type="image/png" href="assets/favicon2.png?v=9" />
 
 		<%= stylesheet_link_tag "application" %>
 		<%= javascript_include_tag "application" %>
@@ -21,13 +21,13 @@
 
 
 		<!-- Notification Template - for desktop view notifications -->
-		<div class="template" id="notificationTemplate">
+		<section class="template" id="notificationTemplate">
 			<div class="notif">
 				<div class="notif-close template_notif_close">&times;</div>
 				<div class="notif-top">
 					<a class="notif-a template_link" href="#!:tool_link">
 						<i class="notif-icon template_notif_icon"></i>
-						<span class="template_notif_tool_name auto-cap"></span>
+						<span class="notif-title template_notif_tool_name auto-cap"></span>
 					</a>
 				</div>
 				<div class="notif-time template_notif_time"></div>
@@ -38,7 +38,21 @@
 					</a>
 				</div>
 			</div>
-		</div>
+		</section>
+
+		<section class="template" id="mobileNotificationTemplate">
+			<div class="product-popup-offer-row">
+				<div class="notif-top">
+					<a class="notif-a template_link" href="#!:tool_link">
+						<i class="notif-icon template_notif_icon"></i>
+						<span class="template_notif_tool_name auto-cap"></span>
+						<span class="notif-title-modifier template_notif_modifier"></span>
+					</a>
+				</div>
+				<div class="notif-time template_notif_time"></div>
+				<div class="notif-message template_notif_text"></div>
+			</div>
+		</section>
 
 		<!-- Layout of webapp -->
 
@@ -46,7 +60,7 @@
 		<div class="fixed">
 			<nav id="nav">
 				<div class="xsmall-4 small-5 medium-3 large-2 columns">
-					<a href="#!/index"><img style="margin-left: 5px" src="assets/logo.png" class="logo" /></a>
+					<a href="#!/index"><img src="assets/logo-main.png" class="logo" /></a>
 				</div>
 				<div class="hide-for-small medium-9 large-10 columns">
 					<form class="bigSearchForm search">
@@ -64,8 +78,12 @@
 					<ul class="right click-grid">
 						<li class="toggle-search"><i class="fi-magnifying-glass"></i></li>
 						<li class="toggle-search-hide" style="display: none"><i class="fi-x"></i></li>
-						<a href="#!/messages"><li class="toggle-notif"><i class="fi-mail"></i></li></a>
-						<!--<li class="toggle-notif"><i class="fi-megaphone"></i></li>-->
+						<li class="toggle-notif" style="position: relative;">
+							<i class="fi-megaphone">
+								<div id="notif-megahorn-badge" class="notif-megahorn-badge"></div>
+							</i>
+						</li>
+						<li class="toggle-notif-hide" style="display: none"><i class="fi-x"></i></li>
 						<li class="toggle-menu"><i class="fi-list"></i></li>
 						<li class="toggle-menu-hide" style="display: none"><i class="fi-x"></i></li>
 					</ul>

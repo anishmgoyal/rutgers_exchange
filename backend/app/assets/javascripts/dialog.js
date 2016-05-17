@@ -105,6 +105,8 @@
 			this.dialog.append(this.buttonbar);
 		}
 
+		this.onhide = params.onhide;
+
 		// Show x button
 		this.titlebar.append($('<div class="dialog-close-button"><i class="fi-x"></i></div>').click(closeFn));
 
@@ -136,6 +138,11 @@
 		delete this.resizer;
 		this.container.css("display", "none");
 		this.dialog.css("display", "none");
+
+		if(typeof this.onhide !== "undefined") {
+			this.onhide.call(this);
+		}
+		
 		if(this.deleteOnHide) {
 			this.dialog.remove();
 			this.container.remove();
