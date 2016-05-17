@@ -250,6 +250,7 @@ $(document).ready(function() {
 			this.conversationScrollbox.elemContent.append(messageBox);
 			this.conversationScrollbox.trigger("resize");
 			this.conversationScrollbox.setScrollPosition({percentage: 1});
+			ConversationApi.updateCounter(this.currentConversation.id);
 		}
 	};
 

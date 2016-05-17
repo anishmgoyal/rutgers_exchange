@@ -3,6 +3,7 @@
 	var ConversationApi = {};
 
 	ConversationApi.stem = "/conversations/";
+	ConversationApi.counterStem = "/count/conversations/";
 
 	ConversationApi.getConversationList = function(successCallback, errorCallback) {
 		var params = apiHandler.requireAuth();
@@ -22,6 +23,20 @@
 		apiHandler.skipIcon(params);
 		apiHandler.skipRegistry(params);
 		apiHandler.doRequest("put", ConversationApi.stem + encodeURIComponent(conversationId), params, successCallback, errorCallback);
+	};
+
+	ConversationApi.getCounter = function(successCallback, errorCallback) {
+		var params = apiHandler.requireAuth();
+		apiHandler.skipIcon(params);
+		apiHandler.skipRegistry(params);
+		apiHandler.doRequest("get", ConversationApi.counterStem, params, successCallback, errorCallback);
+	};
+
+	ConversationApi.updateCounter = function(conversationId, successCallback, errorCallback) {
+		var params = apiHandler.requireAuth();
+		apiHandler.skipIcon(params);
+		apiHandler.skipRegistry(params);
+		apiHandler.doRequest("post", ConversationApi.counterStem + encodeURIComponent(conversationId), params, successCallback, errorCallback);
 	};
 
 	window.ConversationApi = ConversationApi;

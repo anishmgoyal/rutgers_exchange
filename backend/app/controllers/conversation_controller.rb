@@ -3,7 +3,7 @@ class ConversationController < ApplicationController
     include SessionsHelper
     include NotificationHelper
     
-    before_filter :require_auth, except: [:test_list, :test_read, :test_update]
+    before_filter :require_auth
 
     # GET /conversation
     # Gets a list of conversations the current user is a part of
@@ -26,6 +26,7 @@ class ConversationController < ApplicationController
                 first_name_of_other: other_user.first_name,
                 last_name_of_other: other_user.last_name,
                 is_seller: is_seller,
+		num_unread: conversation.messages.count - ((is_seller)? conversation.seller_marker : conversation.buyer_marker),
                 other_user: {
                     id: other_user.id,
                     username: other_user.username,
@@ -59,6 +60,13 @@ class ConversationController < ApplicationController
         conversation = Conversation.find(params[:id])
         if conversation
             if conversation.buyer_id == @current_user.id || conversation.seller_id == @current_user.id
+
+		if(conversation.buyer_id == @current_user.id)
+		    conversation.buyer_marker = conversation.messages.count   
+		else
+		    conversation.seller_marker = conversation.messages.count
+		end
+		conversation.save()
             
                 params[:messages_per_page] ||= 10
                 params[:page] ||= 1
@@ -120,8 +128,44 @@ class ConversationController < ApplicationController
             render status: 404, json: {error: true}
         end
     end
+
+    # GET /count/conversations
+    # Gets the number of unread messages a user has
+    # See outlines/conversation_api.txt
+    def get_counter
+        conversations = (Conversation.where(buyer_id: @current_user.id).all + Conversation.where(seller_id: @current_user.id).all)
+        total = 0
+        conversations.each do |conversation|
+            count = conversation.messages.count - conversation.buyer_marker if conversation.buyer_id == @current_user.id
+            count = conversation.messages.count - conversation.seller_marker if conversation.seller_id == @current_user.id
+            total = total + count
+        end
+        render status: 200, json: {unread_count: total}
+    end
+
+    # POST /count/conversations/:id
+    # Updates the read counter for the current user and specified conversation
+    # See outlines/conversation_api.txt
+    def update_counter
+        conversation = Conversation.find(params[:id])
+        if conversation
+            if conversation.buyer_id == @current_user.id
+                conversation.buyer_marker = conversation.messages.count
+                conversation.save()
+                render status: 200, json: {error: false}
+            elsif conversation.seller_id == @current_user.id
+                conversation.seller_marker = conversation.messages.count
+                conversation.save()
+                render status: 200, json: {error: false}
+            else
+                render status: 403, json: {error: true}
+            end
+        else
+            render status: 404, json: {error: true}
+        end
+    end
     
-    # PUT /conversation/:id
+    # PUT /conversations/:id
     # Adds a message to a conversation
     # See outlines/conversation_api.txt
     def update

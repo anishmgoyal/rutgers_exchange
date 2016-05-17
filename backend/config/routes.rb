@@ -50,6 +50,9 @@ Rails.application.routes.draw do
   get '/conversations/:id' => 'conversation#read'
   put '/conversations/:id' => 'conversation#update'
 
+  get '/count/conversations' => 'conversation#get_counter'
+  post '/count/conversations/:id' => 'conversation#update_counter'
+
   # Short-poll notifications
   get '/notifications' => 'notification#list'
 
