@@ -64,14 +64,14 @@
 			// Do nothing, just be sad.
 		});
 
-		client.on('transport:down', function() {
+		/*client.on('transport:down', function() {
 			if(!NotificationApi.checkForDisconnect) return;
 
 			NotificationApi.endSession();
 			NotificationApi.checkForDisconnect = false;
 
 			NotificationApi.tryReconnect(1);
-		});
+		});*/
 
 		NotificationApi.client = client;
 	};

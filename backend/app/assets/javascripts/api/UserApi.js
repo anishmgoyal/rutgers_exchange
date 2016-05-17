@@ -25,6 +25,20 @@
 			// Persistent cookies for session
 			cookieManager.saveAuth(data["user_id"], params.username, data["session_token"], data["csrf_token"]);
 
+			// Figure out if there are any unread messages for the user
+			// No error handler because there is no need for one... silently fail
+			ConversationApi.getCounter(function success(data) {
+				if(data.unread_count != 0) {
+					notificationManager.addNotification({
+						tool: "Messages",
+						link: "/messages/",
+						icon: "mail",
+						text: notificationManager.encodeString("You have " + data.unread_count + " unread message" + ((data.unread_count == 1)? "" : "s") + "."),
+						time: notificationManager.currentTimeString()
+					});
+				}
+			});
+
 			if(pageLoader.getMainPath() == "/login")
 				pageLoader.redirect("/index");
 			else
