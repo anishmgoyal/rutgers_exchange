@@ -137,8 +137,8 @@ $(document).ready(function() {
 					switchActiveScreens(SWITCH_TYPE.CONVERSATION);
 					var intendedConversation = subpath.substring(1);
 					var loadedConversation = false;
-					for(var i = 0; i < conversations.length; i++) {
-						if(conversations[i].id == intendedConversation) {
+					for(var j = 0; j < conversations.length; j++) {
+						if(conversations[j].id == intendedConversation) {
 							loadConversation(intendedConversation);
 							loadedConversation = true;
 							break;
@@ -146,7 +146,6 @@ $(document).ready(function() {
 					}
 					if(!loadedConversation) {
 						loadConversation(conversations[0].id);
-						switchActiveScreens(SWITCH_TYPE.CHATLIST);
 						pageLoader.redirect("/messages");
 					}
 				} else {
@@ -165,6 +164,9 @@ $(document).ready(function() {
 	};
 
 	var loadConversation = function(id) {
+
+		console.log("Loading conversation " + id);
+
 		var messageApplication = pageLoader.getParam("messageApplication");
 		if(messageApplication.currentConversation.id != id) {
 			$(".message-convo-active").removeClass("message-convo-active");
