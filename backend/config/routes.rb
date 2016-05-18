@@ -2,13 +2,10 @@ Rails.application.routes.draw do
 
   # Webapp
   get '/' => 'webapp#index'
-  get '/api' => 'webapp#network_request'
-  get '/core' => 'webapp#core_search'
   get '/css/*all' => 'webapp#get'
   get '/js/*all' => 'webapp#get'
   get '/pages/*all' => 'webapp#get'
   get '/img/*all' => 'webapp#get'
-  get '/views/views' => 'webapp#view_views'
 
   # User accounts
   put '/users' => 'user#create'
