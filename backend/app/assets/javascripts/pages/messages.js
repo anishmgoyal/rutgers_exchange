@@ -145,6 +145,7 @@ $(document).ready(function() {
 						}
 					}
 					if(!loadedConversation) {
+						loadConversation(conversations[0].id);
 						switchActiveScreens(SWITCH_TYPE.CHATLIST);
 						pageLoader.redirect("/messages");
 					}
