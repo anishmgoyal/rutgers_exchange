@@ -14,7 +14,6 @@ module NotificationHelper
 	end
 
 	def notify_session(type, value, session_id=nil)
-		puts "Sending session based notification"
 		notification_service = ApplicationService.get :NotificationService
 		if session_id
 			notification_service.add_session_notification(session_id, type, value)
