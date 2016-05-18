@@ -17,11 +17,11 @@ h1, h2, h3, h4, h5, h6, label {
 }
 
 a, a:visited {
-	color: #ff4444;
+	color: #ff7d7d;
 }
 
 a:active, a:hover {
-	color: #ff6465;
+	color: #ff8484;
 	text-decoration: none;
 }
 
