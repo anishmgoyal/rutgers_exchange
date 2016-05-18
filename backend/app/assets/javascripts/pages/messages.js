@@ -113,6 +113,10 @@ $(document).ready(function() {
 					chatEntry.find(".template_user_name").text(conversations[i].other_user.first_name + " " + conversations[i].other_user.last_name);
 					chatEntry.find(".template_offer_price").text(apiHandler.serverCurrencyToClient(conversations[i].offer.price));
 
+					if(conversations[i].num_unread > 0) {
+						chatEntry.find(".template_unread_count").text(conversations[i].num_unread + " UNREAD");
+					}
+
 					if(conversations[i].prev_message != null) {
 						var prevIsCurrent = (conversations[i].prev_message.user_id == currentUserId);
 						var previousContainer = chatEntry.find(".message-convo-previous");
@@ -166,8 +170,16 @@ $(document).ready(function() {
 
 		var messageApplication = pageLoader.getParam("messageApplication");
 		if(messageApplication.currentConversation.id != id) {
+			// Style this convo box as active, remove active style from previously active convo box
 			$(".message-convo-active").removeClass("message-convo-active");
-			$("#conversation-skinny-" + id).addClass("message-convo-active");
+			$("#conversation-skinny-" + id).addClass("message-convo-active")
+				// Remove unread count from the convo box
+				.find(".template_unread_count").text("");
+
+			if(messageApplication.conversationList[id]) {
+				messageApplication.conversationList[id].num_unread = 0;
+			}
+
 			ConversationApi.getConversationPage(id, 1, 100, function success(data) {
 				var messageApplication = pageLoader.getParam("messageApplication");
 
@@ -249,10 +261,19 @@ $(document).ready(function() {
 		var conversationId = notification.conversation;
 		var currentUserId = pageLoader.getParam("user_id");
 		if(typeof this.conversationList[conversationId] !== "undefined") {
-			this.conversationList[conversationId].prev_message = notification.message;
+
+			var conversation = this.conversationList[conversationId];
+			conversation.prev_message = notification.message;
+
 			var chatEntry = pageLoader.getWnd().find("#conversation-skinny-" + conversationId)
 			var prevIsCurrent = (notification.message.user_id == currentUserId);
 			var previousContainer = chatEntry.find(".message-convo-previous");
+
+			if(this.currentConversation.id != conversationId) {
+				conversation.num_unread ++;
+				chatEntry.find(".template_unread_count").text(conversation.num_unread + " UNREAD");
+			}
+
 			previousContainer.show();
 			previousContainer.html('<i class="fi-' + ((prevIsCurrent)? "arrow-left" : "arrow-right") + '"></i>&nbsp;&nbsp;');
 			previousContainer.append(document.createTextNode(notification.message.message));

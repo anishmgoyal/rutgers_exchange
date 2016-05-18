@@ -144,6 +144,11 @@
 	margin: 0;
 }
 
+.message-unread-count {
+	float: right;
+	font-weight: bold;
+}
+
 .message-xsmall {
 	font-size: 0.7em;
 }
