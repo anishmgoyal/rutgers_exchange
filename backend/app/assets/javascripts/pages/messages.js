@@ -384,6 +384,10 @@ $(document).ready(function() {
 			// Nothing needs to be done.
 		}, function error(code) {
 			// Show error "failed to send message"
+			if(code == 403) {
+				pageLoader.removeParam("messageApplication");
+				pageLoader.loadHandler(403);
+			}
 			console.log(code);
 		});
 		messageApplication.htmlElements.send.field.val("");
