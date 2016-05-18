@@ -82,6 +82,9 @@
 		// End the session in the notification handler
 		NotificationApi.endSession();
 
+		// Remove notifications stored for mobile view
+		notificationManager.clear();
+
 		linkHelper.loadState("STATE_UNAUTH");
 	};
 
@@ -180,6 +183,7 @@
 					NotificationApi.endSession();
 					linkHelper.loadState("STATE_UNAUTH");
 					cookieManager.deleteAuth();
+					notificationManager.clear();
 				});
 			}
 		}
