@@ -369,13 +369,15 @@
 		return elem;
 	};
 	var childrenOfClass = function(className, elem) {
-		var children = elem.childNodes;
-		var ret = [];
-		for(var i = 0, l = children.length; i < l; i++) {
-			var child = children[i];
-			if(child.className && child.className.indexOf(className) > -1) ret.push(child);
-		}
-		return ret;
+		if(elem != null) {
+			var children = elem.childNodes;
+			var ret = [];
+			for(var i = 0, l = children.length; i < l; i++) {
+				var child = children[i];
+				if(child.className && child.className.indexOf(className) > -1) ret.push(child);
+			}
+			return ret;
+		} else return [];
 	};
 	var addClass = function(className, elem) {
 		elem.className += " " + className;

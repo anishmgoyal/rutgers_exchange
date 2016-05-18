@@ -135,7 +135,19 @@ $(document).ready(function() {
 				var convoId;
 				if(subpath.length > 1) {
 					switchActiveScreens(SWITCH_TYPE.CONVERSATION);
-					loadConversation(subpath.substring(1));
+					var intendedConversation = subpath.substring(1);
+					var loadedConversation = false;
+					for(var i = 0; i < conversations.length; i++) {
+						if(conversations[i].id == intendedConversation) {
+							loadConversation(intendedConversation);
+							loadedConversation = true;
+							break;
+						}
+					}
+					if(!loadedConversation) {
+						switchActiveScreens(SWITCH_TYPE.CHATLIST);
+						pageLoader.redirect("/messages");
+					}
 				} else {
 					switchActiveScreens(SWITCH_TYPE.CHATLIST);
 					loadConversation(conversations[0].id);
