@@ -145,8 +145,7 @@ $(document).ready(function() {
 						}
 					}
 					if(!loadedConversation) {
-						loadConversation(conversations[0].id);
-						pageLoader.redirect("/messages");
+						pageLoader.redirect("/messages/" + conversations[0].id);
 					}
 				} else {
 					switchActiveScreens(SWITCH_TYPE.CHATLIST);
@@ -164,8 +163,6 @@ $(document).ready(function() {
 	};
 
 	var loadConversation = function(id) {
-
-		console.log("Loading conversation " + id);
 
 		var messageApplication = pageLoader.getParam("messageApplication");
 		if(messageApplication.currentConversation.id != id) {
@@ -398,7 +395,7 @@ $(document).ready(function() {
 		ConversationApi.sendMessage(messageApplication.currentConversation.id, message, function success(data) {
 			// Nothing needs to be done.
 		}, function error(code) {
-			// Show error "failed to send message"
+			// TODO: Show error "failed to send message"
 			if(code == 403) {
 				pageLoader.removeParam("messageApplication");
 				pageLoader.loadHandler(403);

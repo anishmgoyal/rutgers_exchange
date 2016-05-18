@@ -11,14 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160517024958) do
+ActiveRecord::Schema.define(version: 20160517170427) do
 
   create_table "conversations", force: :cascade do |t|
-    t.integer  "seller_id",  limit: 4
-    t.integer  "buyer_id",   limit: 4
-    t.integer  "offer_id",   limit: 4
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.integer  "seller_id",     limit: 4
+    t.integer  "buyer_id",      limit: 4
+    t.integer  "offer_id",      limit: 4
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.integer  "seller_marker", limit: 4, default: 0
+    t.integer  "buyer_marker",  limit: 4, default: 0
   end
 
   add_index "conversations", ["buyer_id"], name: "index_conversations_on_buyer_id", using: :btree
