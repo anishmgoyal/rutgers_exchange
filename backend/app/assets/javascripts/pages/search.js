@@ -6,12 +6,6 @@
 			pageLoader.getTemplate("search/index", function(data, wnd) {
 				var results = data.results;
 
-				/*for(var i = 0; i < data.length; i++) {
-					var result = data[i];
-					console.log(result);
-					$("#template_search_results").append("<div>Product ID: " + result.product_id + ", Frequency: " + result.total_frequency + "</div>");
-				}*/
-
 				var itemTemplate = $("#template_search_result").html();
 				var resultList = $("#template_search_results");
 				if(results.length > 0) {

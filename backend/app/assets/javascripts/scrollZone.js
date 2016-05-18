@@ -105,7 +105,6 @@
 		if(typeof this.fullHeight === "undefined") {
 			this.elemInner.css(this.settings.variableDimension, "auto");
 			this.fullHeight = this.elemInner[this.settings.variableDimension]();
-			console.log(this.settings.variableDimension);
 			this.elemInner.css(this.settings.variableDimension, "100%");
 		}
 

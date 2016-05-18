@@ -102,8 +102,6 @@
 				newImg.find(".image-uploader-delete-button").click(this.removeItem.bind(this, data.results[i].id));
 				newImg.attr("id", "image-uploader-upload-result-" + data.results[i].id);
 
-				console.log(data.results[i].id);
-
 				this.imagePane.append(newImg);
 				data.results[i].origin = "client";
 				this.files.push(data.results[i]);

@@ -30,7 +30,6 @@
 			$("#email_address").focus();
 
 			var errors = pageLoader.getErrors();
-			console.log(errors);
 			for(var i = 0; i < errors.length; i++) {
 				var error = errors[i];
 				if(error.field == "global") {
@@ -135,7 +134,6 @@
 		if(segments.length < 2) {
 			pageLoader.loadHandler(404);
 		} else {
-			console.log(segments);
 			var userId = segments[3];
 			var recoveryString = decodeURIComponent(segments[2]);
 
