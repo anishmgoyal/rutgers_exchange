@@ -144,6 +144,9 @@ $(document).ready(function() {
 				handleNoConversations();
 			}
 		}, function error(code) {
+			if(code == 403) {
+				pageLoader.removeParam("messageApplication");
+			}
 			pageLoader.loadHandler(code);
 		});
 	};
@@ -331,6 +334,9 @@ $(document).ready(function() {
 						OfferApi.commitOffer(this.currentConversation.offer.id, function success(data) {
 							removeConversation(this.currentConversation.id);
 						}.bind(this), function error(code) {
+							if(code == 403) {
+								pageLoader.removeParam("messageApplication");
+							}
 							pageLoader.loadHandler(code);
 						});
 					}
