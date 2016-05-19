@@ -83,7 +83,6 @@ $(document).ready(function() {
 					this.notifyChange();
 				}
 			}.bind(pageLoader, wnd, sectionTemplate, itemTemplate), function error(code) {
-				console.log(code);
 				// Let this one slide...
 			});
 		}

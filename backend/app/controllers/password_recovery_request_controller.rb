@@ -2,7 +2,6 @@ class PasswordRecoveryRequestController < ApplicationController
 
 	# PUT /recover
 	def create
-		puts params[:email_address]
 		user = User.find_by_email_address(params[:email_address])
 		if user
 			recovery_request = PasswordRecoveryRequest.find_by_user_id user.id

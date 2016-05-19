@@ -53,7 +53,6 @@
         }
 
         if (!settings.hasOwnProperty("loadingIcon")) {
-            console.log("No loading icon specified");
             settings.loadingIcon = createLoadingIcon();
         }
 

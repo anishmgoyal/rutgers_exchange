@@ -26,7 +26,6 @@
 		}
 
 		var cookieStr = key + "=" + value + "; expires=" + date.toUTCString();
-		console.log(cookieStr);
 		document.cookie = cookieStr;
 	};
 

@@ -161,8 +161,6 @@ class ProductImageController < ApplicationController
 		map = params[:ordinal_map]
 		prev_product_id = -1
 
-		puts map if map
-		
 		map.each do |id, ordinal|
 			image = ProductImage.find_by id: id
 			if image && image.user_id == @current_user.id
