@@ -17,20 +17,20 @@ h1, h2, h3, h4, h5, h6, label {
 }
 
 a, a:visited {
-	color: #ff7d7d;
+	color: #ff6666;
 }
 
 a:active, a:hover {
-	color: #ff8484;
+	color: #ff5555;
 	text-decoration: none;
 }
 
 .main-container a, .main-container a:active {
-	color: #ff8484 !important; /* Overrides foundation. I really want to get rid of that framework..... */
+	color: #ff6666 !important; /* Overrides foundation. I really want to get rid of that framework..... */
 }
 
 .main-container a:active, .main-container a:hover {
-	color: #ff8484 !important; /* Overrides foundation. I really want to get rid of that framework..... */
+	color: #ff5555 !important; /* Overrides foundation. I really want to get rid of that framework..... */
 }
 
 a.hover-red:hover, a.hover-red:hover h4, a.hover-red h4:hover {
