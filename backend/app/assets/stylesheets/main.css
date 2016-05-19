@@ -25,6 +25,14 @@ a:active, a:hover {
 	text-decoration: none;
 }
 
+.main-container a, .main-container a:active {
+	color: #ff8484 !important; /* Overrides foundation. I really want to get rid of that framework..... */
+}
+
+.main-container a:active, .main-container a:hover {
+	color: #ff8484 !important; /* Overrides foundation. I really want to get rid of that framework..... */
+}
+
 a.hover-red:hover, a.hover-red:hover h4, a.hover-red h4:hover {
 	color: #ff4444 !important;
 }

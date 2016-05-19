@@ -77,6 +77,10 @@
 	position: relative;
 }
 
+.tutorial .image-uploader-image-block {
+	padding-bottom: 60%;
+}
+
 .image-uploader-delete-button {
 	width: 100%;
 }
