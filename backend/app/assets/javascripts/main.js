@@ -145,7 +145,7 @@ function createMobileSearchBar(sidebar) {
 			.css("position", "fixed")
 			.css("top", 0)
 			.css("padding-top", "75px")
-			.css("background-color", "#d33")
+			.css("background-color", "rgb(158,34,34)")
 			.css("box-shadow", "0 0 10px #222");
 	var queryForm = $('<form class="search" />');
 	var queryInput = $('<input type="text" id="mobile_query" name="query" placeholder="Search for..." />');
