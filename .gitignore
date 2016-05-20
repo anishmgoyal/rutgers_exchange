@@ -19,3 +19,4 @@
 # Rutgers Exchange related items
 *.log
 /backend/app/assets/images/user/*
+/backend/public/pages
