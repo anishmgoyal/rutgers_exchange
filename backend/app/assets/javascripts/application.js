@@ -29,6 +29,7 @@
 
 // Handlers
 
+//= require pages/handlers/0
 //= require pages/handlers/403
 //= require pages/handlers/404
 //= require pages/handlers/500
