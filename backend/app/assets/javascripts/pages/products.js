@@ -343,11 +343,11 @@ $(document).ready(function() {
 					pageLoader.notifyDone();
 				}.bind(this, wnd, product, id),
 				error: function() {
-					pageLoader.loadHandler(403);
+					pageLoader.loadHandler(404);
 				}
 			});
 		} else {
-			pageLoader.loadHandler(473);
+			pageLoader.loadHandler(403);
 		}
 
 	};
