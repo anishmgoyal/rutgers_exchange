@@ -343,7 +343,7 @@ $(document).ready(function() {
 					pageLoader.notifyDone();
 				}.bind(this, wnd, product, id),
 				error: function() {
-					pageLoader.loadHandler(404);
+					pageLoader.loadHandler(403);
 				}
 			});
 		} else {
