@@ -279,16 +279,23 @@ $(document).ready(function() {
 			previousContainer.append(document.createTextNode(notification.message.message));
 		}
 		if(this.currentConversation.id == conversationId) {
-			if(notification.message.user_id != pageLoader.getParam("user_id")) {
-				var messageBox = $(this.htmlElements.message.template);
-				messageBox.find(".template_name").text(this.currentConversation.names[notification.message.user_id]);
-				messageBox.find(".template_date").text(notification.message.created_at);
-				messageBox.find(".template_message").text(notification.message.message);
-				this.conversationScrollbox.elemContent.append(messageBox);
-				this.conversationScrollbox.trigger("resize");
-				this.conversationScrollbox.setScrollPosition({percentage: 1});
-				ConversationApi.updateCounter(this.currentConversation.id);
+			if(notification.message.user_id == pageLoader.getParam("user_id")) {
+				var msgBox = $("message-sent-stub-sent-" + notification.message.id);
+				if(msgBox.length > 0) {
+					msgBox.remove();
+				} else {
+					message_delete_map[notification.message.id] = true;
+				}
 			}
+
+			var messageBox = $(this.htmlElements.message.template);
+			messageBox.find(".template_name").text(this.currentConversation.names[notification.message.user_id]);
+			messageBox.find(".template_date").text(notification.message.created_at);
+			messageBox.find(".template_message").text(notification.message.message);
+			this.conversationScrollbox.elemContent.append(messageBox);
+			this.conversationScrollbox.trigger("resize");
+			this.conversationScrollbox.setScrollPosition({percentage: 1});
+			ConversationApi.updateCounter(this.currentConversation.id);
 		}
 	};
 
@@ -413,6 +420,7 @@ $(document).ready(function() {
 	};
 
 	var current_pending_message = 0;
+	var message_delete_map = [];
 	var sendMessage = function(e) {
 		var messageApplication = pageLoader.getParam("messageApplication");
 		var message = messageApplication.htmlElements.send.field.val();
@@ -430,8 +438,13 @@ $(document).ready(function() {
 		ConversationApi.sendMessage(messageApplication.currentConversation.id, message, function success(message_send_stub_id, data) {
 			// Nothing needs to be done.
 			var msgBox = $("#message-send-stub-pending-" + message_send_stub_id);
-			msgBox.attr("id", "message-send-stub-sent-" + data.id);
-			msgBox.find(".template_date").text(notificationManager.currentTimeString());
+			if(message_delete_map[data.id]) {
+				msgBox.remove();
+				delete message_delete_queue[data.id];
+			} else {
+				msgBox.attr("id", "message-send-stub-sent-" + data.id);
+				msgBox.find(".template_date").text(notificationManager.currentTimeString());
+			}
 		}.bind(window, message_send_stub_id), function error(message_send_stub_id, code) {
 			// TODO: Show error "failed to send message"
 			if(code == 403) {
