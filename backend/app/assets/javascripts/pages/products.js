@@ -295,7 +295,7 @@ $(document).ready(function() {
 					var product_condition_field = $("#condition");
 					var product_description_field = $("#description");
 
-					if(product_name_field.val().length == 0 && product_price_field.val().length == 0 && product_condition_field.val() == "CONDITION_NA" && product_description_field.val().length == 0) {
+					if(product_name_field.val().length == 0 && product_price_field.val().length == 0 && product_description_field.val().length == 0) {
 						product_name_field.val(product.product_name);
 						product_type_field.val(product.product_type);
 						product_price_field.val(((product.price / 100).toFixed(2)));
