@@ -279,14 +279,16 @@ $(document).ready(function() {
 			previousContainer.append(document.createTextNode(notification.message.message));
 		}
 		if(this.currentConversation.id == conversationId) {
-			var messageBox = $(this.htmlElements.message.template);
-			messageBox.find(".template_name").text(this.currentConversation.names[notification.message.user_id]);
-			messageBox.find(".template_date").text(notification.message.created_at);
-			messageBox.find(".template_message").text(notification.message.message);
-			this.conversationScrollbox.elemContent.append(messageBox);
-			this.conversationScrollbox.trigger("resize");
-			this.conversationScrollbox.setScrollPosition({percentage: 1});
-			ConversationApi.updateCounter(this.currentConversation.id);
+			if(notification.message.user_id != pageLoader.getParam("user_id")) {
+				var messageBox = $(this.htmlElements.message.template);
+				messageBox.find(".template_name").text(this.currentConversation.names[notification.message.user_id]);
+				messageBox.find(".template_date").text(notification.message.created_at);
+				messageBox.find(".template_message").text(notification.message.message);
+				this.conversationScrollbox.elemContent.append(messageBox);
+				this.conversationScrollbox.trigger("resize");
+				this.conversationScrollbox.setScrollPosition({percentage: 1});
+				ConversationApi.updateCounter(this.currentConversation.id);
+			}
 		}
 	};
 
@@ -410,19 +412,44 @@ $(document).ready(function() {
 		}
 	};
 
+	var current_pending_message = 0;
 	var sendMessage = function(e) {
 		var messageApplication = pageLoader.getParam("messageApplication");
-		var message = messageApplication.htmlElements.send.field.val()
-		ConversationApi.sendMessage(messageApplication.currentConversation.id, message, function success(data) {
+		var message = messageApplication.htmlElements.send.field.val();
+		var message_send_stub_id = current_pending_message++;
+
+		var messageBox = $(messageApplication.htmlElements.message.template);
+		messageBox.find(".template_name").text("You");
+		messageBox.find(".template_date").text("sending...");
+		messageBox.find(".template_message").text(message);
+		messageBox.attr("id", "message-send-stub-pending-" + message_send_stub_id);
+		messageApplication.conversationScrollbox.elemContent.append(messageBox);
+		messageApplication.conversationScrollbox.trigger("resize");
+		messageApplication.conversationScrollbox.setScrollPosition({percentage: 1});
+
+		ConversationApi.sendMessage(messageApplication.currentConversation.id, message, function success(message_send_stub_id, data) {
 			// Nothing needs to be done.
-		}, function error(code) {
+			var msgBox = $("#message-send-stub-pending-" + message_send_stub_id);
+			msgBox.attr("id", "message-send-stub-sent-" + data.id);
+			msgBox.find(".template_date").text(notificationManager.currentTimeString());
+		}.bind(window, message_send_stub_id), function error(message_send_stub_id, code) {
 			// TODO: Show error "failed to send message"
 			if(code == 403) {
 				pageLoader.removeParam("messageApplication");
 				pageLoader.loadHandler(403);
+			} else {
+				var msgBox = $("#message-send-stub-pending-" + message_send_stub_id);
+				msgBox.find(".template_date").text("failed to send");
+				var messageApplication = pageLoader.getParam("messageApplication");
+				setTimeout(function() {
+					this.fadeOut();
+					if(messageApplication) {
+						messageApplication.conversationScrollbox.trigger("resize");
+						messageApplication.conversationScrollbox.setScrollPosition({percentage: 1});
+					}
+				}.bind(msgBox, messageApplication), 5000);
 			}
-			console.log(code);
-		});
+		}.bind(window, message_send_stub_id));
 		messageApplication.htmlElements.send.field.val("");
 	};
 

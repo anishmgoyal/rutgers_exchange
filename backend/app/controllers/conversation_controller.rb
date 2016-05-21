@@ -178,6 +178,16 @@ class ConversationController < ApplicationController
                 message.user = @current_user
                 if message.save()
 
+                    conversation.buyer_marker = conversation.messages.count if @current_user.id == conversation.buyer_id
+                    conversation.seller_marker = conversation.messages.count if @current_user.id == conversation.seller_id
+                    conversation.save()
+                    
+                    payload = {
+                        error: false,
+                        id: message.id
+                    }
+                    render status: 200, json: payload
+
                     # Notify the other user if they are online
                     notify("NOTIF_NEW_MESSAGE", {
                         conversation: conversation.id,
@@ -187,6 +197,7 @@ class ConversationController < ApplicationController
                             price: conversation.offer.product.price
                         },
                         message: { 
+                            id: message.id,
                             user_id: message.user_id,
                             user: {
                                 id: message.user.id,
@@ -198,12 +209,7 @@ class ConversationController < ApplicationController
                             created_at: message.created_at.strftime('%-l:%M%P')
                         }
                     }, conversation.buyer_id, conversation.seller_id)
-                    
-                    payload = {
-                        error: false,
-                        id: message.id
-                    }
-                    render status: 200, json: payload
+
                 else
                     errors = []
                     message.errors.keys.each do |key|
