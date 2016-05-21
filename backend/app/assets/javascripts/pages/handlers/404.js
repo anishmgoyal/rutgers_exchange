@@ -10,4 +10,8 @@ $(document).ready(function() {
 		pageLoader.notifyDone();
 	});
 
+	pageLoader.mountPage('/err404', false, function(wnd) {
+		pageLoader.loadHandler(404);
+	});
+
 });

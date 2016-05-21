@@ -11,4 +11,8 @@
 		}).show();
 	});
 
+	pageLoader.mountPage('/err0', false, function(wnd) {
+		pageLoader.loadHandler(0);
+	});
+
 })( jQuery );

@@ -20,4 +20,8 @@ $(document).ready(function() {
 		}
 	});
 
+	pageLoader.mountPage('/err403', false, function(wnd) {
+		pageLoader.loadHandler(403);
+	});
+
 });

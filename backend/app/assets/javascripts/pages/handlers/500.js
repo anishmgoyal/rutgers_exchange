@@ -10,4 +10,8 @@ $(document).ready(function() {
 		pageLoader.notifyDone();
 	});
 
+	pageLoader.mountPage('/err500', false, function(wnd) {
+		pageLoader.loadHandler(500);
+	});
+
 });

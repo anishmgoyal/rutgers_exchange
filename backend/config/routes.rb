@@ -62,6 +62,10 @@ Rails.application.routes.draw do
   post '/recover/:string/:user_id' => 'password_recovery_request#apply'
   delete '/recover/:string/:user_id' => 'password_recovery_request#delete'
 
+  get '/404', to: redirect('/#!/err404')
+  get '/422', to: redirect('/#!/err404')
+  get '/500', to: redirect('/#!/err500')
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
