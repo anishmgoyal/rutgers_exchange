@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160517170427) do
+ActiveRecord::Schema.define(version: 20160602061951) do
 
   create_table "conversations", force: :cascade do |t|
     t.integer  "seller_id",     limit: 4
@@ -110,6 +110,29 @@ ActiveRecord::Schema.define(version: 20160517170427) do
     t.datetime "updated_at",              null: false
     t.integer  "frequency",   limit: 4
   end
+
+  create_table "server_config_options", force: :cascade do |t|
+    t.string   "config_name", limit: 255, null: false
+    t.string   "value",       limit: 255
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "server_config_options", ["config_name"], name: "index_server_config_options_on_config_name", using: :btree
+
+  create_table "sessions", force: :cascade do |t|
+    t.integer  "user_id",                  limit: 4
+    t.string   "session_token",            limit: 255
+    t.string   "csrf_token",               limit: 255
+    t.string   "user_agent",               limit: 255
+    t.string   "device_notification_type", limit: 255
+    t.boolean  "evicted",                              default: false
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
+  end
+
+  add_index "sessions", ["session_token"], name: "index_sessions_on_session_token", using: :btree
+  add_index "sessions", ["user_id"], name: "index_sessions_on_user_id", using: :btree
 
   create_table "upload_results", force: :cascade do |t|
     t.integer  "user_id",    limit: 4

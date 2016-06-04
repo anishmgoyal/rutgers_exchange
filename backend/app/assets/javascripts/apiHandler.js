@@ -23,6 +23,9 @@
 		if(!data.apiHandlerBlocking) async = true;
 		else delete data.apiHandlerBlocking;
 
+		var apiVersion = window.server.version;
+		data.apiVersion = apiVersion;
+
 		var request = $.ajax({
 			async: async,
 			url: this.server + path,
@@ -61,6 +64,7 @@
 	ApiHandler.prototype.requireAuth = function(params) {
 		if(typeof params === "undefined") params = {};
 		params.user_id = pageLoader.getParam("user_id");
+		params.user_agent = navigator.userAgent;
 		params.session_token = pageLoader.getParam("session_token");
 		params.csrf_token = pageLoader.getParam("csrf_token");
 		return params;

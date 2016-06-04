@@ -103,11 +103,11 @@ class UserController < ApplicationController
 	# Please see /outlines/user_api.txt
 	def authenticate
         user = User.authenticate(params[:username], params[:password])
-        device_type = params[:device_type] if params[:device_type]
-        device_type ||= :INCOMPAT_FOR_NOTIFS
+        device_notification_type = params[:device_notification_type] if params[:device_notification_type]
+        device_notification_type ||= :INCOMPAT_FOR_NOTIFS
         if user
             if user.activation == "ACTIVATION_ACTIVE"
-                session = create_session(user.id, device_type)
+                session = create_session(user.id, device_notification_type)
                 render status: 200, json: session
             else
                 render status: 405, json: {error: true, message: "Your account has not yet been activated. Please check your emails for an activation link."}

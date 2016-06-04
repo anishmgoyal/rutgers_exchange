@@ -9,13 +9,20 @@
 
 	NotificationApi.checkForDisconnect = false;
 
+	// Dynamically include the faye client script
+	var server = window.fayeServers[window.server.configuration];
+	var scriptLocation = server + NotificationApi.websock_stem + "/client.js";
+	document.write('<script type="text/javascript" src="' + scriptLocation + '"></script>');
+
 	NotificationApi.tick = function() {
 
 		if(this.client != null) {
 			this.endSession();
 		}
 
-		var client = new Faye.Client(apiHandler.server + NotificationApi.websock_stem);
+		var server = window.fayeServers[window.server.configuration];
+		var client = new Faye.Client(server + NotificationApi.websock_stem);
+
 		client.addExtension({
 			outgoing: function(message, callback) {
 				if(!message.hasOwnProperty("ext")) message.ext = {};

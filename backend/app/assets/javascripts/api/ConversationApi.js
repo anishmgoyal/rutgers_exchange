@@ -17,8 +17,8 @@
 		apiHandler.doRequest("get", ConversationApi.stem + encodeURIComponent(conversationId), params, successCallback, errorCallback);
 	};
 
-	ConversationApi.sendMessage = function(conversationId, message, successCallback, errorCallback) {
-		var params = {message: message};
+	ConversationApi.sendMessage = function(conversationId, message, echoSelf, successCallback, errorCallback) {
+		var params = {message: message, echoSelf: echoSelf};
 		apiHandler.requireAuth(params);
 		apiHandler.skipIcon(params);
 		apiHandler.skipRegistry(params);

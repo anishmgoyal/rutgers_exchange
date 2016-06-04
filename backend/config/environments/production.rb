@@ -77,4 +77,10 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Activate sidekiq, the queue adapter
+  config.active_job.queue_adapter = :delayed_job
+
+  # Sets the configuration option for 'faye server' to production target
+  config.faye_server = "https://rutgersxchange.com:9292/faye"
 end

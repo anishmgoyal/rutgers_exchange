@@ -3,13 +3,15 @@ class WebsockNotificationService
 	require 'thread'
 	require 'eventmachine'
 	require 'securerandom'
+	require 'uri'
+	require 'net/http'
 
 	def init
-		@user_map = Hash.new(0)
-		@mutex = Mutex.new
-
 		@notification_token = SecureRandom.uuid
 		@prev_notification_token = @notification_token
+
+		ServerConfigOption.set_option("WebsockNotificationService/notification_token", @notification_token)
+		ServerConfigOption.set_option("WebsockNotificationService/prev_notification_token", @prev_notification_token)
 
 		@client = nil
 	end
@@ -19,30 +21,28 @@ class WebsockNotificationService
 		@client.add_extension(NotifClientExtension.new self)
 	end
 
-	def create_session(user_id, session_id, device_type)
-		if device_type.to_sym == :WEB_SOCKET
-			@mutex.synchronize do
-				@user_map[user_id] = @user_map[user_id] + 1
-			end
-		end
+	def create_session(user_id, session_id, device_notification_type)
+		# Not implemented - not required
 	end
 
 	def delete_session(user_id, session_id)
-		@mutex.synchronize do
-			@user_map[user_id] = @user_map[user_id] - 1
-		end
+		# Not implemented - not required
 	end
 
 	def add_notification(user_id, notification_type, notification_value)
 
-		user_session_count = @user_map[user_id]
+		user_session_count = Session.where(user_id: user_id, device_notification_type: "WEB_SOCKET").count
 		if user_session_count > 0
 
 			username = User.find_by_id(user_id).username
 
-			if @client
-				pbl = @client.publish "/user/#{username}", {"type" => notification_type, "value" => notification_value}
-			end
+			message = {
+				channel: "/user/#{username}", 
+				data: {"type" => notification_type, "value" => notification_value},
+				ext: {user_id: 0, notification_token: notification_token}
+			}
+			uri = URI.parse(Rails.application.config.faye_server)
+			Net::HTTP.post_form(uri, message: message.to_json)
 
 			true
 
@@ -52,18 +52,25 @@ class WebsockNotificationService
 	end
 
 	def add_session_notification(session_id, notification_type, notification_value)
+		message = {
+			channel: "/session/#{session_id}",
+			data: {"type" => notification_type, "value" => notification_value},
+			ext: {user_id: 0, notification_token: notification_token}
+		}
+		uri = URI.parse(Rails.application.config.faye_server)
+		Net::HTTP.post_form(uri, message: message.to_json)
 
-		if @client
-			pbl = @client.publish "/session/#{session_id}", {"type" => notification_type, "value" => notification_value}
-		end
 		true
-
 	end
 
 	def broadcast(notification_type, notification_value)
-		if @client
-			pbl = @client.publish "/broadcast", {"type" => notification_type, "value" => notification_value, "special" => "BROADCAST"}
-		end
+		message = {
+			channel: "/broadcast",
+			data: {"type" => notification_type, "value" => notification_value, "special" => "BROADCAST"},
+			ext: {user_id: 0, notification_token: notification_token}
+		}
+		uri = URI.parse(Rails.application.config.faye_server)
+		Net::HTTP.post_form(uri, message: message.to_json)
 
 		true
 	end

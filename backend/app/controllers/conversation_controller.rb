@@ -26,7 +26,7 @@ class ConversationController < ApplicationController
                 first_name_of_other: other_user.first_name,
                 last_name_of_other: other_user.last_name,
                 is_seller: is_seller,
-		num_unread: conversation.messages.count - ((is_seller)? conversation.seller_marker : conversation.buyer_marker),
+		        num_unread: conversation.messages.count - ((is_seller)? conversation.seller_marker : conversation.buyer_marker),
                 other_user: {
                     id: other_user.id,
                     username: other_user.username,
@@ -191,6 +191,7 @@ class ConversationController < ApplicationController
                     # Notify the other user if they are online
                     notify("NOTIF_NEW_MESSAGE", {
                         conversation: conversation.id,
+                        echoSelf: params[:echoSelf],
                         product: {
                             id: conversation.offer.product.id,
                             product_name: conversation.offer.product.product_name,

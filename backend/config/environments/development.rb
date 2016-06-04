@@ -40,6 +40,9 @@ Rails.application.configure do
   config.logger = Logger.new(STDOUT)
   config.log_level = :debug
 
+  # Sets the config option for 'faye server' to development target
+  config.faye_server = "http://localhost:9292/faye"
+
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 end

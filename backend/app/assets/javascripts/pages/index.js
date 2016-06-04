@@ -39,7 +39,10 @@ $(document).ready(function() {
 		});
 		var recentAddedList = recentAdded.find('.template_list');
 		if(products.length == 0) {
-			recentAddedList.text("There are currently no items available that have not been sold.");
+			recentAddedList.html(
+				"There's nothing for sale right now :/ Maybe you can change that! Click <a href='#!/products/new'>here</a> to add a listing."
+			);
+			recentAdded.find(".template_more_button").remove();
 		} else {
 			for(i = 0; i < products.length; i++) {
 				item = $(itemTemplate);

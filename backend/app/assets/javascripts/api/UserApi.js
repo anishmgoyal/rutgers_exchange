@@ -12,7 +12,8 @@
 		params.username = params.username.toLowerCase();
 
 		if(params.username.length == 0) params.username = "?";
-		params.device_type = "WEB_SOCKET";
+		params.user_agent = navigator.userAgent;
+		params.device_notification_type = "WEB_SOCKET";
 
 		apiHandler.doRequest("put", UserApi.stem + encodeURIComponent(params.username), params, function success(data) {
 			
@@ -64,7 +65,7 @@
 		var params = apiHandler.requireAuth();
 		apiHandler.skipIcon(params);
 		apiHandler.skipRegistry(params);
-		apiHandler.doRequest("delete", UserApi.stem + encodeURIComponent(params.username), params, function success(data) {
+		apiHandler.doRequest("delete", UserApi.stem + encodeURIComponent(pageLoader.getParam("username")), params, function success(data) {
 			// So... what?
 		}, function error(code) {
 			// Can't really do anything... session was probably invalid to begin with
@@ -96,6 +97,7 @@
 	UserApi.verifySession = function(user_id, session_token, csrf_token, successCallback, errorCallback) {
 		var params = apiHandler.blockingCall({
 			user_id: user_id,
+			user_agent: navigator.userAgent,
 			session_token: session_token,
 			csrf_token: csrf_token
 		});

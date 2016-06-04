@@ -242,25 +242,25 @@
 	// ANIMATIONS
 
 	var startExpand = function(elem, speed) {
+		if(elem) {
+			removeActiveClass("dropdown_active");
+			var children = childrenOfClass("dropdown_default", elem);
+			if(children.length > 0) {
+				setActiveClass(children[0], "dropdown_active");
+			}
 
-		removeActiveClass("dropdown_active");
-		var children = childrenOfClass("dropdown_default", elem);
-		if(children.length > 0) {
-			setActiveClass(children[0], "dropdown_active");
+			var current = elem.offsetHeight;
+			elem.style.height = "auto";
+			var target = elem.offsetHeight;
+			elem.style.height = current + "px";
+
+			if(target == 0) {
+				elem.style.height = "auto"; // The element is either hidden, or not visible.
+			}
+			else {
+				expand(elem, target, speed);
+			}
 		}
-
-		var current = elem.offsetHeight;
-		elem.style.height = "auto";
-		var target = elem.offsetHeight;
-		elem.style.height = current + "px";
-
-		if(target == 0) {
-			elem.style.height = "auto"; // The element is either hidden, or not visible.
-		}
-		else {
-			expand(elem, target, speed);
-		}
-
 	};
 	var startCollapse = function(elem, speed) {
 		var current = elem.offsetHeight;
