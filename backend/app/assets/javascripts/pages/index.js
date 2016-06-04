@@ -65,7 +65,7 @@ $(document).ready(function() {
 				var products = data.products;
 				if(products.length > 0 && pageLoader.getMainPath() == "/index") {
 					var myListQuickView = $('<section />').html(sectionTemplate);
-					myListQuickView.find('.template_title').text("My Products");
+					myListQuickView.find('.template_title').text("My Listings");
 					myListQuickView.find('.template_link').each(function() {
 						var instance = $(this);
 						var curr_attr = instance.attr("href");
