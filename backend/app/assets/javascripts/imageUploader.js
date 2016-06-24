@@ -116,7 +116,22 @@
 		// todo: show the error message
 		if(code == 403) {
 			this.errorPane.html("Your session has expired.");
+		} else if(code == 500) {
+			Dialog({
+				title: "Upload Failed",
+				content: "We're not sure exactly why this happened, but we couldn't upload that file." +
+						 " Please try again, or contact our support at " + window.server.supportEmail + ".",
+				wnd: pageLoader.getWnd(),
+				offsets: {top: $("#nav")}
+			}).show();
 		} else {
+			Dialog({
+				title: "Upload Failed",
+				content: "We're not sure exactly why this happened, but we couldn't upload that file." +
+						 " Please try again, or contact our support at " + window.server.supportEmail + ".",
+				wnd: pageLoader.getWnd(),
+				offsets: {top: $("#nav")}
+			}).show();
 			this.errorPane.html("Failed to connect to server.");
 		}
 		this.finishUploadCommon();

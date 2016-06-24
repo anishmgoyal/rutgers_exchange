@@ -14,21 +14,24 @@
 		// Authentication is required, so fill the authorization parameters
 		// If the fields do not exist, create them
 		var fields = {
-			user_id: $form.find("#user_id"),
-			session_token: $form.find("#session_token"),
-			csrf_token: $form.find("#csrf_token"),
 			_method: $form.find("#_method"),
-			//redirect: $form.find("#redirect"),
 			product_id: $form.find("#product_id")
 		};
 		var values = {
-			user_id: pageLoader.getParam("user_id"),
-			session_token: pageLoader.getParam("session_token"),
-			csrf_token: pageLoader.getParam("csrf_token"),
 			_method: "put",
-			//redirect: window.location.origin + window.clients[window.client.mode].uri + "pages/debug/query_json.htm",
 			product_id: productId
 		};
+
+		// These may be subject to change as time goes on
+		var authParams = apiHandler.requireAuth();
+
+		for(var authParam in authParams) {
+			if(authParams.hasOwnProperty(authParam)) {
+				fields[authParam] = $form.find("#" + authParam);
+				values[authParam] = authParams[authParam];
+			}
+		}
+
 		for(var field in fields) {
 			if(fields.hasOwnProperty(field)) {
 				if(fields[field].length == 0) {
@@ -51,11 +54,16 @@
 
 		// Bind the iframe load event to handle the server response
 		target.load(function(successCallback, errorCallback) {
-			var response = JSON.parse(this.contents().find("body").text());
-			if(response.status == 200) {
-				successCallback(response);
-			} else {
-				errorCallback(response.status, response);
+			try {
+				var response = JSON.parse(this.contents().find("body").text());
+				if(response.status == 200) {
+					successCallback(response);
+				} else {
+					errorCallback(response.status, response);
+				}
+			} catch(e) {
+				// Some sort of unexpected error occurred.
+				errorCallback(500, "Unexpected upload error.");
 			}
 
 			this.remove();

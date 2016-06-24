@@ -76,9 +76,7 @@
 	ProductApi.createProduct = function(isPublishNow, redirectAction) {
 
 		var params = apiHandler.processForm("product_name", "product_type", "product_price", "condition", "description");
-		params['user_id'] = pageLoader.getParam("user_id");
-		params['session_token'] = pageLoader.getParam("session_token");
-		params['csrf_token'] = pageLoader.getParam("csrf_token");
+		apiHandler.requireAuth(params);
 		if(isPublishNow) params['is_published'] = true;
 
 		var priceValidityRegex = /^\$?\d+(,\d{3})*(\.\d{2})?$/;
@@ -134,9 +132,7 @@
 	ProductApi.updateProduct = function(isPublishNow, isRetract, redirectAction) {
 	
 		var params = apiHandler.processForm("product_id", "product_name", "product_type", "product_price", "condition", "description");
-		params['user_id'] = pageLoader.getParam("user_id");
-		params['session_token'] = pageLoader.getParam("session_token");
-		params['csrf_token'] = pageLoader.getParam("csrf_token");
+		apiHandler.requireAuth(params);
 		if(isPublishNow) params['is_published'] = true;
 		else if(isRetract) params['is_published'] = false;
 
