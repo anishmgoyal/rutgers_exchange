@@ -17,7 +17,12 @@
 
 .dialog .dialog-title {
 	background-color: #d44;
-	border: 2px outset #e66;
+	/* Outset border looks great in chrome, but nowhere else */
+	/* Might as well just manually set the colors myself. */
+	border-top: 2px solid #ee6666;
+	border-left: 2px solid #ee6666;
+	border-bottom: 2px solid #9a4242;
+	border-right: 2px solid #9a4242;
 	color: white;
 	font-size: 1.05em;
 	font-weight: bold;
@@ -33,7 +38,10 @@
 
 .dialog .dialog-button {
 	background-color: #777;
-	border: 2px outset #9c9c9c;
+	border-top: 2px solid #9c9c9c;
+	border-left: 2px solid #9c9c9c;
+	border-bottom: 2px solid #484848;
+	border-right: 2px solid #484848;
 	box-sizing: border-box;
 	color: white;
 	cursor: pointer;
@@ -47,7 +55,10 @@
 
 .dialog .dialog-button.dialog-active {
 	background-color: #d44;
-	border-color: #e66;
+	border-top: 2px solid #ee6666;
+	border-left: 2px solid #ee6666;
+	border-bottom: 2px solid #9a4242;
+	border-right: 2px solid #9a4242;
 }
 
 .dialog .dialog-button.dialog-expand {

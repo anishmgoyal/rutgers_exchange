@@ -211,6 +211,7 @@
 
 		var paneHeight = this.dialog.innerHeight() - this.titlebar.outerHeight();
 		if(this.isConfirm) paneHeight -= this.buttonbar.outerHeight();
+		paneHeight += 1;
 		this.pane.css("height", (paneHeight) + "px");
 
 	};
