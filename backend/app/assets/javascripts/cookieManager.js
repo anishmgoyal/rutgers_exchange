@@ -22,7 +22,7 @@
 	cookieManager.setCookie = function(key, value, date) {
 		if(arguments.length == 2) {
 			date = new Date();
-			date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+			date.setTime(date.getTime() + (14 * 24 * 60 * 60 * 1000));
 		}
 
 		var cookieStr = key + "=" + value + "; expires=" + date.toUTCString();
