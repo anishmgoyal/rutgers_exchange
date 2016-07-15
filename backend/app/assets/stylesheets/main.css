@@ -6,22 +6,21 @@
 }
 
 body {
-	font-family: "Open Sans" !important;
+	font-family: "Open Sans", Verdana, sans-serif !important;
 	font-size: 0.9em;
 	overflow-y: scroll;
 }
 
 h1, h2, h3, h4, h5, h6, label {
 	color: #dbdbdb;
-	font-family: "Open Sans" !important;
 }
 
 a, a:visited {
-	color: #ff6666;
+	color: #66ff66;
 }
 
 a:active, a:hover {
-	color: #ff5555;
+	color: #33ff33;
 	text-decoration: none;
 }
 
@@ -171,6 +170,10 @@ nav li {
 .load-more-button:hover, .load-more-button:active {
     background-color: #1e1e20 !important;
     color: #ff4444 !important;
+}
+
+.tutorial .image-uploader-image-block {
+	cursor: default !important;
 }
 
 /* Page styles */
